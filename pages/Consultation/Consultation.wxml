@@ -1,3 +1,4 @@
+
 <view class="center">
     <!--title  -->
     <view class="title">
@@ -19,7 +20,7 @@
                         <image src="/images/shang.png" class="ico"  wx:if="{{item.money!= '' }}"></image>
                         <text class="bor-txt" wx:if="{{item.is_adopt == 1}}">已采纳</text>
                     </view>
-                    <view class="title-rit">{{item.create_time}}</view>
+                    <view class="title-rit">{{item.date}}</view>
             </view>
             <view class="box-test">
                     <text>{{item.content}}</text>
@@ -33,6 +34,10 @@
             </view>
         </view>
         </view>
+    </view>
+    <!--圆形点击框  -->
+    <view class="round-click">
+       <navigator url='/pages/addimages/addimages' >发布咨询</navigator >
     </view>
     <!--底部  -->
     <view class="footer-box">

@@ -85,17 +85,14 @@ Page({
       
       if (bValue == "") return false;
      
-      wx.request({
-          url: Utils.url + '/index.php/feedback?server=1', 
+      Utils.requestFn({
+          url:'/index.php/feedback?server=1', 
           method:"POST",
           data: {
               sdk: KEY.sdk,
               uid: KEY.uid,
               title: dataVal,
               content: dataVal
-          },
-          header: {
-              'content-type': 'application/json' // 默认值
           },
           success: function (res) {
               if (res.data.status){

@@ -24,14 +24,11 @@ onShow:function(){
     var loginData = wx.getStorageSync("login");
     var _this = this;
    
-    wx.request({
-        url: Utils.url + '/index.php/modifygetuser?server=1',
+    Utils.requestFn({
+        url: '/index.php/modifygetuser?server=1',
         data: {
             sdk: loginData.sdk,
             uid: loginData.uid
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
         },
         success: function (res) {
             var res = res.data.data.user;
@@ -58,8 +55,8 @@ formSubmit:function(e){   //提交数据
 },
 request: function (value, logValue){   // 请求ajax
     var _this = this;
-    wx.request({
-        url: Utils.url + '/index.php/modifyuser?server=1',
+    Utils.requestFn({
+        url: '/index.php/modifyuser?server=1',
         method:"POST",
         data: {
             sdk: logValue.sdk,
@@ -68,9 +65,6 @@ request: function (value, logValue){   // 请求ajax
             sex: _this.data.sexId,
             email: value.Email,
             image: _this.data.dataImg
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
         },
         success: function (res) {
             if (res.data.status){

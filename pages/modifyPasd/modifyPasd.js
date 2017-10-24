@@ -46,17 +46,14 @@ Page({   // 整个page文件
         if (login){
                 sdk = login.sdk;
         }
-        wx.request({   // 接口
-            url: Utils.url + '/index.php/movepass?server=1', 
+        Utils.requestFn({   // 接口
+            url:'/index.php/movepass?server=1', 
             method: "POST",
             data: {
                 userphone: _this.data.iponeVal,
                 passwd: formVal.pasd,
                 code: _this.data.Verification_Code,
                 sdk: sdk
-            },
-            header: {
-                'content-type': 'application/json'
             },
             success: function (res) {
                 var dats = res.data.data;
@@ -129,14 +126,11 @@ Page({   // 整个page文件
     delivery:function(){        // 点击调取倒计时函数
         var _this = this;
         _this.Countdown();
-        wx.request({           // 发送验证码接口
-            url: Utils.url + '/index.php/code?server=1',
+        Utils.requestFn({           // 发送验证码接口
+            url: '/index.php/code?server=1',
             method: "POST",
             data: {
                 userphone: _this.data.iponeVal
-            },
-            header: {
-                'content-type': 'application/json'
             },
             success: function (res) { // 返回状态维未写
             }

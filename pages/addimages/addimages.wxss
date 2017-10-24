@@ -59,8 +59,11 @@
     height: 80rpx;
     background: #4395FF;
     display: flex;
-     justify-content: center;
+    justify-content: center;
     flex: 1;
     align-items:center;
     color: #fff;
+}
+.sound-recording text {
+    background: #1AAD16;
 }

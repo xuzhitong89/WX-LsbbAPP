@@ -17,14 +17,11 @@ onShow: function () {
 request:function(){ // 请求列表接口
     var _this = this;
     var loginData = wx.getStorageSync("login");
-    wx.request({
-        url: Utils.url + '/index.php/myfaqs?server=1', 
+    Utils.requestFn({
+        url: '/index.php/myfaqs?server=1', 
         data: {
             sdk: loginData.sdk,
             uid: loginData.uid
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
         },
         success: function (res) {
             if (res.data.status){
@@ -47,15 +44,12 @@ Jump:function(e){
 JumpRequest: function (uid,id){
     var loginData = wx.getStorageSync("login");
     var loginJosn = {};
-    wx.request({
-        url: Utils.url +'/index.php/consultdetail?server=1',
+    Utils.requestFn({
+        url: '/index.php/consultdetail?server=1',
         data: {
             sdk: loginData.sdk,
             uid: uid,
             id:id
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
         },
         success: function (res) {
             datas = JSON.stringify(res.data.data);

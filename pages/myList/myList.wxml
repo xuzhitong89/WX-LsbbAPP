@@ -11,7 +11,7 @@
                       <image src="{{image}}"></image>
                       <text>{{usrename}}</text>
             </view>
-            <navigator url="#" class="sexFlex"> 
+            <navigator url="javascript:;" class="sexFlex"> 
                 <text class="sex">{{sex}}</text>
                 <image src="../../images/a.png"></image>
             </navigator>

@@ -19,7 +19,8 @@ var Verification = (function(){
     phone: /^1(3|4|5|7|8)\d{9}$/,                           // 手机号
     email: /^\w+@[a-z0-9]+(\.[a-z]+){1,3}$/,                // 邮箱
     Ftrim: /^\s+|\s+$/gm,                                    // 前后空格
-    special: /^[\u4e00-\u9fa5]+$/g                          // 只匹中文字符
+    special: /^[\u4e00-\u9fa5]+$/g,                          // 只匹中文字符
+    money: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/  // 钱
   }
   return reg;
 }());
@@ -55,7 +56,7 @@ var showModal = function(title,text){
 
 // 配置域名
 var url = (function(){
-    return "https://m.12348.com.cn"
+    return "https://yszls.12348.com.cn"
 }());
 
 // 弹出层，关于全部的页面，跳转
@@ -73,7 +74,21 @@ var reLaunch = function (test, url){
         }
     })
 }
-
+// 公共的接口方法
+var requestFn = function (josn){
+    wx.request({
+        url: url + josn.url, 
+        data: josn.data,
+        method: josn.method || 'GET' ,
+        header: {
+            'content-type': 'application/json',
+            "from":"LSBBFLZX"
+        },
+        success: josn.success || null,
+        fail:  josn.fail || null,
+        complete:josn.complete || null
+    })
+}
 module.exports = {
   formatTime: formatTime,                   // 计算时间
   Verification: Verification,                // 验证手机号码
@@ -81,5 +96,6 @@ module.exports = {
   setStorage: setStorage,                   // 添加本地的Storage
   showModal: showModal,                     // 提示框
   url: url,                                   // 配置url
-  reLaunch: reLaunch                        // 弹层跳转
+  reLaunch: reLaunch,                        // 弹层跳转
+  requestFn: requestFn                         // 公共的接口
 }

@@ -16,14 +16,11 @@ onShow: function () {
 newsFn: function () {  // 请求登陆消息接口的推送
     var _this = this;
     var loginData = wx.getStorageSync("login");
-    wx.request({
-        url: Utils.url + '/index.php/profile?server=1',
+    Utils.requestFn({
+        url:'/index.php/profile?server=1',
         data: {
             sdk: loginData.sdk,
             uid: loginData.uid
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
         },
         success: function (res) {
             var res = res.data.data;

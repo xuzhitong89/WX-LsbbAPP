@@ -9,8 +9,12 @@ var datalist = {
     len:4,              // 上传的img的最大的length
     index: 0,         // 上传完成的个数
     successArr:[],      // 存储上传返回的img的url =>发送的数据
-    questions:{}        // 提交数据存储到本地的josn
+    questions:{},        // 提交数据存储到本地的josn
+    bool: true,  // 是否通过上传的权限
+    mun:0,
+    tempFilePath:""
 }
+
 Page({
 data:datalist,
 onLoad: function (options) {
@@ -113,6 +117,34 @@ closeImgFn:function(e){
         arrimg: doarrimg,
         index: doindex,
         successArr: suArr
+    })
+},
+getSetting:function(){  // 请求权限
+    var _this = this ;
+    wx.getSetting({
+        success(res) {
+            if (res.authSetting["scope.record"]) {
+                if (_this.data.bool) {
+                    wx.startRecord({
+                        success: function (res) {
+                            var tempFilePath = res.tempFilePath;
+                            _this.setData({
+                                tempFilePath: tempFilePath
+                            })
+                        }
+                    })
+                    _this.setData({
+                        bool: false
+                    })
+                } else {
+                    wx.stopRecord()
+                    _this.setData({
+                        bool: true
+                    })
+                }
+
+            }
+        }
     })
 }
 });

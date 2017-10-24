@@ -36,16 +36,13 @@ Page({                  // 配置项
             return false;
         }
         if (valList){
-            wx.request({
-                url: Utils.url + '/index.php/register?server=1',
+            Utils.requestFn({
+                url: '/index.php/register?server=1',
                 method: "POST",
                 data: {         // 传递的参数
                     userphone: _this.data.iponeVal,
                     passwd: _this.data.pasdVal,
                     code: _this.data.Verification_Code
-                },
-                header: {
-                    'content-type': 'application/json'
                 },
                 success: function (res) {           // 成功、返回的数据
                     if(res.data.status){
@@ -117,14 +114,11 @@ Page({                  // 配置项
  delivery:function(){
         var _this = this;
       
-          wx.request({           // 发送验证码接口
-              url: Utils.url +'/index.php/regcode?server=1', 
+        Utils.requestFn({           // 发送验证码接口
+            url: '/index.php/regcode?server=1', 
             method: "POST",
             data: {
                 userphone: _this.data.iponeVal
-            },
-            header: {
-                'content-type': 'application/json'
             },
             success: function (res) {
                 if (!res.data.status){

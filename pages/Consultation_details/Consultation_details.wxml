@@ -25,13 +25,19 @@
 <view class='reply-list'>
         <text class='title'>回复（{{len}}）</text>
         <!--列表循环  -->
-        <view class='list-details'   wx:for="{{detailsArr}}" wx:key="{{index}}" wx:for-item ="itemDetails">
+        <view class='list-details'  wx:for="{{detailsArr}}" wx:key="{{index}}" wx:for-item ="itemDetails">
                 <!--列表的title  -->
                 <view class='list-details-title' >
                         <view class='details-cen'>
-                                <image src="https://m.12348.com.cn{{itemDetails.senduser.image}}"  class='details-logo' ait='律师'></image> 
-                                <text class='details-name'>{{itemDetails.senduser.nickname}}</text>
-                                <text class="details-adopt" wx:if="{{itemDetails.senduser.is_adopt ==1 }}">已采纳</text>
+                            <view class="details-1">
+                                    <image src="{{itemDetails.senduser.image}}"  class='details-logo' ait='律师'></image> 
+                                    <text class='details-name'>{{itemDetails.senduser.nickname}}</text>
+                            </view>
+                            <view class="details-2">
+                                <text  bindtap="adopt" class="{{itemDetails.senduser.is_adopt!='采纳' ? 'color' : ''}}" data-index="{{index}}">{{itemDetails.senduser.is_adopt}}</text>
+                                <view class="redbox" bindtap="redFn" data-img="{{itemDetails.senduser.image}}" data-name="{{itemDetails.senduser.nickname}}" data-id="{{itemDetails.senduser.uid}}" data-index="{{index}}"><image src="/images/red.png"></image>{{itemDetails.senduser.reward_count}}
+                                </view>
+                            </view>
                         </view>
                         <view class='details-cen' style='display:none'>
                                 <view  class='red-text'>
@@ -43,7 +49,7 @@
                 </view>
                 <!--列表的内容  -->
                    <block  wx:for="{{itemDetails.contents}}" wx:key="{{index}}" wx:for-item = "timeCenter">
-                <view class='list-details-content'>
+                <view class='list-details-content' id="{{timeCenter.id}}">
                         <view class='content-text'>
                                 <text >{{timeCenter.content}}</text>
                                 <text class="reply" bindtap="replyFn" id="{{timeCenter.id}}" data-parent_id="{{timeCenter.id}}" data-master_id="{{timeCenter.master_id}}" wx:if="{{isShow}}">回复</text>
@@ -59,6 +65,10 @@
                 </view>
                 </block>
         </view>
+</view>
+<!--圆形点击框  -->
+<view class="round-click">
+    <navigator url='/pages/addimages/addimages' >发布咨询</navigator >
 </view>
 <!--回复框  -->
 <view class="replytext" wx:if="{{nReply != 0 }}" bindtap="ondataFn">

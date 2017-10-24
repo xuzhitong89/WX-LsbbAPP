@@ -85,3 +85,7 @@
 .footer-btn  navigator:first-child {
     border-right: 1px solid #b2b2b2;
 }
+.authorization button{
+    background: #1AAD16;
+    color: #fff;
+}

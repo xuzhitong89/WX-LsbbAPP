@@ -44,7 +44,7 @@
     </view>
 </view>
 <!--发布  -->
-<view class="release"  bindtap="releaseFn"><text>发布</text></view>
+<button class="release"  bindtap="releaseFn" disabled="{{disabled}}">发布</button>
 <!--所在区域 遮罩层  -->
 <view class='mask' wx:if="{{maskDis != 0 }}" >
         <view class='mask-back'   bindtap="CloseFn"></view>

@@ -16,7 +16,10 @@ var datas = {
     Dmoney:"",   // 打赏的钱
     images:[],   // 详情图片的list
     success:"0", // 回复的状态
-    isShow:false // 回复两个字的显示状态
+    answerAuth:false, // 回复两个字的显示状态
+    datacn:"0",
+    openid: "",    // 获取登陆的openid
+    contents: [],    // 获取contents的数据id
 }
 Page({
 data: datas,
@@ -25,7 +28,7 @@ onLoad: function (options) {
     var dataJson = "";  // 接受数据
     dataJson = JSON.parse(options.a);   // 获取解析的data
     this.assignment(dataJson);  // 加载数据
-
+    this.loginFn();
 },
 replyFn:function(e){ // 回复
     var _this = this;
@@ -65,19 +68,16 @@ ondataFn:function(){  // 点击回复弹层调转穿参
     })
 },
 assignment: function (dataJson){    // 每次加载数据的赋值操作
-
+    var _this = this;
     var loginDtat = wx.getStorageSync("login");
     var uid = loginDtat.uid;    // 获取登陆对应的uid
     var detailsData = [];   // 每次加载的时候清空一次
-
+ 
     var Dmoney = loginDtat.uid != dataJson.faq.uid ? "" : `￥${dataJson.faq.money}`; // 显示的金额
-
     var reply = loginDtat.uid != dataJson.faq.uid ? false : true; // 回复显示的状态
-
     for (var key in dataJson.answer) {
         detailsData.push(dataJson.answer[key]);
     };
-    
     this.setData({
         len: dataJson.faq.answer_count,        // 回复的len
         logo: Utils.url + dataJson.faq.image,         // 头像
@@ -101,20 +101,99 @@ onShow: function () {
     var _this = this;
     var loginDatas = wx.getStorageSync("details"); // 获取到本地的请求的参数
     var datares = {};
-    wx.request({ // 重新获取数据
-        url: Utils.url + '/index.php/consultdetail?server=1',
+    Utils.requestFn({ // 重新获取数据
+        url: '/index.php/consultdetail?server=1',
         data: {
             sdk: loginDatas.sdk || "",
             uid: loginDatas.uid || '',
             id: loginDatas.id
-        },
-        header: {
-            'content-type': 'application/json'
         },
         success: function (res) {
             datares = res.data.data;
             _this.assignment(datares);
         }
     })
+},
+adopt:function(e){     // 采纳功能
+    var _this = this;
+    var index = e.currentTarget.dataset.index;  // 获取点击当前的索引
+    var ansid = this.CyclicData(index);
+    var loginDatas = wx.getStorageSync("login");
+    Utils.requestFn({ // 重新获取数据
+        url: '/index.php/adoptfaq?server=1',
+        method:"POST",
+        data: {
+            sdk: loginDatas.sdk,
+            uid: loginDatas.uid,
+            faqid: _this.data.faqid,
+            ansid: ansid
+        },
+        success: function (res) {
+            if (!res.data.status){
+                Utils.showModal(res.data.message);
+            }else{
+                _this.onShow();
+            }
+        }
+    })
+},
+redFn(e){    //点击红包打赏
+    var index = e.currentTarget.dataset.index;
+   
+    var ansid = this.CyclicData(index);
+    var josn = {};
+    var loginDtat = wx.getStorageSync("login");
+    if (!loginDtat) return false;
+    josn = {
+        img: e.currentTarget.dataset.img,   // 律师头像
+        name: e.currentTarget.dataset.name,  // 律师name
+        sdk: loginDtat.sdk, // 登陆返回的 sdk
+        uid: loginDtat.uid, // 登陆返回的uid
+        faqid: this.data.faqid, // 咨询id
+        ansid: ansid, // 打赏对应的回复id
+        attid: e.currentTarget.dataset.id, // 打赏对应的律师id
+        openid: this.data.openid,       // 登陆的openid
+    }
+    wx.navigateTo({
+        url: "/pages/RedPacket/RedPacket?data=" + JSON.stringify(josn)
+    })
+},
+CyclicData(index){      // 循环获得列表数据的id
+    var detailsArr = this.data.detailsArr;
+    var newArr = detailsArr[index].contents;
+    var data = newArr.map(function(obj){
+        return obj.id;
+    })
+    return data[0];
+},
+loginFn () {    // 页面加载 请求login状态
+    var loginDtat = wx.getStorageSync("login");
+    if (!loginDtat) return false;
+    var _this = this;
+    var dosdk = loginDtat.sdk;        // sdk
+    var douid = loginDtat.uid;    // uid
+    wx.login({
+        success: function (res) {
+            if (res.code) { //  第一步： 获取code
+                Utils.requestFn({
+                    url: '/index.php/getopenid?server=1',
+                    method: "POST",
+                    data: {
+                        code: res.code,
+                        sdk: dosdk,
+                        uid: douid
+                    },
+
+                    success: function (res) {
+                        _this.setData({
+                            openid: res.data.data.openid
+                        })
+                    }
+                })
+            } else {
+                Utils.showModal('获取用户登录态失败！' + res.errMsg)
+            }
+        }
+    });
 },
 })

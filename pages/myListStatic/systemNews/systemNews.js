@@ -17,14 +17,11 @@ onShow:function(){
 loadRequest:function(){
     var _this = this;
     var loginData = wx.getStorageSync("login");
-    wx.request({
-        url: Utils.url + '/index.php/sysmsg?server=1',
+    Utils.requestFn({
+        url:'/index.php/sysmsg?server=1',
         data: {
             sdk: loginData.sdk,
             uid: loginData.uid
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
         },
         success: function (res) {
             var resData = res.data.data.list;

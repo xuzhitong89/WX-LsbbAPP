@@ -1,6 +1,6 @@
 <!--输入文本域  -->
 <view class="text-box">
-    <textarea placeholder="您好，请详细描述你的问题..." placeholder-style="color:#666;font-size:30rpx; " auto-focus= "{{textareaFocus}}"  value="{{textareaVal}}"    bindinput="textareaFn"></textarea>
+    <textarea placeholder="您好，请详细描述你的问题..." placeholder-style="color:#666;font-size:30rpx; "  value="{{textareaVal}}"    bindinput="textareaFn"></textarea>
 </view>
 <!--上传图片  -->
 <view class="upload-img">
@@ -10,7 +10,7 @@
          </view>
        <image src="{{item}}" data-id="{{index}}"></image>
     </view>
-    <image   src="/images/upload.png" bindtap="chooseimage"></image>
+    <image   src="/images/upload.png" bindtap="chooseimage" bindtouchstart=""></image>
     
     <text>{{index}}/{{len}}</text>
 </view>

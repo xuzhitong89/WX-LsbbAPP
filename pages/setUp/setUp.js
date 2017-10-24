@@ -76,25 +76,22 @@ Page({
   quitFn:function(){    // 退出登陆
       Utils.removeStorage("Reset"); 
           var res =  this.getStorag();
-          wx.request({
-                  url: Utils.url +  '/index.php/loginOut?server=1', 
+          Utils.requestFn({
+                  url: '/index.php/loginOut?server=1', 
                   method:"POST",
                   data: {
                           sdk: res.sdk,
                           uid: res.uid
                   },
-                  header: {
-                          'content-type': 'application/json' // 默认值
-                  },
                   success: function (res) {
                           if (res.data.status){
                                   wx.reLaunch({
-                                      url: '/pages/forgot_password/forgot_password'
+                                      url: '/pages/login/login'
                                   })
                                   Utils.removeStorage("login");
                                   
                           }else{
-                              Utils.reLaunch(res.data.message,"/pages/forgot_password/forgot_password");
+                              Utils.reLaunch(res.data.message,"/pages/login/login");
                               Utils.removeStorage("login");
                           }
                           return false;

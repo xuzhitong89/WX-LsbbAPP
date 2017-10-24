@@ -1,5 +1,7 @@
 // 走起 我的函数库~
 var Utils = require("../../utils/util.js");
+// 加载地图
+var map = require('../../map/mappos.js');  
 var page = 0;       // 页数
 
 // 默认加载数据
@@ -12,35 +14,36 @@ var defaultData = {
     layerArr:["回复","时间","打赏"],   // 排序
     layerVal:"3",  // 排序弹层val
     sortID:"0",            // 排序ID
+    code:"",         // 存放login的code值
+    iv: "",           // 初始向量
+    encryptedData:""    // 用户信息
 }
 
 Page({                                                  // page项
 data: defaultData,
-loadMore: function (that, page, smallVal, order){            // 滚动的公共函数、发送ajax
+loadMore: function (that, page, smallVal, order){   // 滚动的公共函数、发送ajax
     smallVal =  typeof smallVal == "undefined" ? "" : smallVal;
     order =    typeof order == "undefined" ? "" : order;
-    wx.request({
-        url: Utils.url + '/index.php/consult?server=1',
-        method: "POST",
-        data: {
+    Utils.requestFn({
+        url:"/index.php/consult?server=1",
+        method:"POST",
+        data:{
             p: page,
             small: smallVal,
             order: order || ""
         },
-        header: {
-            'content-type': 'application/json'
-        },
-        success: function (res) {
+        success:function(res){
             var redata = res.data.data.list;
             that.setData({
                 results: that.data.results.concat(redata)
             });
         },
-        complete:function(){               // 请求结束 结束动画等等
+        complete: function () {     // 请求结束 结束动画等等
             wx.stopPullDownRefresh();        //停止下拉刷新
             wx.hideLoading();                      // 停止加载中的动画
         }
     })
+   
 },
 onLoad: function (options) {
     // 页面初始化 、加载请求数据
@@ -48,6 +51,33 @@ onLoad: function (options) {
     page = 1;
     _this.loadMore(_this, page);
     Utils.removeStorage("Reset");
+    wx.login({
+        success: function (res) {
+            _this.setData({
+                code: res.code
+            })
+        }
+    })
+    this.coordinate();  // 加载位置
+},
+coordinate: function () {   // 页面初始的时候请求位置
+    var _this = this;
+    var qqmapsdk = map.map();
+    qqmapsdk.reverseGeocoder({
+        complete: function (res) { // 获取位置成功返回
+            if (res.result) {
+            var province = res.result.address_component.province;   // 省
+            var city = res.result.address_component.city;   // 市
+            var district = res.result.address_component.district;   // 区
+            province = province.substring(0, province.length - 1);  // 去掉“省”的后缀
+            city = city.substring(0, city.length - 1);       // 去掉“市”的后缀
+            Utils.setStorage("position-type", `${province}-${city}-${district}`)
+            }
+        },
+        fail: function (res) {  // 获取位置失败
+            Utils.showModal("获取位置失败网络错误");
+        }
+    })
 },
 commvalFn:function(){     // 公共求值
     var _this = this;
@@ -170,12 +200,12 @@ myNews:function(){      // 点击我的页面
     Utils.setStorage("Reset","/pages/myList/myList"); // 登陆后返回这个页面 记录
     var value = wx.getStorageSync('login');   // 获取到key
     if (value != ""  ){
-        wx.redirectTo({
+        wx.navigateTo({
                 url: '/pages/myList/myList'
         })
     }else{
-        wx.redirectTo({
-            url: '/pages/forgot_password/forgot_password'
+        wx.navigateTo({
+            url: '/pages/login/login'
         })
     }
 },
@@ -185,20 +215,16 @@ ConsultationFn:function(){      // 咨询跳转
     })
 },
 jumpFn:function(e){              // 点击进入详情
-    console.log(1)
         var DoId = e.currentTarget.id;          // 发送的对应详情的唯一ID值
         var datas = "";
         var loginDatas = wx.getStorageSync("login");    // 获取登陆信息
         var loginJosn = {};
-        wx.request({
-            url: Utils.url + '/index.php/consultdetail?server=1',
+        Utils.requestFn({
+            url: '/index.php/consultdetail?server=1',
             data: {
                 sdk: loginDatas.sdk || "",
                 uid: loginDatas.uid || '',
                 id: DoId
-            },
-            header: {
-                'content-type': 'application/json'
             },
             success: function (res) {
                 datas = JSON.stringify(res.data.data);
@@ -215,5 +241,27 @@ jumpFn:function(e){              // 点击进入详情
 
             }
         })
-}
+},
+getPhoneNumber:function(e){
+    // var _this = this; 
+    // _this.setData({
+    //     iv: e.detail.iv,
+    //     encryptedData: e.detail.encryptedData
+    // })
+    // wx.request({
+    //     url: Utils.url +  '/index.php/wxencrypt?server=1', 
+    //     data: {
+    //         content: _this.data.encryptedData,
+    //         iv: _this.data.iv,
+    //         code: _this.data.code
+    //     },
+    //     header: {
+    //         'content-type': 'application/json' 
+    //     },
+    //     success: function (res) {
+    //         console.log(res.data)
+    //     }
+    // })
+},
+
 })
