@@ -6,6 +6,6 @@
 * pages — 存放项目页面相关文件
 * utils — 存放公共的js文件，可require引入
 ###  项目截图
-
+![](https://github.com/yangfandashuaige/WX-LsbbAPP/blob/master/gif/xm.gif)  
 ###  预览地址
 打开微信 => 搜索 "律师帮帮法律咨询"
