@@ -56,7 +56,7 @@ var showModal = function(title,text){
 
 // 配置域名
 var url = (function(){
-    return "https://yszls.12348.com.cn"
+    return "xxx"
 }());
 
 // 弹出层，关于全部的页面，跳转
@@ -81,8 +81,7 @@ var requestFn = function (josn){
         data: josn.data,
         method: josn.method || 'GET' ,
         header: {
-            'content-type': 'application/json',
-            "from":"LSBBFLZX"
+            'content-type': 'application/json'
         },
         success: josn.success || null,
         fail:  josn.fail || null,
