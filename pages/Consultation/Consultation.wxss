@@ -13,32 +13,31 @@
      z-index: 9;
   }
 .title {
-    display: flex;
-     justify-content:space-between;
-     align-items: center;
-     border-top: 1px solid #eee;
-     background: #f8f8f8;
-     top: 0;
-    width: 100%;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  background: #fff;
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid #eee;
 }
-
-.title view {
-    align-items: center;
-     height: 80rpx;
-    flex: 1;
-    display: flex;
-    justify-content:center;
-    font-size: 30rpx;
-    color: #6d6d6d;
-    border-bottom: 1px solid #eee;
+.title .title-test {
+  height: 80rpx;
+  flex: 1;
+  font-size: 30rpx;
+  display: block;
+  text-align: center;
+  line-height: 80rpx;
+  color: #6d6d6d;
 }
-.title view.set{
-     border-bottom-color: #d92a2a;
-     color: #d92a2a;
+.title .title-test text {
+  padding: 0 20rpx;
+  padding-bottom: 20rpx;
 }
-.title  .last.set {
-    color: #d92a2a;
-    border:none;
+.title .title-test.set text{
+  border-bottom: 2px solid #577eff;
+  color: #577eff;
 }
 /*
     尾部
@@ -67,29 +66,35 @@
 /*
     弹层
   */
-  .dolayer{
-      position: fixed;
-      top: 82rpx;
-      left: 0;
-      height: 80rpx;
-      width: 100%;
-      background: #f8f8f8;
-      display: flex;
-  }
-.dolayer text{
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30rpx;
-    border-left: 1px solid #eee;
- }
- .dolayer text.set {
-     color: #d92a2a;
- }
- .dolayer text:first-child{
-     border:none;
- }
+.elasticLayer {
+  padding: 30rpx 24rpx 0  24rpx;
+  background: #fff;
+  display: flex;
+  position: fixed;
+  top: 80rpx;
+  flex-wrap: wrap;
+  z-index: 3;
+  justify-content: space-between;
+  box-shadow: 0px 25px 50px #dee0e5;
+}
+.elasticLayer text {
+  height: 78rpx;
+  width: 158rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  border: 1rpx solid #577eff;
+  margin-bottom: 30rpx;
+  color: #577eff;
+}
+.elasticLayer text:nth-child(4n+1){
+  margin-left: 0;
+}
+.elasticLayer text.more {
+  border:1rpx solid #d9d9d9;
+  color: #d9d9d9;
+}
 /*
     滚动部分
   */
@@ -107,10 +112,13 @@
 .view-box {
     padding: 15rpx 30rpx;
 }
-.view-box  .box-title {
+ .box-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.view-box .box-pasd {
+  padding-left: 82rpx;
 }
  .box-title .title-left {
     display: flex;
@@ -120,16 +128,23 @@
       font-size: 26rpx;
       color: #a9a9a9;
   }
+ .box-title .title-left .iconfont{
+   font-size: 36rpx;
+   color: #ff7034;
+ }
+ .box-title .title-left .red-iconfont {
+   color: #f42341;
+ }
  .box-title .logo{
-     height: 80rpx;
-     width: 80rpx;
+     height: 60rpx;
+     width: 60rpx;
      border-radius: 100%;
  }
-  .box-title .text {
-      font-size: 32rpx;
-      color: #333;
-      padding: 0 10rpx;
-  }
+.box-title .text {
+  font-size: 32rpx;
+  color: #333;
+  padding: 0 22rpx;
+}
  .box-title .bor-txt {
     display: flex;
     align-items: center;
@@ -148,8 +163,9 @@
 } 
 .box-test {
     padding: 15rpx 0 ;
+    position: relative;
 }
-.box-test text{
+.box-test text.test{
     font-size: 32rpx;
     color: #333;
     margin: 0;
@@ -160,9 +176,15 @@
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    max-width: 80%;
+}
+.box-test .new-adopt {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    font-size: 140rpx;
+    color: #ff3b30;
 }
 .box-footer {
     display: flex;
@@ -173,9 +195,16 @@
     font-size: 22rpx;
     color: #a9a9a9;
 }
+.box-footer .types {
+    padding: 5rpx;
+}
 .box-footer .news {
      display: flex;
     align-items: center;
+}
+.box-footer .news text::after {
+  content: "回复";
+  margin-left: 5rpx;
 }
 .box-footer  image {
     height: 36rpx;
@@ -185,7 +214,7 @@
 .round-click{
     height: 120rpx;
     width: 120rpx;
-    background-color: #d92a2a;
+    background-color: #577eff;
     border-radius: 100%;
     position: fixed;
     bottom: 150rpx;
@@ -200,4 +229,51 @@
     max-width: 80rpx;
     color: #fff;
     text-align: center;
+}
+/*
+    点击跳转的板块
+  */
+.clickRectangles {
+  width: 94%;
+  padding: 0 3%;
+  position: fixed;
+  bottom: 150rpx;
+
+}
+.clickRectangle{
+  background: #fff;
+  border: solid 2px #b6c6fe;
+  border-radius: 10rpx;
+  padding-bottom: 10rpx;
+  display: flex;
+  position: relative;
+  box-shadow: 1px 1px 15px #b6c6fe;
+}
+.clickRectangle .tests {
+  flex: 1;
+  padding: 20rpx;
+  color: #7d7d85;
+  font-size: 32rpx;
+}
+.clickRectangle .circular{
+  height: 110rpx;
+  width: 110rpx;
+  border-radius: 100%;
+  background-color: #577eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30rpx;
+  margin-top: 50rpx;
+}
+.clickRectangle .circular .icon-yuyin{
+  color: #fff;
+  font-size: 72rpx;
+}
+.pos-img {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  height: 114rpx;
+  width: 118rpx;
 }

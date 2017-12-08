@@ -1,0 +1,6 @@
+<template name="bomNav">
+    <view class="con-nav-flex" id="{{id}}" bindtap="tabFn">
+        <text class="iconfont {{ncls? ncls : cls}}"></text> 
+        <text style="color:{{ncls? '#577eff' : '#b3b3b3'}}">{{text}}</text>
+    </view>
+</template>

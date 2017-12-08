@@ -1,54 +1,62 @@
+<!-- 引用模板  -->
+<import src="../../template/bottomNav.wxml" />
 <view class="head-cen">
-    <view class="head">
-        <view class="head-left ">
-                <text>{{positions}}</text>
-                <image src="/images/coordinates.png"></image>
+        <view class="head-user" bindtap="xgUserFn">
+                <view class="head-users ">
+                        <image src="{{image}}"></image>
+                        <text>{{usrename}}</text>
+                </view>
+                <view class="location">
+                        <text>{{positions}}</text>
+                        <text class="iconfont icon-coordinates"></text>
+                </view>
+                <view class="sexFlex">
+                        <text class="sex">{{sex}}</text>
+                        <text class="iconfont icon-return"></text>
+                </view>
         </view>
-         <navigator url = "/pages/setUp/setUp"><image src="/images/setup.png"></image></navigator>
-    </view>
-    <view class="head-user" bindtap="xgUserFn">
-            <view class="head-users ">  
-                      <image src="{{image}}"></image>
-                      <text>{{usrename}}</text>
-            </view>
-            <navigator url="javascript:;" class="sexFlex"> 
-                <text class="sex">{{sex}}</text>
-                <image src="../../images/a.png"></image>
-            </navigator>
-    </view>
 </view>
 <view class="user-center">
-    <view class="user-list" bindtap="onNews">
-        <view class="user-list-let">
-            <image src="../../images/news.png"></image>
-            <text>消息中心</text>
+        <view class="user-list" bindtap="onNews">
+                <view class="user-list-let">
+                        <text class="icon-message iconfont"></text>
+                        <text>消息中心</text>
+                </view>
+                <view class="left-img">
+                        <image src="../../images/yuan.png" class="yuan" wx:if="{{news != 0 }}"></image>
+                        <text class="icon-return iconfont"></text>
+                </view>
         </view>
-        <view class="left-img">
-             <image src="../../images/yuan.png" class="yuan" 
-             wx:if="{{news != 0 }}"></image>
-            <image src="../../images/b.png"></image>
+        <view class="user-list" bindtap="onOrder">
+                <view class="user-list-let">
+                        <text class="icon-document iconfont"></text>
+                        <text>我的订单</text>
+                </view>
+                <view class="left-img">
+                        <text class="icon-return iconfont"></text>
+                </view>
         </view>
-    </view>
-    <view class="user-list" bindtap="onOrder">
-        <view class="user-list-let">
-            <image src="../../images/order.png"></image>
-            <text>我的订单</text>
+        <view class="user-list" bindtap="opinionFn">
+                <view class="user-list-let">
+                        <text class="icon-order iconfont"></text>
+                        <text>意见反馈</text>
+                </view>
+                <view class="left-img">
+                        <text class="icon-return iconfont"></text>
+                </view>
         </view>
-         <view class="left-img">
-            <image src="../../images/b.png"></image>
+        <view class="user-list setup" bindtap="setupFn">
+                <view class="user-list-let">
+                        <text class="icon-setup iconfont"></text>
+                        <text>设置</text>
+                </view>
+                <view class="left-img">
+                        <text class="icon-return iconfont"></text>
+                </view>
         </view>
-    </view>
-    <!-- <view class="user-list">
-        <view class="user-list-let">
-            <image src="../../images/heart.png"></image>
-            <text>我的律师</text>
-        </view>
-    </view> -->
-    <!-- <view class="user-list">
-        <view class="user-list-let">
-            <image src="../../images/wallet.png"></image>
-            <text>我的钱包</text>
-        </view>
-    </view> -->
 </view>
-<view class="footer"  bindtap="JumpFn" >咨询列表</view>
+<view class="con-bottom-nav">
+        <block wx:for="{{indexData}}" wx:key="{{index}}" wx:for-item="newsItem">
+                <template is="bomNav" data="{{...newsItem}}" />
+        </block>
+</view>

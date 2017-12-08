@@ -1,0 +1,72 @@
+<!-- 引用模板  -->
+<import src="../../template/lvsTitle.wxml" />
+<!--公共模板  -->
+<template is="lvsTitle" data="{{lvsData}}" />
+<!--服务人次  -->
+<view class="tab-data">
+        <view class="datas" wx:for="{{count}}" wx:key="{{index}}">
+                <text class="h2">{{item.num}}</text>
+                <text class="h3">{{item.txt}}</text>
+        </view>
+</view>
+<!--加载  -->
+<view class="loading" wx:if="{{loading}}"></view>
+<!--律所  -->
+<view class="firms">
+        <text>律师：{{Firm1}}</text>
+        <text>执业证号：{{Firm2}}</text>
+        <text>地址：{{Firm3}}</text>
+</view>
+<!--律师简介  -->
+<view class="introduction">
+        <view class="title">
+                <view class="left">简介</view>
+                <view class="right">
+                        <text class="h3" style="display:none">{{address}}</text>
+                        <text class="h4" style="display:none">在线</text>
+                </view>
+        </view>
+        <view class="test {{downs ? 'active' : ''}} {{isHeight ? 'heightauto' : '' }}" wx:if="{{description.length}}">{{description}}</view>
+        <view class="down-txt" wx:if="{{downs}}" bindtap="downFn">
+                {{downTest}}
+                <text class="icon-return iconfont {{isHeight ? 'actives':'' }}"></text>
+        </view>
+</view>
+<!--律师评价  -->
+<view class="evaluate">
+        <view class="title">
+                <view class="left">
+                        评价
+                        <text>({{appraise_allcount}})</text>
+                </view>
+                <view class="right" wx:if="{{appraiseList.length}}" bindtap="MoreFn">更多评价</view>
+        </view>
+        <!--律师标签 -->
+        <view class="blcok-list">
+                <view wx:for="{{appraise}}" wx:key="{{index}}">
+                        {{item.txt}}
+                        <text>({{item.used_count}})</text>
+                </view>
+        </view>
+        <!--评论列表哦-->
+        <view class="comment">
+                <view class="comment-list" wx:for="{{appraiseList}}" wx:key="{{index}}" id="{{item.id}}" data-uid="{{item.user_id}}">
+                        <view class="title">
+                                <view class="user-logo">
+                                        <image src="https://yszls.12348.com.cn{{item.image}}"></image>
+                                        <text>{{item.nickname}}</text>
+                                </view>
+                                <view class="time">{{item.date}}</view>
+                        </view>
+                        <view class="tests">{{item.content}}</view>
+                        <view class="mark-list">
+                                <text class="iconfont icon-xingxing1 {{ item.star >= (index+1)? 'active' : '' }}" wx:for="{{markStars}}" wx:key="{{index}}" wx:for-item="star"></text>
+                        </view>
+                </view>
+        </view>
+</view>
+<!-- 支付-->
+<view class="payment">
+        <view class="con money">{{lvsData.money}}</view>
+        <view class="con" bindtap="Consultation" data-telphone="{{item.phone}}">电话咨询</view>
+</view>

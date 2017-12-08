@@ -1,0 +1,74 @@
+<!-- 引用模板  -->
+<import src="../../template/bottomNav.wxml" />
+<!--加载中...  -->
+<view class="loading" wx:if="{{loading}}"></view>
+
+<view class="login-img">
+        <image src="/images/logo.png" class="logo1"></image>
+        <image src="/images/lvs.png" class="logo2"></image>
+</view>
+<!--滚动效果回复状态  -->
+<view class="state">
+        <text class="iconfont icon-dongtai"></text>
+        <swiper autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}" class="swiper" vertical="{{vertical}}">
+                <block wx:for='{{dataText}}' wx:key="{{index}}">
+                        <swiper-item>
+                                <text>{{item}}</text>
+                        </swiper-item>
+                </block>
+        </swiper>
+</view>
+<!--内容  -->
+<view class="content">
+        <view class="contents" bindtap="skipFn1">
+                <view class="title">
+                        <text class="iconfont icon-svg08"></text>
+                        <view class="text">
+                                <text class="h2">在线咨询</text>
+                                <text class="p">多个律师解答，在线解决问题</text>
+                        </view>
+                </view>
+                <view class="contents-mun">
+                        <view class="text-mun">
+                                <text>{{faqCount.total}}</text>
+                                <text>总咨询量</text>
+                        </view>
+                        <view class="text-mun new-pad">
+                                <text>{{faqCount.today}}</text>
+                                <text>今日在线咨询</text>
+                        </view>
+                        <view class="text-mun ico">
+                                <text class="iconfont icon-juxingkaobei"></text>
+                                <text class="iconfont  icon-iconfontjiantou"></text>
+                        </view>
+                </view>
+        </view>
+        <view class="contents new-con" bindtap="skipFn2">
+                <view class="title">
+                        <text class="iconfont icon-dianhua"></text>
+                        <view class="text">
+                                <text class="h2">一键找律师</text>
+                                <text class="p">大数据匹配好律师，电话解决问题</text>
+                        </view>
+                </view>
+                <view class="contents-mun">
+                        <view class="text-mun">
+                                <text>{{layer.layer}}</text>
+                                <text>注册律师</text>
+                        </view>
+                        <view class="text-mun new-pad">
+                                <text>{{layer.phone}}</text>
+                                <text>今日电话咨询</text>
+                        </view>
+                        <view class="text-mun ico">
+                                <text class="iconfont icon-juxingkaobei"></text>
+                                <text class="iconfont  icon-iconfontjiantou"></text>
+                        </view>
+                </view>
+        </view>
+</view>
+<view class="con-bottom-nav">
+        <block wx:for="{{indexData}}" wx:key="{{index}}" wx:for-item="newsItem">
+                <template is="bomNav" data="{{...newsItem}}" />
+        </block>
+</view>

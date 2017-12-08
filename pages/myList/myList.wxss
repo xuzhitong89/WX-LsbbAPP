@@ -1,6 +1,9 @@
+page {
+    background: #f0eff5;
+}
 .head-cen {
-    background:#ea3333;
-    height: 250rpx;
+    background:#577eff;
+    height: 188rpx;
 }
 .head {
     display: flex;
@@ -30,25 +33,40 @@
      padding: 0 25rpx;
     height: 175rpx;
 }
+.head-user .location{
+    font-size: 30rpx;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+.head-user .iconfont{
+    color: #fff;
+}
 .head-user .head-users {
     display: flex;
     align-items: center;
 }
 .head-user .sex {
-    font-size: 36rpx;
+    font-size: 30rpx;
     color: #fff;
 }
 .sexFlex {
      display: flex;
     align-items: center;
 }
+.sexFlex .iconfont{
+    font-size: 38rpx;
+    color: #fff;
+}
 .head-user .head-users image{
     height: 100rpx;
     width: 100rpx;
+    border-radius: 100%;
+    overflow: hidden;
 }
 .head-user .head-users text {
     padding-left: 15rpx;
-    font-size: 32rpx;
+    font-size: 30rpx;
     color: #fff;
 }
 .head-user navigator image {
@@ -59,20 +77,25 @@
     内容列表
   */
   .user-center {
-    border-top:15rpx solid #e8e8e8;
-    border-bottom:14rpx solid #e8e8e8;
+    border-top:18rpx solid #f0eff5;
   }
 .user-center .user-list {
     display: flex;
     justify-content:space-between;
     align-items: center;
     height: 110rpx;
-    padding: 0 30rpx;
+    padding: 0 24rpx;
     border-bottom: 1rpx solid #e8e8e8;
+    background: #fff;
   }
   .user-center .user-list .user-list-let {
       display: flex;
       align-items: center;
+  }
+  .user-center .user-list .user-list-let .iconfont {
+      font-size: 50rpx;
+      color: #577eff;
+      padding: 0;
   }
   .user-center .user-list image {
       height: 48rpx;
@@ -89,10 +112,15 @@
     justify-content:flex-end;
     align-items: center;
    }
+   .user-center .left-img .iconfont {
+       font-size: 38rpx;
+       color: #cdcdcf;
+   }
    .user-center .user-list image.yuan{
         height: 18rpx;
         width: 18rpx;
    }
+
    .footer {
        position: fixed;
        bottom: 0;
@@ -107,4 +135,8 @@
         align-items: center;
         color:#d92a2a;
         font-size:32rpx;
+   }
+   .user-center  .user-list.setup {
+       margin-top: 40rpx;
+       border-top:1rpx solid #e8e8e8;
    }

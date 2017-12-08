@@ -1,0 +1,8 @@
+<view class="center">
+    <text class="h2">原问题</text>
+    <view class="texts">{{usedConetent}}</view>
+    <text class="h2 bors">添加咨询</text>
+    <textarea  class="Tarea" bindinput="entryFn" placeholder="您好，请在上面咨询的基础上，补充完善您的问题。"/>
+    <button class="btn" bindtap="Release">发布</button>
+</view>
+

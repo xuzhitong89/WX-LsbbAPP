@@ -1,0 +1,56 @@
+@import "../../styles/lvsTitle.wxss";
+.payment-type {
+  border-top: 20rpx solid #f0eff5;
+  border-bottom: 20rpx solid #f0eff5;
+  height: 120rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24rpx;
+}
+.payment-type .h2 {
+  font-size: 30rpx;
+  color: #a7a7a7;
+}
+.payment-type .type {
+  display: flex;
+  align-items: center;
+}
+.payment-type .type .iconfont {
+  font-size: 57rpx;
+  color: #00c903;
+}
+.payment-type .type .h3{
+  font-size: 30rpx;
+  color: #000;
+  margin-left: 16rpx;
+}
+.prompt {
+  border-bottom: 10rpx solid #f0eff5;
+  padding: 20rpx 24rpx;
+}
+.prompt text{
+  display: block;
+}
+.prompt .h2 {
+  font-size: 30rpx;
+  color: #577eff;
+  padding-bottom: 18rpx;
+}
+.prompt .p {
+  font-size: 30rpx;
+  color: #696969;
+}
+.confirm {
+  margin-top: 40rpx;
+  display: flex;
+  justify-content: center;
+}
+.confirm  button {
+  background: #577eff;
+  color: #fff;
+  height: 88rpx;
+  line-height: 88rpx;
+  width: 90%;
+  font-size: 30rpx;
+}

@@ -1,0 +1,8 @@
+<view class="centers">
+  <view class="left subclass">
+      <text wx:for="{{Consultation}}" wx:key="{{index}}" id="{{item.id}}" bindtap="BroadFn" data-index="{{index}}" class="{{index == BroadValue ? 'active' :''}}">{{item.name}}</text>
+  </view>
+  <view class="right subclass">
+      <text wx:for="{{subclass}}" wx:key="{{index}}" id="{{item.id}}" bindtap="SmallFn" data-index="{{index}}" class="{{index == SmallValue ? 'active':'' }}">{{item.name}}</text>
+  </view>
+</view>

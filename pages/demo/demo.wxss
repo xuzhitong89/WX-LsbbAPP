@@ -1,19 +1,8 @@
-/* pages/demo/demo.wxss */
-.box {
-        height: 50rpx;
-        width: 100%;
-        background-color: #ccc;
-        text-align: center;
-        font-size: 30rpx;
-        color: #fff;
+#myCanvas{
+        height: 160rpx;
+        width: 160rpx;
 }
-.region {
-        margin-top: 15rpx;
-        display: flex;
-        height: 300rpx;
-        border:1px solid #999;
-}
-.demo {
-        height: 280rpx;
-        overflow: hidden;
+image {
+        height: 100rpx;
+        width: 100rpx;
 }

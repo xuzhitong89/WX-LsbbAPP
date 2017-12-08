@@ -1,0 +1,26 @@
+<view class="purchase">
+  <!--表头  -->
+    <view class="title">
+        <image src="{{user.images}}"></image>
+        <view class="userText">
+            <text class="h2">{{user.name}}</text>
+            <text class="h3">开通VIP，您可以不限次数的浏览更多案例</text>
+        </view>
+    </view>
+    <!--开通浏览权限VIP内容  -->
+    <view class="content" >
+        <text class="h2">开通浏览权限VIP</text>
+    </view>
+    <!--浏览规则  -->
+    <view class="browse-list">
+      <view class="items-con" wx:for="{{browse}}" wx:key="{{index}}" data-name="{{item.id}}" bindtap="browseFn" data-id="{{index}}">
+          <text class="h2">{{item.text}}</text>
+          <text class="h3">{{item.money}}</text>
+          <text class="iconfont icon-duihao1 {{index == value ? ' active': ' ' }}"></text>
+      </view>
+      <view class="browse-btn" bindtap="information">查看VIP服务规则</view>
+      <!--确认  -->
+      <view class="browse-confirm" bindtap="confirm">确认</view>
+    </view>
+  
+</view>

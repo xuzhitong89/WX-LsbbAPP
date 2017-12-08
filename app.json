@@ -1,39 +1,59 @@
 {
   "pages":[
-        "pages/Consultation/Consultation",
-        "pages/RedPacket/RedPacket",
-        "pages/questions/questions",
-        "pages/forgot_password/forgot_password",
+        "pages/home/home",
         "pages/demo/demo",
-        "pages/addimages/addimages",
         "pages/myList/myList",
+        "pages/questions/questions",
+        "pages/addimages/addimages",
+        
+        "pages/Consultation/Consultation",
+        
+        "pages/LawyersLibrary/LawyersLibrary",
+        "pages/myListStatic/systemNews/systemNews",
+        "pages/myListStatic/VIPinformation/VIPinformation",
+        "pages/Member/Member",
+        "pages/lookLvs/lookLvs",
+       
         "pages/login/login",
+        
+        "pages/Lawyerpayment/Lawyerpayment",
+        "pages/LawyerDetails/LawyerDetails",
+        "pages/lvsDetails/lvsDetails",
+        "pages/screen/screen",
+        "pages/Econsultation/Econsultation",
+        "pages/RecommendLsv/RecommendLsv",
+        "pages/Consultation_details/Consultation_details",
+        
+        "pages/RedPacket/RedPacket",
+        "pages/modifyPasd/modifyPasd",
+        "pages/setUp/setUp",
+        "pages/myListStatic/news/news",
+        "pages/static/feedback/feedback",
+       
+        "pages/forgot_password/forgot_password",
         "pages/static/moneyDetailed/moneyDetailed",
         "pages/myListStatic/order/order",
-        "pages/myListStatic/news/news", 
-        "pages/myListStatic/systemNews/systemNews",
+        
         "pages/myListStatic/ConsultationNews/ConsultationNews",
         "pages/myListModify/myListModify",
-        "pages/setUp/setUp",
         "pages/Reply/Reply",
-        "pages/Consultation_details/Consultation_details",
+       
         "pages/static/ContactUs/ContactUs",
-        "pages/static/feedback/feedback",
         "pages/static/platform/platform",
         "pages/static/user/user",
         "pages/static/Lawyer/Lawyer",
         "pages/static/AboutUs/AboutUs",
         "pages/static/Help/Help",
         "pages/static/ServiceGuarantee/ServiceGuarantee",
-        "pages/modifyPasd/modifyPasd",
         "pages/register/register",
         "pages/aboutList/aboutList",
         "pages/Agreement/Agreement"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#577eff",
     "navigationBarTitleText": "律师帮帮",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"#fff",
+    "enablePullDownRefresh":true
   }
 }

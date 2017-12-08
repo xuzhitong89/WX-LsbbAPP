@@ -1,0 +1,203 @@
+.lawyers-center {
+  width: 100%;
+  display: flex;
+}
+.lawyers-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  z-index: 3;
+  border-bottom: 1rpx solid #e6e6e6;
+  background: #fff;
+}
+.lawyers-title .test {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80rpx;
+  font-size: 30rpx;
+  color: #000;
+  position: relative;
+}
+.lawyers-title .test::after{
+  content: "▲";
+  transform:rotate(180deg);
+  font-size: 20rpx;
+}
+.lawyers-title .active{
+  color: #577eff;
+}
+/* .lawyers-title .iconfont{
+  font-size: 32rpx;
+  color: #000;
+  font-weight: bold;
+}  */
+.lawyers-list{
+  flex: 1;
+  padding:100rpx 0;
+}
+.lawyers-block {
+  display: flex;
+  padding: 30rpx 24rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.logo {
+  height: 90rpx;
+  width: 90rpx;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.logo image {
+  height: 90rpx;
+  width: 90rpx;
+}
+.block-list {
+  flex: 1;
+  padding-left: 23rpx;
+}
+.block-list .title{
+  display: flex;
+  align-items: center;
+}
+.block-list .title .h2 {
+  font-size: 30rpx;
+  max-width: 100rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #000;
+}
+.block-list .title .life{
+  display: flex;
+  align-items: center;
+  margin: 0 15rpx;
+}
+.block-list .title .life image {
+  height: 20rpx;
+  width: 24rpx;
+}
+.block-list .title .life text {
+  font-size: 24rpx;
+  color: #7d7d85;
+}
+
+.block-list .title .Stars{
+  display: flex;
+}
+.block-list .title .Stars .iconfont{
+  font-size: 22rpx;
+
+}
+.block-list .title .Stars .icon-xingxing{
+    color: #ffaa23;
+}
+.label-list {
+  display: flex;
+}
+.label-list text {
+  font-size: 22rpx;
+  color: #7d7d85;
+  padding: 2rpx;
+  border-radius: 5rpx;
+  margin-right: 10rpx;
+}
+.region {
+  font-size: 24rpx;
+  color: #7d7d85;
+}
+.money-time {
+  display: flex;
+  align-content: space-between;
+  flex-wrap: wrap;
+  width: 210rpx;
+}
+.money-time text{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.money-time .money {
+  font-size: 30rpx;
+  color: #ff3b30;
+}
+.money-time .distance {
+  font-size: 22rpx;
+  color: #a7a7a7;
+}
+.money-time .distance::before{
+  content: "<";
+  margin-right: 10rpx;
+}
+.money-time .money::after{
+  content: "/次"
+}
+.money-time .money::before{
+  content: "￥"
+}
+.lawyers-pad {
+  flex: 1;
+}
+.down-data {
+  position: fixed;
+  top: 83rpx;
+  left: 0;
+  width: 100%;
+  height: 415rpx;
+  z-index: 3;
+  background: #fff;
+  border-bottom:1rpx solid #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow:0 9px 15px #d0d6ed;
+}
+.common-data {
+ flex: 1;
+}
+.L-data {
+  height: 415rpx;
+  overflow: auto;
+}
+.R-data {
+  height: 415rpx;
+  overflow: auto;
+}
+.common-data  text {
+  display: flex;
+  height: 80rpx;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1rpx solid #e6e6e6;
+  border-right: 1rpx solid #e6e6e6;
+  border-left: 1rpx solid #e6e6e6;
+  font-size: 30rpx;
+  color: #636363;
+}
+.common-data .active{
+  color: #577eff;
+}
+.mask-sort {
+  position: fixed;
+  top: 83rpx;
+  right: 15rpx;
+  width: 240rpx;
+  padding: 10rpx 0;
+  z-index: 3;
+  background: #000;
+  opacity: 0.4;
+  border-radius: 10rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+.mask-sort text {
+  display: flex;
+  align-items: center;
+  height: 60rpx;
+  justify-content: center;
+  width: 100%;
+  color: #fff;
+  font-size: 30rpx;
+}

@@ -2,7 +2,7 @@
 var Utils = require("../../utils/util.js");
 
 var data = {           // 数据
-    time: "发送验证码",                          // 发送验证码按钮的txt
+    time: "获取验证码",                          // 发送验证码按钮的txt
     iponeVal: "",                                        // 手机号码Val
     pasdVal: "",                                         // 密码号码Val
     Verification_Code: "",                          // 验证码的input

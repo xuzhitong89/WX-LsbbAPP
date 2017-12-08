@@ -1,0 +1,36 @@
+.con-bottom-nav{
+    display: flex;
+    height: 98rpx;
+    width: 100%;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    z-index: 1;
+    border-top: 1px solid #e5e5e5;
+}
+.con-bottom-nav .con-nav-flex{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1;
+}
+.con-bottom-nav .con-nav-flex text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.con-bottom-nav .con-nav-flex text:last-child{
+    font-size: 20rpx;
+    color: #b3b3b3;
+}
+.iconfont{
+    font-size: 50rpx;
+    color: #b3b3b3;
+}
+.icon-tubiaozhizuomoban,.icon-tag-wode-xuanzhong,.icon-sourencai-xuanzhong,icon-tag-wode-xuanzhong,.icon-home1,.icon-zixunxuanzhongzhuangtai,.icon-zixun1{
+    color: #577eff;
+}

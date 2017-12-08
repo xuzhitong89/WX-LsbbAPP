@@ -1,0 +1,65 @@
+<!-- 引用模板  -->
+<import src="../../template/bottomNav.wxml"/>
+
+<view class="lawyers-center">
+  <!--内容的title  -->
+  <view class="lawyers-title">
+    <view wx:for="{{TitleData}}" wx:key="{{index}}" id="{{index}}" bindtap="titleFn" class="{{index == newNav ? 'test active' : 'test'}}">{{item}}</view>
+  </view>
+  <!--下拉框的数据  -->
+  <view class="down-data" wx:if="{{isShow}}">
+      <view class="L-data common-data">
+        <text wx:for="{{CityData}}" wx:key="{{index}}" id="{{item.id}}" bindtap="CityFn" class="{{item.id == newCity ? 'active' : '' }}">{{item.name}}</text>
+      </view>
+      <view class="R-data common-data">
+        <text wx:for="{{BusinessData}}" wx:key="{{index}}" id="{{item.id}}" bindtap="areaFn" class="{{item.id == newArea ? 'active' : '' }}">{{item.name}}</text>
+      </view>
+  </view>
+  <!--排序 -->
+  <view class="mask-sort" wx:if="{{mask}}">
+    <text wx:for="{{TitleSort}}" wx:key="{{index}}" id="{{index}}" bindtap="MaskTestFn">{{item}}</text>
+  </view>
+  <!--内容的列表  -->
+  <view class="lawyers-list">
+    <!--加载中...  -->
+    <view class="loading" wx:if="{{loading}}"></view>
+
+    <view class="lawyers-block" wx:for="{{commonList}}" wx:key="{{index}}" data-uid="{{item.uid}}" bindtap="JumpDetails">
+      <view class="logo">
+        <!-- <image src="https://yszls.12348.com.cn{{item.image}}"></image> -->
+        <image src="{{item.image}}"></image>
+      </view>
+      <view class="block-list">
+        <view class="title">
+          <text class="h2">{{item.nickname}}</text>
+          <view class="life">
+            <image src="/images/v.png"></image>
+            <text>{{item.year}}</text>
+          </view>
+          <view class="Stars">
+            <text class="iconfont icon-xingxing1 {{item.star >= (index+1) ? 'icon-xingxing' :'' }}" wx:key="{{index}}" wx:for="{{Stars}}" wx:for-item="stars"></text>
+          </view>
+        </view>
+        <view class="label-list">
+          <text wx:for="{{item.small_class}}" wx:key="{{index}}" wx:for-item="blocks">{{blocks}}</text>
+
+        </view>
+        <view class="region">{{item.diqu}}</view>
+      </view>
+      <view class="money-time">
+        <text class="money">{{item.price}}</text>
+        <text class="distance">{{item.distance}}</text>
+      </view>
+    </view>
+  </view>
+  <!--没有数据  -->
+  <view class="noData" wx:if="{{Ndata}}">
+    <image src="/images/sorry.png"></image>
+    <text>没有数据！哼~</text>
+  </view>
+</view>
+<view class="con-bottom-nav">
+    <block wx:for="{{indexData}}" wx:key="{{index}}"  wx:for-item="newsItem">
+         <template is="bomNav" data="{{...newsItem}}"/>   
+    </block> 
+</view>

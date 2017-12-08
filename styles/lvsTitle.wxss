@@ -1,0 +1,92 @@
+.lvs-tltie {
+  display: flex;
+  padding: 30rpx 24rpx 32rpx 24rpx;
+  align-items: center;
+}
+.lvs-tltie .logo {
+    height: 90rpx;
+    width: 90rpx;
+    border-radius: 100%;
+    overflow: hidden;
+}
+.lvs-tltie .center {
+  padding-left: 20rpx;
+  flex: 1;
+}
+.lvs-tltie .center .title{
+  display: flex;
+  align-items: center;
+}
+.lvs-tltie .center .title image{
+  height: 20rpx;
+  width: 26rpx;
+  display: flex;
+  margin-left: 15rpx;
+}
+.lvs-tltie .center .title .h2{
+  font-size: 30rpx;
+  color: #000;
+}
+.lvs-tltie .center .title .h3 {
+  font-size: 24rpx;
+  color: #7d7d85;
+  margin-left: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.lvs-tltie .center .lvs-stars {
+  margin-left: 22rpx;
+  display: flex;
+  padding: 14rpx 0;
+}
+.lvs-tltie .center .lvs-stars .iconfont{
+  font-size: 24rpx;
+  margin-right: 4rpx;
+}
+.lvs-tltie .center .lvs-stars .active {
+  color: #ffaa23;
+}
+.lvs-tltie .center .lvs-blcok {
+  display: flex;
+}
+.lvs-tltie .center .lvs-blcok .block{
+  height: 32rpx;
+  font-size: 22rpx;
+  color: #7d7d85;
+}
+.lvs-tltie .follow {
+  width: 153rpx;
+  text-align: center;
+}
+.lvs-tltie .follow .h2{
+  font-size: 30rpx;
+  color: #ff3b30;
+}
+.lvs-tltie .follow .h2:before{
+  content: "¥";
+  font-size: 30rpx;
+  color: #ff3b30;
+  margin-right: 5rpx;
+}
+.lvs-tltie .follow button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 116rpx;
+  height: 57rpx;
+  background: #577eff;
+  color: #fff;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+  padding: 0;
+
+}
+.lvs-tltie .follow button.btnSelected {
+  background: #fff;
+  color: #333;
+}
+.address {
+  height: 32rpx;
+  font-size: 22rpx;
+  color: #7d7d85;
+}

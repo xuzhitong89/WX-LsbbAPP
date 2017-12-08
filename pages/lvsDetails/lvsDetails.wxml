@@ -1,0 +1,28 @@
+<!-- 引用模板  -->
+<import src="../../template/lvsTitle.wxml"/>
+
+<!--公共模板  -->
+<template is="lvsTitle" data="{{lvsData}}"/>   
+<!--服务评价  -->
+<view class="service">
+   <view class="service-title">
+      <text>服务评分</text>
+   </view>
+   <view class="stars-list">
+      <text class="iconfont icon-xingxing1 {{item}}" wx:for="{{Stars}}" wx:key="{{index}}" id="{{index + 1 }}" bindtap="StarFn"></text>
+   </view>
+</view>
+<!--用户评价  -->
+<view class="user-evaluate">
+  <text class="h2">用户评价</text>
+  <view class="block-evaluate">
+      <text  bindtap="userFn" class='{{item.cls}}'  wx:for="{{users}}" wx:key="{{index}}" id="{{index}}">{{item.text}}</text>
+  </view>
+</view>
+<!--说点什么  -->
+<view class="test">
+  <textarea placeholder="说点什么...." 
+  placeholder-class="p-class" bindinput="Tareafn" />
+</view>
+<!-- 提交评价 -->
+<view class="submit" bindtap="submitFn">提交评价</view>

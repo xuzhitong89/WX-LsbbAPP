@@ -4,7 +4,7 @@
     --217-8-3
 */
 .login-center {
-  padding: 40rpx;
+  padding: 40rpx 30rpx;
 
 }
 .login-logo {
@@ -14,8 +14,8 @@
   height:150px;
 }
 .login-logo image {
-  height:140rpx;
-  width:426rpx;
+height: 111rpx;
+width: 353rpx;
   display: block;
   margin: 0 auto;
 }
@@ -39,19 +39,20 @@
 }
 .from-list .section {
   flex: 1;
-  margin-bottom: 35rpx;
+  margin-bottom: 20rpx;
 }
 .from-list .section  input{
   border:1px solid #afafaf;
   border-radius:15rpx;
-  height:80rpx;
-  line-height:80rpx;
+  height:94rpx;
+  line-height:94rpx;
   font-size: 32rpx;
-  padding-left: 15rpx;
+  padding-left: 24rpx;
 }
 .from-list .section.section-flex {
   display: flex;
   justify-content:space-between;
+  margin-top: 10rpx;
 }
 .from-list .section.section-flex  .text {
   font-size: 30rpx;
@@ -85,7 +86,69 @@
 .footer-btn  navigator:first-child {
     border-right: 1px solid #b2b2b2;
 }
+.authorization  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-wrap: wrap;
+}
 .authorization button{
     background: #1AAD16;
     color: #fff;
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    opacity: 0;
+    position: absolute;
+}
+.authorization .iocs {
+    font-size: 100rpx;
+    color: #15c481;
+    width: 100%;
+    display: flex;
+    justify-content: center
+}
+.authorization  text {
+    font-size: 30rpx;
+    color: #3b3b3b;
+    padding-top: 15rpx;
+}
+.section-btns {
+    display: flex;
+}
+.section-btns button {
+    flex: 1;
+}
+.section-btns button:first-child{
+    margin-right: 10rpx;
+    border:none;
+    border:1px solid #577eff;
+    color: #577eff;
+    background: #fff;
+}
+.section-btns button:last-child{
+    background-color: #577eff;
+}
+.other-loading {
+    display: flex;
+    justify-content: center;
+    font-size: 36rpx;  
+    align-items: center;
+    padding-top: 102rpx;
+    padding-bottom: 55rpx;
+}
+.other-loading text{
+    height: 1px;
+    flex: 1;
+    background: #d8d8d8;
+}
+.other-loading .text {
+    height: inherit;
+    width: inherit;
+    flex: inherit;
+   background: #fff; 
+   padding: 0 32rpx; 
+   font-size: 30rpx;
+   color: #838383;
 }

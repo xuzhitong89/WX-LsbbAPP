@@ -1,0 +1,222 @@
+@import "../../styles/lvsTitle.wxss";
+.tab-data {
+  display: flex;
+  border-top: 1rpx solid #f0eff5;
+  border-bottom: 1rpx solid #f0eff5;
+  padding: 30rpx 0;
+  margin: 0 22rpx;
+}
+.tab-data .datas {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.datas .h2 {
+  width: 100%;
+  text-align: center;
+  font-size: 37rpx;
+  color: #ff3b30;
+}
+.datas .h3 {
+  font-size: 28rpx;
+  color: #6b6b6b;
+}
+.introduction {
+  padding: 20rpx 24rpx;
+}
+.introduction .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.introduction .title .left{
+  font-size: 32rpx;
+  color: #000;
+  font-weight: bold;
+}
+.introduction .title .right text{
+  font-size: 28rpx;
+}
+.introduction .title .right .h3{
+  color: #7d7d85;
+}
+.introduction .title .right .h4{
+  color: #577eff;
+  margin-left: 18rpx;
+}
+.introduction .test {
+  font-size: 28rpx;
+  color: #6b6b6b;
+  overflow: hidden;
+  position: relative;
+  height: 145rpx;
+ line-height: 50rpx;
+}
+.introduction .active::after{
+  content: "...";
+  position: absolute;
+  bottom: 3rpx;
+  right: 0;
+   width: 50rpx;
+  background: #fff;
+}
+.introduction .heightauto {
+  height: auto;
+} 
+.introduction .heightauto::after {
+  display: none;
+} 
+.down-txt {
+  display: flex;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #6b6b6b;
+}
+.down-txt .iconfont{
+  font-size: 30rpx;
+  color: #6b6b6b;
+  transform:rotate(90deg);
+  margin-left: 15rpx;
+}
+.down-txt .actives {
+  transform:rotate(-90deg);
+}
+.evaluate {
+  border-top: 20rpx solid #f0eff5;
+  padding: 0 24rpx;
+ 
+}
+.evaluate .title{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20rpx;
+}
+.evaluate .title .left {
+  font-size: 32rpx;
+  color: #000;
+}
+.evaluate .title .left text {
+  font-size: 28rpx;
+  color: #6b6b6b;
+}
+.evaluate .title .right {
+  font-size: 28rpx;
+  color: #6b6b6b;
+}
+.blcok-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.blcok-list view{
+  height: 68rpx;
+  width: 200rpx;
+  border:1px solid #577eff;
+  border-radius: 10rpx;
+  color: #577eff;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30rpx;
+}
+.blcok-list view:last-child{
+  border-color: #a7a7a7;
+  color: #a7a7a7;
+}
+.comment-list .title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 38rpx;
+}
+.user-logo {
+  display: flex;
+  align-items: center;
+}
+.user-logo image {
+  height: 74rpx;
+  width: 74rpx;
+  border-radius: 100%;
+}
+.user-logo text{
+  font-size: 24rpx;
+  color: #000;
+  padding-left: 16rpx;
+}
+.time {
+  font-size: 22rpx;
+  color: #a7a7a7;
+}
+.comment-list .tests{
+  font-size: 28rpx;
+  color: #6d6d6d;
+  line-height: 50rpx;
+  padding: 20rpx 0;
+}
+.mark-list {
+  display: flex;
+}
+.mark-list .iconfont{
+  font-size: 24rpx;
+}
+.mark-list .active{
+  color: #ffaa23;
+}
+.comment-list {
+  padding-bottom: 26rpx;
+  border-bottom: 1px solid #e6e5ea;
+}
+.comment {
+  padding-bottom: 100rpx;
+}
+.payment {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 94rpx;
+  background: #577eff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold
+}
+.payment .con{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 94rpx;
+}
+.payment .money {
+  font-size: 30rpx;
+  font-weight: normal;
+  background: #e6e5ea;
+  color: #999999;
+}
+.payment .money::before{
+  content: "￥";
+  color: #999999;
+}
+.payment .money::after{
+  content: "/次";
+  color: #999999;
+}
+.firms {
+  padding: 40rpx 24rpx;
+  border-bottom: 1rpx solid #e6e5ea;
+  display: flex;
+  flex-wrap: wrap;
+}
+.firms  text{
+  width: 100%;
+  font-size: 28rpx;
+  color: #6b6b6b;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

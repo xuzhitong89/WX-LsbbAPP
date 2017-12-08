@@ -3,7 +3,7 @@ var Utils = require("/utils/util.js");
 //app.js
 App({
   onLaunch: function() {    // 第一次加载的时候 清空页面上所有的本地数据
-    //   wx.clearStorage();
+      // wx.clearStorage();
   },
   getUserInfo: function(cb) {
     var that = this
@@ -23,5 +23,5 @@ App({
   },
   globalData: {
     userInfo: null
-  },
+  }
 })

@@ -1,0 +1,54 @@
+.center {
+  padding: 0 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+.h2 {
+  padding-top: 40rpx;
+  padding-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  color: #577eff;
+  width: 100%;
+}
+.h2:before{
+  content: "";
+  display: block;
+  height: 30rpx;
+  width: 11rpx;
+  background: #577eff;
+  margin-right: 11rpx;
+}
+.bors {
+  border-top:1px solid #d8d8d8;
+}
+.texts {
+  flex: 1;
+  border:1px solid #d8d8d8;
+  min-height: 200rpx;
+  padding: 20rpx;
+  white-space:normal; 
+  word-break:break-all;
+  margin-bottom: 50rpx;
+  color: #838383;
+  font-size: 32rpx;
+}
+.Tarea {
+  flex: 1;
+  border:1px solid #d8d8d8;
+  height: 400rpx;
+  font-size: 32rpx;
+  color: #333;
+  padding: 20rpx;
+}
+.btn {
+  width: 100%;
+  margin-top: 40rpx;
+  height: 94rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #577eff;
+  color: #fff;
+}

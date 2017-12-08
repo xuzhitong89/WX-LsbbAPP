@@ -29,3 +29,11 @@
     text-align: center;
     font-size: 36rpx;
 }
+.lvs-noData {
+  width: 460rpx;
+}
+
+.lvs-noData text.margin{
+  color: #000000;
+  padding-top: 50rpx;
+}

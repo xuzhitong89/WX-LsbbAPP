@@ -1,0 +1,179 @@
+.login-img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+}
+
+.logo1 {
+        height: 111rpx;
+        width: 353rpx;
+        margin-top: 75rpx;
+        margin-bottom: 38rpx;
+}
+
+.logo2 {
+        height: 109rpx;
+        width: 652rpx;
+        margin-left: 100rpx;
+        margin-bottom: 40rpx;
+}
+
+.state {
+        height: 80rpx;
+        border: 1px solid #dee0e5;
+        margin: 0 60rpx;
+        border-radius: 10rpx;
+        display: flex;
+        padding: 0 20rpx;
+        align-items: center;
+}
+.state text {
+        font-size: 26rpx;
+        color: #b3b3b3;
+}
+.state .iconfont  {
+        color: #577eff;
+}
+.state image {
+        height: 28rpx;
+        width: 115rpx;
+}
+.state-scroll {
+        flex: 1;
+        padding-left: 22rpx;
+        font-size: 26rpx;
+        color: #7b828b;
+        height: 80rpx;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+}
+.swiper {
+        height: 80rpx;
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 15rpx;
+}
+
+.swiper text {
+        height: 80rpx;
+        line-height: 80rpx;
+        max-width: 100%;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+}
+
+.content {
+        padding: 0 60rpx;
+}
+
+.contents {
+        box-shadow: 0px 0px 28px #dee0e5;
+        padding-left: 32rpx;
+        padding-top: 32rpx;
+        padding-bottom: 15rpx;
+        margin-top: 25rpx;
+        border: 1px solid #f2f2f2;
+}
+
+.contents .title {
+        display: flex;
+        flex-wrap: wrap;
+}
+
+.contents .title .iconfont {
+        font-size: 80rpx;
+        opacity: 0.3;
+}
+
+.contents .title  .text {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        padding-left: 40rpx;
+}
+
+.contents .title .h2 {
+        font-size: 38rpx;
+        color: #222;
+        font-weight: bold;
+}
+
+.contents .title .p {
+        width: 100%;
+        font-size: 28rpx;
+        color: #222;
+}
+
+.contents-mun {
+        padding-top: 35rpx;
+        display: flex;
+        position: relative;
+        padding-left: 120rpx;
+}
+
+.text-mun {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+}
+
+.text-mun text {
+        width: 100%;
+        display: flex;
+        justify-content: flex-star;
+}
+
+.text-mun text:first-child {
+        color: #577eff;
+        font-size: 48rpx;
+}
+
+.text-mun text:first-child:after {
+        content: "次";
+        display: flex;
+        font-size: 22rpx;
+        color: #577eff;
+        align-items: center;
+        padding-left: 5rpx;
+}
+
+.text-mun text:last-child {
+        color: #cbcaca;
+        font-size: 22rpx;
+}
+
+.new-pad {
+        padding-right: 110rpx;
+}
+
+.ico {
+        position: absolute;
+        bottom: -17rpx;
+        right: 0;
+}
+
+.ico text:first-child:after {
+        display: none;
+}
+
+.ico text.icon-juxingkaobei {
+        font-size: 100rpx;
+        color: #577eff;
+}
+
+.ico text.icon-iconfontjiantou {
+        position: absolute;
+        top: 30rpx;
+        left: 70rpx;
+        color: #fff;
+        font-size: 50rpx;
+}
+
+.new-con .text-mun text:first-child:after {
+        content: "人";
+}

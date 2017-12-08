@@ -3,61 +3,72 @@
     display: flex;
     flex-wrap:wrap;
     justify-content:center;
-     align-items:center;
-     padding: 40rpx 0;
+    align-items:center;
+    padding: 50rpx 0;
 }
 .title text{
     display: block;
 }
-
 .title text:first-child {
     font-size: 36rpx;
-    color: #d92a2a;
-  
+    color: #577eff;
 }
 .title text:last-child{
-    color: #a9a9a9;
+    color: #afafaf;
     font-size: 28rpx;
 }
+.title text.iconfont{
+  color: #577eff;
+  font-size: 30rpx;
+  margin-left: 8rpx;
+  font-weight: bold;
+}
 .money-list  {
-    padding: 0 45rpx;
+    padding: 0 42rpx;
     display: flex;
     flex-wrap:wrap;
     justify-content:space-between;
     align-items:center;
 }
 .money-list .block{
-     display: flex;
-     justify-content:center;
-     align-items:center;
-     height: 200rpx;
-     border:2px solid #a9a9a9;
-     width: 200rpx; 
-      margin-bottom: 30rpx;
-      border-radius: 15rpx;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  height: 130rpx;
+  border:4rpx solid #577eff;
+  width: 200rpx; 
+  margin-bottom: 30rpx;
+  border-radius: 15rpx;
 }
-.money-list .block text:first-child{
-   font-size: 68rpx;
-   font-weight: bold;
-  color: #a9a9a9;
+.money-list .block text{
+   font-size: 70rpx;
+   color: #577eff;
+   font-style:italic;
 }
-.money-list .block text:last-child{
+.money-list .block text:after{
+   content: "元";
     font-size:26rpx;
     margin-top: 15rpx;
     margin-left: 5rpx;
-     color: #a9a9a9;
+    color: #577eff;
 }
 .money-list .block.set{
-    border-color: #d92a2a;
+    border-color: #577eff;
+    background: #577eff;
 }
 .money-list .block.set text{
-    color: #d92a2a;
+    color: #fff;
+}
+.money-list .block.set text:after{
+    color: #fff;
 }
 .gratis {
-    display: flex;
-     justify-content:center;
-     align-items:center;
-     height: 80rpx;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  margin: 40rpx 0;
+  font-size: 30rpx;
+  color: #222;
 }
 .gratis text {
     font-size: 30rpx;
@@ -65,7 +76,7 @@
 }
 .prompt-title {
     display: flex;
-    padding: 0 20rpx;
+    padding: 0 30rpx;
 }
 .prompt-title text{
     font-size: 26rpx;
@@ -78,7 +89,7 @@
     display: flex;
     justify-content:space-between;
     align-items:center;
-    padding: 30rpx 45rpx 0 45rpx;
+    padding:0 42rpx 52rpx 42rpx;
     height: 50rpx;
 }
 .input-text  text {
@@ -86,58 +97,44 @@
     color: #333;
 }
 .input-text  .val {
-    display: flex;
-    align-items:center;
-     justify-content:flex-end;
-     flex: 1;
+  display: flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex: 1;
+  height: 50rpx;
 }
-.input-text  .val text {
+.input-text .val text {
     font-size: 30rpx;
     color: #a9a9a9;
 }
-.input-text  .val image{
-    height: 35rpx;
-    width:35rpx;
+.input-text .val .iconfont{
+    font-size: 26rpx;
 }
 .release{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    width: 90%;
     display: flex;
     height: 100rpx;
-    border-top:1px solid #b2b2b2;
-    background:#4395FF;
+    background:#577eff;
     align-items: center;
-    font-size:32rpx;
+    font-size:36rpx;
     color: #fff;
     justify-content: center;
-    border-radius: 0rpx;
+    border-radius: 10rpx;
+    margin-top: 32rpx;
 }
 .mask-back {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: #000;
-        opacity: 0.6;
-        z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    opacity: 0.6;
+    z-index: 1;
 }
-.address {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        z-index: 2;
-        background: #ddd;
-}
-.address-box {
-        line-height: 65px;
-        text-align: center;
-}
+
 .title-top {
-    padding-bottom: 15rpx;
+    padding-bottom: 30rpx;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,4 +142,47 @@
 .title-top image {
     height: 32rpx;
     width: 32rpx;
+}
+.prompt {
+   margin-bottom: 50rpx;
+}
+
+.address-box {
+    line-height: 65rpx;
+    text-align: center;
+    font-size: 44rpx;
+    color: #000;
+}
+.address {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background: #fff;
+    padding: 120rpx 0 60rpx 0;
+}
+.picker{
+  width: 100%;
+  height: 340rpx;
+}
+.complete {
+  height: 86rpx;
+  width: 100%;
+  border-top:1px solid #a5a5a5; 
+  border-bottom:1px solid #a5a5a5; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: #fff;
+  z-index: 9;
+}
+.complete text{
+  font-size: 34rpx;
+  color: #000;
+  padding-right: 38rpx;
+  font-weight: bold;
 }

@@ -1,0 +1,349 @@
+.recommend-center {
+  display: flex;
+  position: relative;
+  height: 100%;
+}
+.center {
+  width: 624rpx;
+  height: 966rpx;
+  position: absolute;
+  left: 27rpx;
+  top: 50rpx;
+  padding: 0 17rpx;
+  z-index: 3;
+  background: #fff;
+  box-shadow: 7rpx -5rpx 35rpx #ddd;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.center1 {
+  left: 67rpx;
+  top: 62rpx;
+  z-index: 2;
+  transform:scale(1,0.9);
+}
+.center2 {
+  left: 107rpx;
+  top: 65rpx;
+  z-index: 1;
+  transform:scale(1,0.85);
+}
+
+.mouserve > .title{
+  display: flex;
+  padding-top: 20rpx;
+}
+.mouserve > .title .logo{
+  height: 90rpx;
+  width: 90rpx;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.mouserve > .title .title-name {
+  flex: 1;
+  padding-left: 22rpx;
+}
+.mouserve > .title .names-top {
+  display: flex;
+  align-items: center;
+}
+.mouserve > .title .names-top image{
+  width: 23rpx;
+  height: 17rpx;
+  margin-left: 12rpx;
+}
+.mouserve > .title .names-top .h2{
+  font-size: 28rpx;
+  color: #000;
+}
+.mouserve > .title .names-top .h3 {
+  font-size: 26rpx;
+  color: #333;
+  padding: 0 10rpx;
+}
+.mouserve > .title .names-top .h3::after{
+  content: "年";
+  font-size: 26rpx;
+}
+.names-con {
+  display: flex;
+  height: 40rpx;
+  align-items: center;
+}
+.names-con .iconfont{
+  font-size: 24rpx;
+}
+.names-con .iconfont.icon-xingxing {
+  color: #ffaa23;
+}
+.names-bom {
+  display: flex;
+}
+.names-bom text{
+  font-size: 20rpx;
+  color: #7d7d85;
+  margin-right: 9rpx;
+}
+.fllow {
+  width: 160rpx;
+}
+.fllow text{
+  margin-top: 10rpx;
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-size: 28rpx;
+  color: #ff3b30;
+}
+.fllow text::after{
+  content: "/次";
+}
+.fllow text::before{
+  content: "￥";
+}
+.fllow button {
+  width: 108rpx;
+  height: 53rpx;
+  line-height: 53rpx;
+  font-size: 26rpx;
+  color: #fff;
+  margin-top: 5rpx;
+  background: #577eff;
+  padding: 0;
+}
+.service {
+  border-top: 1px solid #f0eff5;
+  display: flex;
+  padding: 20rpx 0;
+  margin: 30rpx 0;
+  border-bottom: 1px solid #f0eff5;
+}
+.service .test{
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.service .test text {
+  width: 100%;
+  text-align: center;
+}
+.service .test .h2{
+  font-size: 34rpx;
+  color: #ff3b30;
+}
+.service .test .h3{
+  font-size: 26rpx;
+  color: #6b6b6b;
+}
+.lvsbrief {
+ border-bottom: 15rpx solid #f0eff5;
+}
+.lvsbrief > .title {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+.lvsbrief > .title .h2{
+  font-size: 30rpx;
+  color: #000;
+  font-weight: bold;
+}
+.address .h3 {
+  font-size: 26rpx;
+  color: #7d7d85;
+}
+.address .h4 {
+  font-size: 26rpx;
+  color: #577eff;
+  margin-left: 17rpx;
+}
+.ceo-text {
+  margin: 15rpx 0;
+  font-size: 26rpx;
+  color: #6b6b6b;
+  word-wrap:break-word;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.down-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #6b6b6b;
+}
+.down-text .iconfont{
+  font-size: 30rpx;
+  color: #6b6b6b;
+  transform:rotate(90deg);
+  margin-left: 5rpx;
+}
+.lvsevaluate {
+  height: 450rpx;
+  overflow: auto;
+ 
+}
+.lvsevaluate > .title{
+  padding-top: 27rpx;
+  padding-bottom: 30rpx;
+  align-items: center;
+  font-size: 30rpx;
+  color: #000;
+  font-weight: bold;
+}
+.lvsevaluate > .title text{
+  font-size: 26rpx;
+  color: #6b6b6b;
+}
+.blocks-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.blocks-list text {
+  border:1px solid #577eff;
+  height: 64rpx;
+  width: 186rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #577eff;
+  border-radius: 6rpx;
+  margin-bottom: 27rpx;
+}
+.data-list {
+  padding: 15rpx 0;
+  border-bottom: 1px solid #f0eff5;
+}
+.data-list:last-child{
+  padding-bottom: 150rpx;
+}
+.data-list > .title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo-text {
+  display: flex;
+  align-items: center;
+}
+.data-list > .title image {
+  height: 74rpx;
+  width: 74rpx;
+  border-radius: 100%;
+}
+.data-list > .title text{
+  font-size: 24rpx;
+  color: #000;
+  margin-left: 16rpx;
+}
+.time {
+  font-size: 24rpx;
+  color: #6b6b6b;
+}
+.test-con {
+  font-size: 26rpx;
+  color: #6b6b6b;
+  padding: 28rpx 0;
+}
+.staus {
+  display: flex;
+}
+.staus .iconfont{
+  font-size: 26rpx;
+}
+.Tconsultation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 88rpx;
+  background: #577eff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 35rpx;
+  font-weight: bold;
+  box-shadow:7rpx -5rpx 35rpx #ddd;
+}
+.Tconsultation .con{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+}
+.Tconsultation  .money {
+  font-size: 38rpx;
+  color: #999999;
+  background: #e6e5ea;
+
+}
+.Tconsultation  .money::before{
+  content: "￥";
+  margin-left: 15rpx;
+  color: #999999;
+}
+.Tconsultation  .money::after{
+  content: "/次";
+  color: #999999;
+}
+.datas{
+  padding-bottom: 88rpx;
+}
+/* .center:nth-child(3n+1) .lvsevaluate{
+   height: 310rpx; 
+}
+.center:nth-child(4n+1) .lvsevaluate{
+  height: 400rpx; 
+}
+.center:nth-child(2n+1) .lvsevaluate{
+  height: 400rpx; 
+} */
+.address {
+  font-size: 24rpx;
+  color: #7d7d85;
+}
+.firms {
+  padding: 30rpx 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.firms text{
+  width: 100%;
+  font-size: 26rpx;
+  color: #6b6b6b;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.lvs-noData  {
+  width: 430rpx;
+  height: 450rpx;
+  text-align: center;
+}
+.lvs-noData image{
+  margin: 0 auto;
+}
+.lvs-noData .test{
+  height: 72rpx;
+  width: 327rpx;
+  border: solid 1px #577eff;
+  border-radius: 10rpx;
+  color: #577eff;
+  font-size: 32rpx;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lvs-noData .margin {
+  margin: 20rpx 0;
+}

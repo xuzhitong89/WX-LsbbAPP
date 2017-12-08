@@ -1,267 +1,307 @@
-// 走起 我的函数库~
+//再刷新一下啦，页面报错啦走起 我的函数库~
 var Utils = require("../../utils/util.js");
 // 加载地图
-var map = require('../../map/mappos.js');  
-var page = 0;       // 页数
+var map = require('../../map/mappos.js');
+
+let page = 1;       // 页数
+
+let distance1 = 0;    // 滚动的距离
+let distance2 = 0;    // 时间滚动的距离
+let timer = null;     // 定时器
 
 // 默认加载数据
 var defaultData = {
-    results: [] ,             // 加载默认的数据
-    scrollTop:0,           // 记录scrollTop的值   
-    navAtrr: ['最新', "婚姻家庭", "债权债务", "劳动纠纷"],
-    navPage:["","hyjt",'zqzw','ldjf'],      // 传值
-    value:"0" ,             //nav点击的时候对应的value 
-    layerArr:["回复","时间","打赏"],   // 排序
-    layerVal:"3",  // 排序弹层val
-    sortID:"0",            // 排序ID
-    code:"",         // 存放login的code值
-    iv: "",           // 初始向量
-    encryptedData:""    // 用户信息
-}
-
-Page({                                                  // page项
-data: defaultData,
-loadMore: function (that, page, smallVal, order){   // 滚动的公共函数、发送ajax
-    smallVal =  typeof smallVal == "undefined" ? "" : smallVal;
-    order =    typeof order == "undefined" ? "" : order;
-    Utils.requestFn({
-        url:"/index.php/consult?server=1",
-        method:"POST",
-        data:{
-            p: page,
-            small: smallVal,
-            order: order || ""
-        },
-        success:function(res){
-            var redata = res.data.data.list;
-            that.setData({
-                results: that.data.results.concat(redata)
-            });
-        },
-        complete: function () {     // 请求结束 结束动画等等
-            wx.stopPullDownRefresh();        //停止下拉刷新
-            wx.hideLoading();                      // 停止加载中的动画
-        }
-    })
-   
-},
-onLoad: function (options) {
-    // 页面初始化 、加载请求数据
-    var _this = this;
-    page = 1;
-    _this.loadMore(_this, page);
-    Utils.removeStorage("Reset");
-    wx.login({
-        success: function (res) {
-            _this.setData({
-                code: res.code
-            })
-        }
-    })
-    this.coordinate();  // 加载位置
-},
-coordinate: function () {   // 页面初始的时候请求位置
-    var _this = this;
-    var qqmapsdk = map.map();
-    qqmapsdk.reverseGeocoder({
-        complete: function (res) { // 获取位置成功返回
-            if (res.result) {
-            var province = res.result.address_component.province;   // 省
-            var city = res.result.address_component.city;   // 市
-            var district = res.result.address_component.district;   // 区
-            province = province.substring(0, province.length - 1);  // 去掉“省”的后缀
-            city = city.substring(0, city.length - 1);       // 去掉“市”的后缀
-            Utils.setStorage("position-type", `${province}-${city}-${district}`)
-            }
-        },
-        fail: function (res) {  // 获取位置失败
-            Utils.showModal("获取位置失败网络错误");
-        }
-    })
-},
-commvalFn:function(){     // 公共求值
-    var _this = this;
-    return {
-        data: _this.data.value,
-        navArr: _this.data.navPage,
-        layerVal: _this.data.layerVal
-    }
-},
-onPullDownRefresh:function(){  // 上拉
-},
-onReachBottom:function(){   // 下拉加载触发
-    var _this = this;
-    page++;
-    wx.showLoading({          // 加载动画
-        title: '加载中',
-    })
-
-    var res = this.commvalFn();
-
-    if (res.layerVal == "3"){      // 滚动的时候判断是否排序
-        switch (res.data) {
-            case "0":
-                _this.loadMore(_this, page, res.navArr[res.data]);
-                break;
-            case "1":
-                _this.loadMore(_this, page, res.navArr[res.data]);
-                break;
-            case "2":
-                _this.loadMore(_this, page, res.navArr[res.data]);
-                break;
-            case "3":
-                _this.loadMore(_this, page, res.navArr[res.data]);
-                break;
-            default:
-                _this.loadMore(_this, page);
-        };
-    }else{
-        switch (res.layerVal) {
-            case "0":
-                _this.loadMore(_this, page, res.navArr[res.data], "1");
-                break;
-            case "1":
-                _this.loadMore(_this, page, res.navArr[res.data], "2");
-                break;
-            case "2":
-                _this.loadMore(_this, page, res.navArr[res.data], "3");
-                break;
-        }
-    }
-},
-dolayerFn: function (e) {       // 排序弹层触发
-    var _this = this;
-    var doId = e.target.id;
-    _this.setData({
-        layerVal: doId,
-        sortID: "0"
-    })
-    var res = this.commvalFn();  //放在修改data数据之后
-    page = 1;       // 每次点击切换的时候强制让page = 1;
-    
-    switch (res.layerVal) {
-        case "0":
-            _this.rollFn(res.navArr[res.data], "1");
-            break;
-        case "1":
-            _this.rollFn(res.navArr[res.data], "2");
-            break;
-        case "2":
-            _this.rollFn(res.navArr[res.data], "3");
-            break;
-    }
-},
-navFn:function(e){      // 点击nav the list
-    var _this = this;
-    var doId = e.target.id;
-
-    _this.setData({
-        value: doId
-    });
-
-    var res = this.commvalFn();  //放在修改data数据之后
-
-    page = 1;       // 每次点击切换的时候强制让page = 1;
-    switch (_this.data.value) {
-        case "0":
-            _this.rollFn();
-            break;
-        case "1":
-        _this.rollFn(res.navArr[_this.data.value]);
-            break;
-        case "2":
-        _this.rollFn(res.navArr[_this.data.value]);
-            break;
-        case "3":
-        _this.rollFn(res.navArr[_this.data.value]);
-            break;
-    }
-  },
-rollFn: function (name, order) {          // 切换滚动的时候清空请求接口
-
-        name = typeof name == "undefined" ? "" : name;
-        order = typeof order == "undefined" ? "" : order;
-
-        var _this = this;
-        this.setData({
-                results: []
-        });
-
-        this.loadMore(_this, page, name, order);
-},
-sortFn:function(){          // 点击排序展开、收起
-    var doid = this.data.sortID;
-    doid = doid == "0"? "1":"0";
-    this.setData({
-        sortID: doid
-    });
-},
-myNews:function(){      // 点击我的页面
-    Utils.setStorage("Reset","/pages/myList/myList"); // 登陆后返回这个页面 记录
-    var value = wx.getStorageSync('login');   // 获取到key
-    if (value != ""  ){
-        wx.navigateTo({
-                url: '/pages/myList/myList'
-        })
-    }else{
-        wx.navigateTo({
-            url: '/pages/login/login'
-        })
-    }
-},
-ConsultationFn:function(){      // 咨询跳转
-        wx.navigateTo({
-        url:'/pages/addimages/addimages'
-    })
-},
-jumpFn:function(e){              // 点击进入详情
-        var DoId = e.currentTarget.id;          // 发送的对应详情的唯一ID值
-        var datas = "";
-        var loginDatas = wx.getStorageSync("login");    // 获取登陆信息
-        var loginJosn = {};
-        Utils.requestFn({
-            url: '/index.php/consultdetail?server=1',
-            data: {
-                sdk: loginDatas.sdk || "",
-                uid: loginDatas.uid || '',
-                id: DoId
-            },
-            success: function (res) {
-                datas = JSON.stringify(res.data.data);
-                // 记录一下传入详情的值，为详情刷新做准备
-                loginJosn = {
-                    sdk: loginDatas.sdk || "",
-                    uid: loginDatas.uid || "",
-                    id: DoId
+        indexData: [     // 底部的样式数据
+                {
+                        text: "首页",
+                        cls: "icon-home",
+                        ncls: "",
+                        id: "1",
+                },
+                {
+                        text: "咨询",
+                        cls: "icon-zixunweixuanzhongzhuangtai",
+                        ncls: "icon-zixun1",
+                        id: "2",
+                },
+                {
+                        text: "找律师",
+                        cls: "icon-sourencai-weixuanzhong",
+                        ncls: "",
+                        id: "3",
+                },
+                {
+                        text: "我的",
+                        cls: "icon-tag-wode-weixuanzhong",
+                        ncls: "",
+                        id: "4",
                 }
-                Utils.setStorage("details", loginJosn)
-                wx.navigateTo({
-                    url: "/pages/Consultation_details/Consultation_details?a=" + datas
+        ],
+        results: [], // 加载默认的数据
+        value: "0",  //nav点击的时候对应的value 
+        doVal: false,   // 隐藏显示二级弹层
+        newNavArrays: [],  //  获取的是更多案例的数据
+        newNavArray: ["最新", "最热", "更多案例"],  //  加载的默认数据
+        newMoreData: "",   // 存放更多的案例的list数据的id
+        isToggle: true,    // 下拉的时候隐藏快速提问的弹层
+        loading: false,  // 加载中的状态
+        MemberVip: null,    // 是否购买了VIP   
+}
+Page({
+        data: defaultData,
+        onLoad: function (options) {
+                this.loadDatas();
+        },
+        loadDatas(){            // 加载本地储存的数据
+                const positions = wx.getStorageSync("position-type").split("-")[2];
+                const defaultMores = wx.getStorageSync("defaultMore");
+
+                if (!positions || positions== null) {
+                        this.coordinate();      // 加载定位城市的位置
+                }
+                if (!defaultMores) {
+                        this.defaultMore();   // 默认加载的获取更多案例的数据
+                } else {
+                        this.setData({ newNavArrays: defaultMores })
+                }
+                this.defaultRequestFn();  // 加载最新的数据接口
+        },
+        onShow() { // 页面跳转过来不刷新页面获取到更多的key的id
+                let _this = this;
+                wx.getStorage({
+                        key: 'screen',
+                        success: function (res) {
+                                let screen = res.data;
+                                if (screen) {
+                                        _this.setData({ newMoreData: screen, doVal: false })
+                                        _this.emptyData();
+                                        _this.defaultRequestFn({ name: screen })
+                                } else {
+                                        _this.defaultRequestFn();
+                                }
+                        }
+                })
+        },
+        coordinate() {   // 页面初始的时候请求位置
+                var _this = this;
+                var qqmapsdk = map.map();
+                qqmapsdk.reverseGeocoder({
+                        complete: function (res) { // 获取位置成功返回
+                                if (res.result) {
+                                        var province = res.result.address_component.province;   // 省
+                                        var city = res.result.address_component.city;   // 市
+                                        var district = res.result.address_component.district;   // 区
+                                        province = province.substring(0, province.length - 1);  // 去掉“省”的后缀
+                                        city = city.substring(0, city.length - 1);       // 去掉“市”的后缀
+                                        Utils.setStorage("position-type", `${province}-${city}-${district}`)
+                                }
+                        },
+                        fail: function (res) {  // 获取位置失败
+                                Utils.showModal("获取位置失败网络错误");
+                                Utils.setStorage("position-type", "")
+                                _this.coordinate();
+                        }
+                })
+        },
+        onReachBottom: function () {   // 下拉加载触发
+
+                let value = this.data.value;    // 获取到导航的每个id
+                let doID = this.data.newMoreData; // 获取到点击之后更多案例的list下每个id
+
+                page++;   // 每次滚动的时候页数增加
+                this.setData({ isToggle: false })   // 滚动控制快速提问的弹层隐藏
+
+                switch (value) {
+                        case "0":   // 最新的排序数据
+                                this.defaultRequestFn({ page: page });
+                                break;
+                        case "1": // 最热的排序数据
+                                this.defaultRequestFn({ id: 2, page: page });
+                                break;
+                        default:
+                                this.defaultRequestFn({ name: doID, id: 1, page: page });
+                }
+        },
+        jumpFn: function (e) { // 点击进入详情
+                var DoId = e.currentTarget.id;          // 发送的对应详情的唯一ID值
+                var datas = "";
+                var loginDatas = wx.getStorageSync("login");    // 获取登陆信息
+                var loginJosn = {};
+                Utils.requestFn({
+                        url: '/index.php/consultdetail?server=1',
+                        data: {
+                                sdk: loginDatas.sdk || "",
+                                uid: loginDatas.uid || '',
+                                id: DoId
+                        },
+                        success: function (res) {
+                                // 记录一下传入详情的值，为详情刷新做准备
+                                loginJosn = { id: DoId }
+                                Utils.setStorage("details", loginJosn)      // 存储律师的
+                                Utils.setStorage("LawyerParticulars", res.data.data)  // 改为本地储存数据
+                                wx.navigateTo({
+                                        url: "/pages/Consultation_details/Consultation_details"
+                                })
+
+                        }
+                })
+        },
+        Jump(url) { // 跳转的公共的方法
+                wx.redirectTo({
+                        url: url
+                })
+        },
+        tabFn(e) {   // 切换链接
+                let id = e.currentTarget.id;
+                switch (id) {
+                        case "1":
+                                this.Jump("/pages/home/home");
+                                break;
+                        case "2":
+                                this.Jump("/pages/Consultation/Consultation");
+                                break;
+                        case "3":
+                                this.Jump("/pages/lookLvs/lookLvs");
+                                break;
+                        case "4":
+                                this.MyMessage();
+                                break;
+                }
+        },
+        MyMessage() {  // 判断有没有登陆的信息
+                let login = wx.getStorageSync('login');
+                if (!!login.openid) {
+                        this.Jump("/pages/myList/myList");
+                } else {
+                        wx.navigateTo({ url: '/pages/login/login' })
+                }
+        },
+        defaultMore() {// 获取更多案例接口的数据
+                var _this = this;
+                Utils.requestFn({
+                        url: '/index.php/faqcata?server=1',
+                        success(res) {
+                                let record = res.data;
+                                let objData = record.data;
+                                if (record.status) {
+                                        Utils.setStorage("defaultMore", objData);
+                                        _this.setData({newNavArrays: objData })
+                                } else {
+                                        Utils.showModal("再刷新一下啦，页面报错啦");
+                                }
+                        }
                 })
 
-            }
-        })
-},
-getPhoneNumber:function(e){
-    // var _this = this; 
-    // _this.setData({
-    //     iv: e.detail.iv,
-    //     encryptedData: e.detail.encryptedData
-    // })
-    // wx.request({
-    //     url: Utils.url +  '/index.php/wxencrypt?server=1', 
-    //     data: {
-    //         content: _this.data.encryptedData,
-    //         iv: _this.data.iv,
-    //         code: _this.data.code
-    //     },
-    //     header: {
-    //         'content-type': 'application/json' 
-    //     },
-    //     success: function (res) {
-    //         console.log(res.data)
-    //     }
-    // })
-},
+        },
+        emptyData() {   // 清空数据
+                this.setData({ results: [] });    // 清空数据
+                page = 1; // 回复默认页数
+        },
+        newNavFn(event) {   // 点击导航切换请求接口更新
+                this.setData({ value: event.currentTarget.id });
+                this.commonNewNavFn(event.currentTarget.id)
+                let doVal = this.data.doVal;
 
+                if (event.currentTarget.id == 2) {
+                        this.setData({ doVal: !doVal });
+                } else {
+                        if (doVal) {
+                                this.setData({ doVal: false });
+                        }
+                }
+        },
+        commonNewNavFn(value) {  // 点击导航切换请求接口更新 => 封装
+                switch (value) {
+                        case "0":   // 最新的排序数据
+                                this.emptyData();
+                                this.defaultRequestFn({ page: 1 });
+                                break;
+                        case "1": // 最热的排序数据
+                                this.emptyData();
+                                this.defaultRequestFn({ id: 2, page: 1 });
+                                break;
+                }
+        },
+        LayerFn(event) {    // 点击很多案例的数据选项
+                this.setData({ doVal: false })
+                let login = wx.getStorageSync('login');
+
+                if (!!login.openid) {    // 判断是够登陆了
+                        let _this = this;
+                        let doID = event.target.id;
+                        let MemberVip = this.data.MemberVip;
+
+                        // 判断是否购买了VIP
+                        if (!MemberVip) {
+                                wx.navigateTo({ url: "/pages/login/login" })
+                        } else {
+                                this.setData({ newMoreData: doID, doVal: false })
+                                this.emptyData();
+                                this.defaultRequestFn({ name: doID });
+                        }
+                } else {
+                        wx.navigateTo({url: "/pages/login/login" })
+                }
+        },
+        defaultRequestFn({ name = '', id = 1, page = 1 } = {}) {
+                let login = wx.getStorageSync('login');
+
+                var _this = this;
+                this.setData({ loading: true })
+                Utils.requestFn({
+                        url: '/index.php/consult?server=1',
+                        data: {
+                                small: name,
+                                order: id,
+                                p: page,
+                                uid: login.uid,
+                                sdk: login.sdk
+                        },
+                        success: function (res) {
+                                _this.setData({ loading: false })
+                                let redata = res.data.data.list;
+                                let revip = res.data.data.vip;
+
+                                _this.setData({
+                                        results: _this.data.results.concat(redata),
+                                        MemberVip: revip
+                                })
+                        }
+                })
+        },
+        quiz() {   // 跳转到快速提问
+                wx.navigateTo({url: "/pages/addimages/addimages" })
+        },
+        screenFn() { // 点击更多跳转
+                this.setData({ doVal: false })
+                let MemberVip = this.data.MemberVip;
+                let login = wx.getStorageSync('login');
+
+                if (!!login.openid) {
+                        if (!MemberVip) {
+                                wx.navigateTo({ url: "/pages/Member/Member" })
+                        } else {
+                                wx.navigateTo({ url: "/pages/screen/screen" })
+                        }
+                }else{
+                        wx.navigateTo({ url: "/pages/login/login" })
+                }
+        },
+        onPageScroll(res) {   // 滚动的事件
+
+                this.setData({ isToggle: false })
+                distance1 = res.scrollTop;
+                clearTimeout(timer);
+
+                timer = setTimeout(function () {
+                        distance2 = res.scrollTop;
+                        this.setData({ isToggle: distance1 == distance2 })
+                }.bind(this), 1000)
+        },
+        onShareAppMessage(res) {    // 转发
+                return {
+                        title: '律师帮帮',
+                        path: '/pages/Consultation/Consultation'
+                }
+        },
 })

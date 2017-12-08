@@ -19,7 +19,7 @@
         </view>
          <view class="label-list">
             <view class="label">E-mail</view>
-            <input placeholder="请输入您的E-mail" value='{{Email}}' placeholder-class="place" name='Email'/>
+            <input placeholder="请输入您的E-mail" value='{{Email}}' placeholder-class="place" name='Email' bindinput = "bEmail"/>
         </view>
          <view class="label-list">
             <view class="label">手机号</view>

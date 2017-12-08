@@ -5,7 +5,7 @@
             <view class="imgs">
                 <image src='/images/yuan.png' class="yuan" 
                 wx:if="{{znews != 0}}"></image>
-                <image src='/images/b.png'></image>
+                <text class="iconfont icon-return"></text>
             </view>
     </navigator>
         <navigator url="/pages/myListStatic/ConsultationNews/ConsultationNews">
@@ -13,7 +13,7 @@
             <view class="imgs">
                 <image src='/images/yuan.png' class="yuan" 
                 wx:if="{{xnews != 0}}"></image>
-                <image src='/images/b.png'></image>
+                 <text class="iconfont icon-return"></text>
             </view>
     </navigator>
 </view>

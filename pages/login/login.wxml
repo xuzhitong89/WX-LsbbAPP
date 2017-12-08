@@ -2,8 +2,7 @@
 <view class="login-center">
    <view class="login-logo">
       <view class="login-box">
-        <image src="/images/logo-login.png"></image>
-        <view class="login-text">现有<text>1233</text>个问题被专业律师解答</view>
+        <image src="/images/logo.png"></image>
       </view>
    </view>
    <!--表单验证部分  -->
@@ -20,7 +19,7 @@
             <view class="checkbox  text ">
               <checkbox-group   bindchange="checkboxChange"  name ='checkboxval'    >
                         <label class="checkbox" >
-                            <checkbox color='red'  value="{{checkboxVal}}"  checked="{{bool}}"/>记住密码
+                            <checkbox color='#577eff'  value="{{checkboxVal}}"  checked="{{bool}}"/>记住密码
                         </label>
             </checkbox-group>
           </view>
@@ -28,24 +27,26 @@
                 <navigator url="/pages/forgot_password/forgot_password" >忘记密码</navigator >
           </view>
       </view>
-      <view class="section">
+      <view class="section section-btns">
+        <button bindtap="enroll">注册</button>
         <button size ="default"   class="submit-btn"  formType = 'submit' style="background-color:{{loginBtnBgBgColor}}"  loading ="{{btnLoading}}" disabled =  "{{ btndisabled}}">
           {{loginBtnTxt}}
         </button>
       </view>
     </view>
-  </form>
+</form>
+
+<view class="other-loading">
+    <text></text>
+    <text class="text">你也可以</text>
+    <text></text>
+</view>
 <!-- 点击微信手机号码授权 -->
 <view class="authorization">
-    <button disabled="{{ztBool}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
-        一键微信登陆
+    <button disabled="{{ztBool}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" >
      </button>
-</view>
-<!--底部的跳转  -->
-<view class="footer-nav">
-    <view class="footer-btn">
-        <navigator url="/pages/forgot_password/forgot_password">用户注册</navigator>
-    </view>
+     <view class="icon-weixin iconfont iocs"></view>
+     <text>微信登陆</text>
 </view>
 </view>
 

@@ -1,0 +1,18 @@
+<!-- 引用模板  -->
+<import src="../../template/bottomNav.wxml"/>
+<!--内容模块  -->
+<view class="logo">
+    <image src="/images/banners.png"></image>
+</view>
+<view class="img-list">
+    <view wx:for="{{logoDatas}}" id="{{item.id}}" class="box" wx:key="{{index}}" bindtap="T_dataFn">
+        <image src="{{item.img}}"></image>
+        <text>{{item.test}}</text>
+    </view>
+</view>
+<view class="mores" bindtap="categoriesFn">更多类别</view>
+<view class="con-bottom-nav">
+    <block wx:for="{{indexData}}" wx:key="{{index}}"  wx:for-item="newsItem">
+         <template is="bomNav" data="{{...newsItem}}"/>   
+    </block> 
+</view>

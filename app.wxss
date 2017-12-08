@@ -1,9 +1,9 @@
-/**app.wxss**/
-page {
-  height: 100%;
-  width:100%;
-  background: #fff;
-}
-view,input,button,.placeholders {
-   font-family:"Microsoft YaHei" , Helvetica Neue,Helvetica,Arial,sans-serif;
-}
+/*引用公共的模块css  */
+@import "styles/common.wxss";
+@import "fonts/fonts.wxss";
+@import "styles/bottomNav.wxss";
+@import "styles/LoadingData.wxss";
+
+
+
+

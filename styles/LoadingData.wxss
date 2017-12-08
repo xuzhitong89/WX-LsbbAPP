@@ -1,0 +1,52 @@
+.loading{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 100%;
+  border: 5rpx solid #666;
+  border-bottom-color: transparent;
+  vertical-align: middle;
+  -webkit-animation: rotate 0.75s linear infinite;
+  animation: rotate 0.75s linear infinite;
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.noData {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 316rpx;
+  height: 360rpx;
+  text-align: center;
+}
+.noData image {
+  height: 267rpx;
+  width: 316rpx;
+  margin: 0 auto;
+}
+.noData text {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 60rpx;
+  display: block;
+}
+.noData text:last-child{
+  color: #577eff;
+}

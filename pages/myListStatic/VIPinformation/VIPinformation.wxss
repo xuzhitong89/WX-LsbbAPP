@@ -1,0 +1,6 @@
+text {
+  font-size: 30rpx;
+  color: #333;
+  padding: 30rpx;
+  display: block;
+}

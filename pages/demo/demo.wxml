@@ -1,1 +1,3 @@
-<text>测试</text>
+<canvas canvas-id="myCanvas" style="border: 1px solid;"  bindtap="show"  id="myCanvas"/>
+<image src='{{val}}'></image>
+<button bindtap='hide'>生成img</button>

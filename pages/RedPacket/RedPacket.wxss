@@ -16,9 +16,14 @@
     width: 150rpx;
     margin-bottom: 50rpx;
 }
-.user-name  text {
+.user-name  .names {
     width: 100%;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user-name  .names .iconfont{
+  color: #f42341;
 }
 .moeny {
     padding: 0 30rpx;
@@ -27,28 +32,43 @@
     justify-content: space-between;
 }
 .moeny view{
-    height: 150rpx;
-    width: 200rpx;
-    border:2px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20rpx;
-    border-radius: 15rpx;
-    font-size: 46rpx;
-    color: #333;
-    font-weight: bold;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  height: 130rpx;
+  border:4rpx solid #577eff;
+  width: 200rpx; 
+  margin-bottom: 30rpx;
+  border-radius: 15rpx;
+}
+.moeny view text {
+  font-size: 70rpx;
+   color: #577eff;
+   font-style:italic;
+}
+.moeny view text:after{
+  content: "元";
+  font-size:26rpx;
+  margin-top: 15rpx;
+  margin-left: 5rpx;
+  color: #577eff;
 }
 .moeny view.action{
-    color: #d92a2a;
-    border-color: #d92a2a;
+    border-color: #577eff;
+    background: #577eff;
+}
+.moeny view.action text{
+  color: #fff;
+}
+.moeny view.action text:after{
+  color: #fff;
 }
 .other {
     color: #1679f3;
-    font-size: 32rpx;
+    font-size: 30rpx;
     display: flex;
     justify-content: center;
-    padding-top: 50rpx;
+    padding-top: 40rpx;
 }
 .mask-back {
     height: 100%;
@@ -114,19 +134,19 @@
     padding: 0 30rpx;
 }
 .sumbtn button {
-    background-color: #db3535;
+    background-color: #577eff;
     color: #fff;
 }
 .smreward {
-    height: 90rpx;
+    height: 94rpx;
     width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
     margin: 0 auto;
-    background-color: #d92a2a;
+    background-color: #577eff;
     border-radius: 15rpx;
-    margin-top: 50rpx;
+    margin-top: 60rpx;
     font-size: 38rpx;
 }

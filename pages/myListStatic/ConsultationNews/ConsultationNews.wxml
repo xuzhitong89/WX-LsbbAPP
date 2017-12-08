@@ -4,4 +4,7 @@
         <text>{{item.content}}</text>
     </view>
 </view>
-<view class="texts" wx:if="{{bool != 0 }}">未有消息推送...</view>
+<view class="noData lvs-noData"  wx:if="{{bool != 0 }}">
+  <image src="/images/csorry.png"></image>
+  <text class="margin">对不起，您暂时没有咨询消息</text>
+</view> 
