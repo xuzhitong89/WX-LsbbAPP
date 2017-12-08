@@ -14,5 +14,7 @@
 ### 项目地址：
 https://github.com/yangfandashuaige/WX-LsbbAPP
 
+打开微信=>小程序=>搜索 律师帮帮法律咨询
+
 
 
