@@ -14,17 +14,20 @@
         <!--滚动区域  -->
         <view class="scroll-box">
                 <view class="scroll-box-pasd">
+                        <!--第一次加载默认的图片  -->
+                        <view class='first-img' wx:if='{{firstLoad}}'><image src='/images/m2.jpg'></image></view>
+                        <!--滚动加载的时候  -->
                         <view class="loading" wx:if="{{loading}}"></view>
-                        <view class="view-box" wx:for="{{results}}" id="{{item.id}}" bindtap="jumpFn" wx:key="{{item.id}}">
+                        <view class="view-box" wx:for="{{results}}" id="{{item.id}}" bindtap="jumpFn" wx:key="{{item.id}}" data-bool='{{item.money_num}}'>
                                 <view class="box-title">
                                         <view class="title-left">
                                                 <image src="{{item.image}}" class="logo"></image>
                                                 <text class="text">{{item.nickname || "电话为空"}}</text>
-                                                <text class="icon-dashang iconfont" wx:if="{{item.money!= '' }}"></text>
-                                                <text class="icon-hongbao iconfont red-iconfont" wx:if="{{item.money!= '' }}"></text>
+                                                <text class="icon-dashang iconfont" wx:if="{{item.money_status}}"></text>
+                                                <text class="icon-hongbao iconfont red-iconfont" wx:if="{{item.reward_count }}"></text>
 
                                         </view>
-                                        <view class="title-rit">{{item.date}}</view>
+                                        <view class="title-rit">{{item.date}}前</view>
                                 </view>
                                 <view class="box-pasd">
                                         <view class="box-test">
@@ -32,7 +35,7 @@
                                                 <text class="test">{{item.content}}</text>
                                         </view>
                                         <view class="box-footer">
-                                                <text class="types">{{item.cat_small}}-{{item.cat_big}}</text>
+                                                <text class="types">{{item.cat_big}}-{{item.cat_small}} </text>
                                                 <view class="news">
                                                         <text>{{item.answer_count}}</text>
                                                 </view>

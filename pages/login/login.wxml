@@ -9,11 +9,11 @@
 <form bindsubmit="formSubmit"  class="form-cen">
     <view class="from-list">
       <view class="section">
-        <input type="number"  name='tel'  placeholder="请输入您的手机号码"  disabled = "{{btndisabled}}" placeholder-class='placeholders' 
+        <input type="number"  name='tel'  placeholder="手机号"  disabled = "{{btndisabled}}" placeholder-class='placeholders' 
          value="{{phone}}"   />
       </view>
       <view class="section">
-        <input password type="text" name='pasd'   placeholder="请输入您的密码"  disabled = "{{btndisabled}}" value = "{{pasd}}" placeholder-class='placeholders' />
+        <input password type="text" name='pasd'   placeholder="密码"  disabled = "{{btndisabled}}" value = "{{pasd}}" placeholder-class='placeholders' />
       </view>
       <view class="section section-flex">
             <view class="checkbox  text ">
@@ -38,7 +38,7 @@
 
 <view class="other-loading">
     <text></text>
-    <text class="text">你也可以</text>
+    <text class="text">您也可以</text>
     <text></text>
 </view>
 <!-- 点击微信手机号码授权 -->
@@ -46,7 +46,7 @@
     <button disabled="{{ztBool}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" >
      </button>
      <view class="icon-weixin iconfont iocs"></view>
-     <text>微信登陆</text>
+     <text>微信登录</text>
 </view>
 </view>
 

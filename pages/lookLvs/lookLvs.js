@@ -93,7 +93,7 @@ var data = {
 Page({
         data: data,
         onLoad: function (options) {
-
+                console.log("aaa")
         },
         T_dataFn(e) {   // 跳转的页面数据传输
                 var value = wx.getStorageSync('details');
@@ -147,7 +147,7 @@ Page({
         },
         MyMessage() {  // 判断有没有登陆的信息
                 let login = wx.getStorageSync('login');
-                if (!!login.openid) {
+                if (login.sdk && login.uid) {
                         this.Jump("/pages/myList/myList");
                 } else {
                         wx.navigateTo({ url: '/pages/login/login' })

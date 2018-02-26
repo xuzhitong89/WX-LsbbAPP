@@ -28,7 +28,7 @@ Page({
     Utils.setStorage("ReplyData", "");
   },
   Release(){    // 确定发布
-    let value = wx.getStorageSync("details");
+    let value = wx.getStorageSync("login");
     let isBool = this.data.isBool;
     let res = {};
     res = {

@@ -53,7 +53,7 @@
       <!--律师简介  -->
       <view class="lvsbrief">
         <view class="title">
-          <text class="h2">律师简介</text>
+          <text class="h2">简介</text>
         </view>
         <view class="ceo-text">
           {{item.user.description}}
@@ -64,7 +64,7 @@
     <view class="lvsevaluate">
       <view class="title">
         <view class="h2">
-          律师评价 <text>(224)</text>
+          评价 <text>({{item.appraise_list.length}})</text>
         </view>
       </view>
       <view class="blocks-list">
@@ -108,5 +108,5 @@
 <view class="noData lvs-noData" wx:if="{{Ndata}}">
   <image src="/images/lvsorry.png"></image>
   <text class="margin">对不起，没有找到匹配的律师</text>
-  <text bindtap="skipFn" class="test">点我跳转律师库</text>
+  <text bindtap="skipFn" class="test">进入律师库</text>
 </view>

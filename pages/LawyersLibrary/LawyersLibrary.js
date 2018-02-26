@@ -10,13 +10,14 @@ let data = {
         commons2: [],    // 加载数据存储业务类型,
         CityData: [],   // 城市的数据
         BusinessData: [],   // 业务类型的数据
-        TitleData: ['全国', '业务类型', '排序'],   // 导航
-        TitleSort: ['按积分', '按评价', '按价格'],  // 排序
+        TitleData: ['全国', '业务类型', '排序', '推荐'],   // 导航
+        TitleSort: ['综合', '评价', '价格'],  // 排序
         isShow: false,     // 控制下拉的显示隐藏
-        newNav: "0",     // 导航默认的选中状态
+        newNav: "3",     // 导航默认的选中状态
         newCity: "0",  // 下拉数据第一级数据
         newArea: "-1",   // 下拉数据第二级数据
         mask: false,   // 排序的弹层
+        firstLoad: false,       // 初次加载 
         commonList: [],    // 列表的循环的数据
         Stars: [     // 列表的星星
                 "",
@@ -56,20 +57,71 @@ let data = {
                         id: "4",
                 }
         ],
+        RecommendData:[         // 推荐律师的列表
+                {
+                        text:"婚姻家庭",
+                        id:"hycc"
+                },
+                {
+                        text: "劳动人事",
+                        id: "ldrs"
+                },
+                {
+                        text: "房产土地",
+                        id: "fctd"
+                },
+                {
+                        text: "交通事故",
+                        id: "jtsg"
+                },
+                {
+                        text: "债权债务",
+                        id: "zqzw"
+                },
+                {
+                        text: "合同纠纷",
+                        id: "htjf"
+                },
+                {
+                        text: "损害赔偿",
+                        id: "shpc"
+                },
+                {
+                        text: "公司设立",
+                        id: "gssl"
+                },
+                {
+                        text: "消费维权",
+                        id: "xfwq"
+                },
+                {
+                        text: "商标注册",
+                        id: "sbzc"
+                },
+                {
+                        text: "保险理赔",
+                        id: "bxlp"
+                },
+                {
+                        text: "医疗纠纷",
+                        id: "yljf"
+                }
+        ],
+        rec:true               // 推荐律师的显示状态
 };
 Page({
         data: data,
-        onLoad: function (options) {
+        onLoad(options) {
+                // this.loadDatas();
                 this.loadDatas();
         },
-        loadDatas(){            // 默认加载本地储存的数据
-                const lvsBusiness = wx.getStorageSync("lvsBusiness"); 
-                const lvsRegion = wx.getStorageSync("lvsRegion"); 
+        loadDatas() {            // 默认加载本地储存的数据
+                const lvsBusiness = wx.getStorageSync("lvsBusiness");
+                const lvsRegion = wx.getStorageSync("lvsRegion");
 
-                if (!lvsBusiness){
+                if (!lvsBusiness) {
                         this.BusinessType();  // 加载业务类型的数据
-                      
-                }else{
+                } else {
                         this.setData({ commons2: lvsBusiness })
                 }
                 if (!lvsRegion) {
@@ -78,7 +130,10 @@ Page({
                         this.setData({ commons1: lvsRegion })
                 }
 
-                this.defaultData();   // 默认加载的数据
+                this.oneReqLoads();   // 默认加载的数据
+        },
+        onPullDownRefresh() {          // 解决下拉不能缩放的BUG
+                wx.stopPullDownRefresh()
         },
         Provincial() {     // 请求省市区接口数据
                 let _this = this;
@@ -112,13 +167,15 @@ Page({
         conmmonData(data) {    // 公共的处理函数
                 let isShow = this.data.isShow;
                 let _this = this;
-                this.setData({ isShow: !isShow, newCity: data[0].id, mask: false, CityData: data })
+                this.setData({ isShow: !isShow, newCity: data[0].id, mask: false, CityData: data, rec:false })
                 this.defaultFn(0);
                 page = 1;
         },
         titleFn(event) {    // 切换导航的事件
-                var ID = event.target.id;
+                var ID = event.currentTarget.id;
+           
                 let mask = this.data.mask;
+                let rec = this.data.rec;
 
                 this.setData({ newNav: ID });
                 downPage = 1;   // 每次切换的时候恢复默认
@@ -131,8 +188,12 @@ Page({
                         case "1":
                                 this.conmmonData(this.data.commons2);
                                 break;
+                        case "2": 
+                                this.setData({ isShow: false, mask: !mask, rec:false });
+                                break;
                         default: {
-                                this.setData({ isShow: false, mask: !mask })
+                                this.setData({ rec: !rec, isShow: false, mask:false});
+                                break;
                         }
                 }
         },
@@ -249,12 +310,14 @@ Page({
 
                 let details = wx.getStorageSync("login");
                 let uid = event.currentTarget.dataset.uid;
-
                 let josn = {
                         attid: uid,
                         uid: details.uid,
                         sdk: details.sdk
                 };
+
+                let rec = this.data.rec;                // 判断是否推荐模块显示
+                if (rec) {return false;}
 
                 Utils.requestFn({
                         url: "/index.php/layerdetail?server=1",
@@ -265,7 +328,7 @@ Page({
 
                                         Utils.setStorage("Ldetails", rData.data);
                                         wx.navigateTo({
-                                                url: `/pages/LawyerDetails/LawyerDetails?attid=${josn.attid}`
+                                                url: `/pages/LawyerDetails/LawyerDetails`
                                         })
 
                                 } else {
@@ -289,7 +352,7 @@ Page({
                                 this.Jump("/pages/Consultation/Consultation");
                                 break;
                         case "3":
-                                this.Jump("/pages/lookLvs/lookLvs");
+                                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
                                 break;
                         case "4":
                                 this.MyMessage();
@@ -310,4 +373,67 @@ Page({
                         path: '/pages/LawyersLibrary/LawyersLibrary'
                 }
         },
+        recFn(e){              // 点击tab切换推荐的nav
+                let value = wx.getStorageSync('details');
+                let eId = e.currentTarget.id;
+                let josn = {
+                        sdk: value.sdk,
+                        uid: value.uid,
+                        small: eId
+                }
+                this.request(josn)
+        },
+        request(josn) {         // 一键找推荐律师页面的请求数据
+                Utils.requestFn({
+                        url: "/index.php/quickl?server=1",
+                        method: "GET",
+                        data: josn,
+                        success(res) {
+                                if (res.data.status) {
+                                        Utils.setStorage("lvs", res.data.data);
+
+                                        wx.navigateTo({
+                                                url: `/pages/RecommendLsv/RecommendLsv?data=${josn.small}`
+                                        })
+                                } else {
+                                        Utils.showModal("请求失败")
+                                }
+                        }
+                })
+        },
+        oneReqLoads() {          //   初次加载默认的数据
+                let _this = this;
+                this.setData({ firstLoad: true, Ndata: false })
+                Utils.requestFn({ // 请求数据加载页面
+                        url: "/index.php/layers?server=1",
+                        data: {
+                                order: "",
+                                small: "",
+                                page: 1,
+                                lat: "",
+                                lng: "",
+                                city: "",
+                        },
+                        success(res) {
+                                _this.setData({ firstLoad: false })
+
+                                if (res.data.status) {
+                                        let resData = res.data.data;
+                                        let commonList = _this.data.commonList;
+                                        if (!!resData.length) {
+                                                _this.setData({ commonList: commonList.concat(resData), Ndata: false })
+                                        } else {
+                                                if (page > 1) {
+                                                        Utils.showModal("没有数据了。。");
+                                                } else {
+                                                        _this.setData({ Ndata: true })
+                                                }
+                                                return false;
+                                        }
+                                } else {
+                                        Utils.showModal("请求数据错误");
+                                }
+                        }
+                })
+        }
 })

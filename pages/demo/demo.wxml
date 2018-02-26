@@ -1,3 +1,3 @@
-<canvas canvas-id="myCanvas" style="border: 1px solid;"  bindtap="show"  id="myCanvas"/>
-<image src='{{val}}'></image>
-<button bindtap='hide'>生成img</button>
+<button bindtap='start'>开始</button>
+<button bindtap='stop'>结束</button>
+<image src='/images/pp.png'></image>

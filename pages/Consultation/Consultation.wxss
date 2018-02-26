@@ -104,10 +104,19 @@
 .scroll-box-pasd {
   flex: 1;
   padding: 100rpx 0; 
+  height: 100%;
 }
 .scroll-box view{
     color: #fff;
     font-size: 50rpx;
+}
+.scroll-box-pasd .first-img{
+        height: 100%;
+        width: 100%;
+}
+.scroll-box-pasd .first-img image{
+         object-fit: cover;
+         height: 1019rpx;
 }
 .view-box {
     padding: 15rpx 30rpx;
@@ -176,14 +185,14 @@
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 .box-test .new-adopt {
     position: absolute;
     top: 0;
     left: 50%;
-    font-size: 140rpx;
+    font-size: 110rpx;
     color: #ff3b30;
 }
 .box-footer {

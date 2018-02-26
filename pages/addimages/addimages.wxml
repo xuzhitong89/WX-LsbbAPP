@@ -19,8 +19,8 @@
 <!--温馨提示  -->
 <view class="prompt">
         <text>温馨提示:</text>
-        <text>建议详细描述事情经过和需要解决的问题，问题越详细，律师回复质量越高。</text>
-        <text>如有证据请点击上方上传图片。</text>
+        <text>请详细描述事情经过和需要解决的问题，问题越详细，律师回复质量越高。</text>
+        <view class='logo-imgs'>如有证据请点击<image src='/images/upload.png'></image>传图片。</view>
 </view>
 <!-- 下一步-->
 <view class="next-step" bindtap="submitFn">

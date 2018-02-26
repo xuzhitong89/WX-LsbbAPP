@@ -31,6 +31,7 @@
     font-size: 50rpx;
     color: #b3b3b3;
 }
+
 .icon-tubiaozhizuomoban,.icon-tag-wode-xuanzhong,.icon-sourencai-xuanzhong,icon-tag-wode-xuanzhong,.icon-home1,.icon-zixunxuanzhongzhuangtai,.icon-zixun1{
     color: #577eff;
 }

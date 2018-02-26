@@ -10,7 +10,7 @@ let distance2 = 0;    // 时间滚动的距离
 let timer = null;     // 定时器
 
 // 默认加载数据
-var defaultData = {
+let defaultData = {
         indexData: [     // 底部的样式数据
                 {
                         text: "首页",
@@ -45,14 +45,16 @@ var defaultData = {
         newMoreData: "",   // 存放更多的案例的list数据的id
         isToggle: true,    // 下拉的时候隐藏快速提问的弹层
         loading: false,  // 加载中的状态
+        firstLoad:false,       // 初次加载 
         MemberVip: null,    // 是否购买了VIP   
 }
 Page({
         data: defaultData,
-        onLoad: function (options) {
+        onLoad (options) {
+                // 加载的时候显示默认的图片
                 this.loadDatas();
         },
-        loadDatas(){            // 加载本地储存的数据
+        loadDatas(){       // 加载本地储存的数据
                 const positions = wx.getStorageSync("position-type").split("-")[2];
                 const defaultMores = wx.getStorageSync("defaultMore");
 
@@ -64,7 +66,10 @@ Page({
                 } else {
                         this.setData({ newNavArrays: defaultMores })
                 }
-                this.defaultRequestFn();  // 加载最新的数据接口
+                this.oneReqLoads();  // 加载最新的数据接口
+        },
+        onPullDownRefresh () {          // 解决下拉不能缩放的BUG
+                wx.stopPullDownRefresh()
         },
         onShow() { // 页面跳转过来不刷新页面获取到更多的key的id
                 let _this = this;
@@ -76,9 +81,7 @@ Page({
                                         _this.setData({ newMoreData: screen, doVal: false })
                                         _this.emptyData();
                                         _this.defaultRequestFn({ name: screen })
-                                } else {
-                                        _this.defaultRequestFn();
-                                }
+                                } 
                         }
                 })
         },
@@ -103,7 +106,7 @@ Page({
                         }
                 })
         },
-        onReachBottom: function () {   // 下拉加载触发
+        onReachBottom () {   // 下拉加载触发
 
                 let value = this.data.value;    // 获取到导航的每个id
                 let doID = this.data.newMoreData; // 获取到点击之后更多案例的list下每个id
@@ -122,11 +125,16 @@ Page({
                                 this.defaultRequestFn({ name: doID, id: 1, page: page });
                 }
         },
-        jumpFn: function (e) { // 点击进入详情
-                var DoId = e.currentTarget.id;          // 发送的对应详情的唯一ID值
+        jumpFn (event) { // 点击进入详情
+                var DoId = event.currentTarget.id;          // 发送的对应详情的唯一ID值
                 var datas = "";
                 var loginDatas = wx.getStorageSync("login");    // 获取登陆信息
                 var loginJosn = {};
+                var bool = event.currentTarget.dataset.bool;
+                if (bool){
+                        Utils.showModal("50元以上的付费咨询仅发布人和律师可看");
+                        return false;
+                }
                 Utils.requestFn({
                         url: '/index.php/consultdetail?server=1',
                         data: {
@@ -161,7 +169,7 @@ Page({
                                 this.Jump("/pages/Consultation/Consultation");
                                 break;
                         case "3":
-                                this.Jump("/pages/lookLvs/lookLvs");
+                                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
                                 break;
                         case "4":
                                 this.MyMessage();
@@ -170,7 +178,7 @@ Page({
         },
         MyMessage() {  // 判断有没有登陆的信息
                 let login = wx.getStorageSync('login');
-                if (!!login.openid) {
+                if (login.sdk && login.uid) {
                         this.Jump("/pages/myList/myList");
                 } else {
                         wx.navigateTo({ url: '/pages/login/login' })
@@ -225,27 +233,29 @@ Page({
         LayerFn(event) {    // 点击很多案例的数据选项
                 this.setData({ doVal: false })
                 let login = wx.getStorageSync('login');
-
+           
                 if (!!login.openid) {    // 判断是够登陆了
+                   
                         let _this = this;
                         let doID = event.target.id;
                         let MemberVip = this.data.MemberVip;
 
                         // 判断是否购买了VIP
                         if (!MemberVip) {
-                                wx.navigateTo({ url: "/pages/login/login" })
+                                wx.navigateTo({ url: "/pages/Member/Member" })
                         } else {
                                 this.setData({ newMoreData: doID, doVal: false })
                                 this.emptyData();
                                 this.defaultRequestFn({ name: doID });
                         }
                 } else {
+                        console.log("失败" + login)
+                        console.log("失败" + login.openid)
                         wx.navigateTo({url: "/pages/login/login" })
                 }
         },
         defaultRequestFn({ name = '', id = 1, page = 1 } = {}) {
                 let login = wx.getStorageSync('login');
-
                 var _this = this;
                 this.setData({ loading: true })
                 Utils.requestFn({
@@ -304,4 +314,28 @@ Page({
                         path: '/pages/Consultation/Consultation'
                 }
         },
+        oneReqLoads(){           // 初次加载默认的数据
+                let login = wx.getStorageSync('login');
+                var _this = this;
+                this.setData({ firstLoad: true })
+                Utils.requestFn({
+                        url: '/index.php/consult?server=1',
+                        data: {
+                                small: "",
+                                order: 1,
+                                p: 1,
+                                uid: login.uid,
+                                sdk: login.sdk
+                        },
+                        success: function (res) {
+                                _this.setData({ firstLoad: false })
+                                let redata = res.data.data.list;
+                                let revip = res.data.data.vip;
+                                _this.setData({
+                                        results: _this.data.results.concat(redata),
+                                        MemberVip: revip
+                                })
+                        }
+                })
+        }
 })

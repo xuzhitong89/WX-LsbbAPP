@@ -1,8 +1,13 @@
-#myCanvas{
-        height: 160rpx;
-        width: 160rpx;
+text {
+        display: block;
+        height: 100rpx;
+}
+view {
+position: absolute;
+top: 0;
+left: 0;
 }
 image {
-        height: 100rpx;
-        width: 100rpx;
+        height: 144rpx;
+        width: 144rpx;
 }

@@ -1,10 +1,10 @@
 <view class="pasd-cen">
 <form bindsubmit="formSubmit">
     <view class="section">
-         <input placeholder="手机号码"  type="number" placeholder-class='placeholders'  name='ipone' value ="{{iponeVal}}"  bindinput="verIpneVal"/>
+         <input placeholder="手机号"  type="number" placeholder-class='placeholders'  name='ipone' value ="{{iponeVal}}"  bindinput="verIpneVal"/>
     </view>
      <view class="section section-btn">
-         <input placeholder="短信验证码"   type="number" placeholder-class='placeholders' value="{{Verification_Code}}" name='Verification'  bindinput="verificationCode"/>
+         <input placeholder="验证码"   type="number" placeholder-class='placeholders' value="{{Verification_Code}}" name='Verification'  bindinput="verificationCode"/>
         <button bindtap="delivery"   disabled = "{{disabled}}" class="countdown-btn">{{time}}</button>
     </view>
      <view class="section section-bom">

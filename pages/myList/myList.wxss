@@ -4,6 +4,7 @@ page {
 .head-cen {
     background:#577eff;
     height: 188rpx;
+    border-top: 1rpx solid #fff;
 }
 .head {
     display: flex;

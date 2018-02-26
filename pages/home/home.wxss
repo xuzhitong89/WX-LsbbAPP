@@ -130,7 +130,7 @@
 
 .text-mun text:first-child {
         color: #577eff;
-        font-size: 48rpx;
+        font-size: 36rpx;
 }
 
 .text-mun text:first-child:after {

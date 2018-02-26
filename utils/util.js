@@ -53,10 +53,18 @@ var showModal = function (title, text) {
                 content: text
         });
 }
-
+// 提示框 自定义函数
+var showModalFn = function ({ title = "提示",text},success=null ) {
+        wx.showModal({
+                title: title,
+                showCancel: false,
+                content: text,
+                success: success
+        });
+}
 // 配置域名
 var url = (function () {
-        // return "域名"
+       
 }());
 
 // 弹出层，关于全部的页面，跳转
@@ -82,7 +90,7 @@ var requestFn = function (josn) {
                 method: josn.method || 'GET',
                 header: {
                         'content-type': 'application/json',
-                        "from": "LSBBFLZX"
+                        "from": "YSZLSFLZX"
                 },
                 success: josn.success || null,
                 fail: josn.fail || function () {
@@ -99,5 +107,6 @@ module.exports = {
         showModal: showModal,                     // 提示框
         url: url,                                   // 配置url
         reLaunch: reLaunch,                        // 弹层跳转
-        requestFn: requestFn                         // 公共的接口
+        requestFn: requestFn,                        // 公共的接口
+        showModalFn: showModalFn                // 提示框自定义事件
 }

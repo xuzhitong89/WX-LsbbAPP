@@ -1,21 +1,19 @@
 {
   "pages":[
-        "pages/home/home",
-        "pages/demo/demo",
-        "pages/myList/myList",
-        "pages/questions/questions",
+          "pages/demo/demo",
+        "pages/LawyersLibrary/LawyersLibrary",
         "pages/addimages/addimages",
         
         "pages/Consultation/Consultation",
-        
-        "pages/LawyersLibrary/LawyersLibrary",
-        "pages/myListStatic/systemNews/systemNews",
-        "pages/myListStatic/VIPinformation/VIPinformation",
-        "pages/Member/Member",
         "pages/lookLvs/lookLvs",
-       
+        "pages/home/home",
         "pages/login/login",
-        
+        "pages/forgot_password/forgot_password",
+        "pages/Member/Member",
+        "pages/myList/myList",
+        "pages/questions/questions",
+        "pages/myListStatic/systemNews/systemNews",
+        "pages/myListStatic/VIPinformation/VIPinformation",        
         "pages/Lawyerpayment/Lawyerpayment",
         "pages/LawyerDetails/LawyerDetails",
         "pages/lvsDetails/lvsDetails",
@@ -30,7 +28,7 @@
         "pages/myListStatic/news/news",
         "pages/static/feedback/feedback",
        
-        "pages/forgot_password/forgot_password",
+        
         "pages/static/moneyDetailed/moneyDetailed",
         "pages/myListStatic/order/order",
         

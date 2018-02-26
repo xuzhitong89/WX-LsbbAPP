@@ -144,7 +144,7 @@ Page({
                                 this.Jump("/pages/Consultation/Consultation");
                                 break;
                         case "3":
-                                this.Jump("/pages/lookLvs/lookLvs");
+                                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
                                 break;
                         case "4":
                                 this.Jump("/pages/myList/myList");

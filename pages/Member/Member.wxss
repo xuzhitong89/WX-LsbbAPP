@@ -3,6 +3,7 @@
   padding: 30rpx 24rpx;
   display: flex;
   align-items: center;
+  border-top: 1rpx solid #fff;
 }
 .title image {
   height: 100rpx;

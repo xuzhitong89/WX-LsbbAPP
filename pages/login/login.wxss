@@ -4,14 +4,14 @@
     --217-8-3
 */
 .login-center {
-  padding: 40rpx 30rpx;
+  padding: 0 30rpx;
 
 }
 .login-logo {
   display: flex;
   justify-content:center;
   align-items:center;
-  height:150px;
+  height:360rpx;
 }
 .login-logo image {
 height: 111rpx;
@@ -135,8 +135,8 @@ width: 353rpx;
     justify-content: center;
     font-size: 36rpx;  
     align-items: center;
-    padding-top: 102rpx;
-    padding-bottom: 55rpx;
+    padding-top: 63rpx;
+    padding-bottom: 40rpx;
 }
 .other-loading text{
     height: 1px;

@@ -75,7 +75,6 @@ Page({
                         success: function (res) {
                                 if (!res.data.status) return false;
                                 var dataJson = res.data.data;
-                                console.log(dataJson)
                                 Utils.setStorage("region", dataJson);
                                 _this.setData({ citysData: dataJson })
                         }
@@ -87,7 +86,6 @@ Page({
         },
         initFn: function () {  // 初始化
                 var nPos = this.data.pos;
-                console.log(nPos)
                 if (nPos != 1) return false;    // 如果pos = 0 的话 那么就是还在加载中、不能点击
                 this.onloadFn();
         },

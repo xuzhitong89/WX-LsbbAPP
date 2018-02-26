@@ -1,13 +1,11 @@
 var Utils = require("../../utils/util.js");
-
 const ctx = wx.createCanvasContext('myCanvas'); // 压缩图片
-
 let timer = null;
 
+// 整个录音的api
 const recorderManager = wx.getRecorderManager();
 
-
-var datalist = {
+let datalist = {
         textareaFocus: false,                              // 文本域的自动调取键盘
         doVoice: true,    // 语音的弹出层
         textareaVal: "",                                     // 文本域的val
@@ -44,7 +42,6 @@ Page({
         onLoad(options) {
                 // 页面初始化 options为页面跳转所带来的参数
                 Utils.removeStorage("tw");
-
         },
         submitFn() {   // 提交数据
                 let Reset = `/pages/questions/questions`;
@@ -58,13 +55,12 @@ Page({
                 // 提交的数据 不为空的话 那么就存储到本地
 
                 if (textareaVal.trim() != "") {
-
                         questions.textareaVal = textareaVal;
                         questions.url = imgsList;
                         Utils.setStorage("tw", questions);
 
                         var value = wx.getStorageSync('login');
-                        if (!!value.openid) {
+                        if (value.sdk && value.uid) {
                                 wx.navigateTo({ url: '/pages/questions/questions'  })
                         } else {
                                 wx.redirectTo({url: `/pages/forgot_password/forgot_password?Reset=${Reset}` })
@@ -188,32 +184,35 @@ Page({
                 });
                 var val = this.data.value;
                 if (val != "0") {
+                     
                         this.setData({
                                 doVoice: true,
                                 textareaFocus: false,
-                                heightmun: "15%"
+                                heightmun: "130rpx"
                         })
                 } else {
                         this.setData({
                                 doVoice: false,
                                 textareaFocus: true,
-                                heightmun: "25%"
+                                heightmun: "500rpx"
                         })
                 }
         },
-        record() { // 开始录音
-                const _this = this;
-                wx.startRecord({
-                        success: function (res) {
-                                _this.setData({
-                                        tempFilePath: res.tempFilePath
-                                })
-                        }
+        start() {   // 开始录音
+                recorderManager.stop();
+                recorderManager.start({ format: "mp3" });
+        },
+        stop(){     // 停止录音
+                let _this = this;
+                recorderManager.stop();
+                let  promises =  new Promise(function (resolve, reject){
+                        recorderManager.onStop(function (res) {
+                                resolve(res.tempFilePath)
+                        })
                 })
-
+                return promises;
         },
         touchstart() {   // 语音-按住
-
                 wx.stopRecord();
                 this.setData({
                         dataTouch: {
@@ -221,7 +220,7 @@ Page({
                                 data: true
                         }
                 })
-                this.record();
+                this.start();
         },
         touchmove() {   //  语音-移动
                 this.setData({
@@ -230,27 +229,24 @@ Page({
                                 data: true
                         }
                 })
-                this.record();
+                this.start();
         },
         touchend() {  //  语音-松开 
-                clearTimeout(timer);
-                wx.stopRecord();
-                this.setData({
-                        dataTouch: {
-                                texts: "按住说话",
-                                data: false
-                        }
+                let _this = this;
+                this.stop().then(function(data){
+                        _this.touchUploadFile(data)
                 })
-                timer = setTimeout(this.touchUploadFile.bind(this), 800);
+                this.setData({
+                        dataTouch: {texts: "按住说话",data: false}
+                })
         },
-        touchUploadFile() {  // 语音识别
+        touchUploadFile(data) {  // 语音识别
                 let _this = this;
                 // 转换文字的时候等待
                 this.setData({ switchs: true });
-
                 wx.uploadFile({
                         url: Utils.url + `/index.php/transaudio?server=1`,
-                        filePath: _this.data.tempFilePath,
+                        filePath: data,
                         name: 'file',
                         header: {
                                 'content-type': 'application/json',

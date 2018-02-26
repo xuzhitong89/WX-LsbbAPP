@@ -37,7 +37,6 @@ Page({
                 this.onEdit(dataJson);  // 判断是否是本人还是游客
                 this.loginFn();
                 this.setData({ loading: false })
-                console.log(dataJson)
         },
         onEdit(data) {   // 判断是够本人的咨询详情
                 var loginDtat = wx.getStorageSync("login");

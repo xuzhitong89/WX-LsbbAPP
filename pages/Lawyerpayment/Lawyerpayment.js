@@ -16,31 +16,29 @@ let data = {
                         "",
                         ""
                 ],
-                blocks: ["", "", ""], // 标签
+                blocks: [], // 标签
                 disables: null,   // 是否关注
                 disablesTest: '关注',
                 address: "",   // 地区
         },
         attid: "",     // 律师的id
         openid: "",    // 获取到的openid
-        getData: {}    // 加载本地登陆的数据
+        getData: {},    // 加载本地登陆的数据
+        dis:"",         // 判断那个页面进入的购买页面
 };
 
 Page({
         data: data,
         onLoad(options) {
-
+             
                 if (options.data != "") {
                         this.setData({
-                                attid: options.data
+                                attid: options.data,
+                                dis: options.dis
                         })
                 }
-
                 this.loadRequest();   // 默认加载接口
                 this.loadCode();      // 加载登陆的接口
-        },
-        onShow() {
-
         },
         loadRequest() {    // 默认加载接口
 
@@ -59,7 +57,6 @@ Page({
 
                 Utils.requestFn({   // 请求的接口
                         url: "/index.php/getpagep?server=1",
-                        method: "GET",
                         data: josn,
                         success(res) {
                                 let resData = res.data;
@@ -67,7 +64,7 @@ Page({
 
                                         let Ldetails = resData.data;
                                         let collect = Ldetails.collect;
-
+                                    
                                         _this.setData({
                                                 lvsData: {
                                                         img: Ldetails.image,
@@ -92,10 +89,12 @@ Page({
                 })
         },
         confirmFn() {    // 点击支付
+                const _this = this;
 
                 let getData = this.data.getData;
                 let openid = this.data.openid;
                 let attid = this.data.attid;
+                let dis = this.data.dis;
 
                 let josn = {
                         uid: getData.uid,
@@ -118,12 +117,37 @@ Page({
                                                 'signType': 'MD5',
                                                 'paySign': payModel.paySign,
                                                 'success': function (res) {   // 成功的状态
-                                                        Utils.reLaunch("支付成功", "/pages/lookLvs/lookLvs")
-                                                        return false;
+                                                        if (dis != 1) {
+                                                                Utils.reLaunch("支付成功", "/pages/lookLvs/lookLvs")
+                                                        }else{
+                                                                wx.showModal({
+                                                                        title: '提示',
+                                                                        content: '支付成功',
+                                                                        showCancel:false,
+                                                                        success: function (res) {
+                                                                                if (res.confirm) {
+                                                                                        _this.Refresh();   
+                                                                                } 
+                                                                        }
+                                                                })
+                                                        }
+                                                       
                                                 },
                                                 'fail': function (res) {      // 失败的状态
-                                                        Utils.reLaunch("支付失败", "/pages/lookLvs/lookLvs")
-                                                        return false;
+                                                        if (dis != 1) {
+                                                                Utils.reLaunch("支付失败", "/pages/lookLvs/lookLvs")
+                                                        } else {
+                                                                wx.showModal({
+                                                                        title: '提示',
+                                                                        content: '支付失败',
+                                                                        showCancel: false,
+                                                                        success: function (res) {
+                                                                                if (res.confirm) {
+                                                                                        _this.Refresh();
+                                                                                }
+                                                                        }
+                                                                })
+                                                        }
                                                 }
                                         })
                                 } else {
@@ -131,7 +155,6 @@ Page({
                                 }
                         }
                 })
-
         },
         loadCode() {   // 加载登陆接口获取登陆信息
                 let _this = this;
@@ -159,5 +182,63 @@ Page({
                                 }
                         }
                 })
+        },
+        lvsFollow() {    // 关注，利用异步原理获取到数据并且刷新
+                const _this = this;
+                this.FollowRequest().then(function(data){
+                        if (data) {
+                                _this.loadRequest();
+                        }
+                });
+        },
+        FollowRequest(){        // 请求关注的接口
+                const attid = this.data.attid;
+                const login = wx.getStorageSync("login");
+                const promise = new Promise(function (resolve, reject) {
+                        Utils.requestFn({
+                                url: "/index.php/collecta?server=1",
+                                method:"POST",
+                                data: {
+                                        uid: login.uid,
+                                        sdk: login.sdk,
+                                        attid: attid
+                                },
+                                success(res) {
+                                        const status = res.data.status;
+                                        if (status) {   // 成功
+                                                resolve(status)
+                                        } else {
+                                                Utils.showModal(res.data.message);
+                                        }
+                                }
+                        })
+                });
+                return promise;
+             
+        },
+        Refresh(){              // 跳转到律师的详情的话 更新本地储存的数据
+                let getData = this.data.getData;
+                let attid = this.data.attid;
+                let dis = this.data.dis;
+
+                let josn = {
+                        uid: getData.uid,
+                        attid: attid,
+                        sdk: getData.sdk
+                }
+                Utils.requestFn({
+                        url: "/index.php/layerdetail?server=1",
+                        data: josn,
+                        success(res) {
+                                let rData = res.data;
+                                if (rData.status) {
+                                        Utils.setStorage("Ldetails", rData.data);
+                                        wx.navigateTo({
+                                                url: `/pages/LawyerDetails/LawyerDetails`
+                                        })
+                                } 
+                        }
+                })
         }
+
 })

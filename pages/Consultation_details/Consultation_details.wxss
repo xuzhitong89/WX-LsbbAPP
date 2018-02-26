@@ -105,6 +105,8 @@
 .list-details-title .details-logo{
     height: 80rpx;
     width: 80rpx;
+    border-radius: 100%;
+    overflow: hidden；
 }
 .list-details-title .details-name{
     font-size:30rpx;
@@ -279,4 +281,20 @@
   font-size: 30rpx;
   padding-bottom: 30rpx;
   color: #999;
+}
+.no-reply {
+        position: absolute;
+        left: 50%;
+        top: 56%;
+        width: 125rpx;
+        height: 80rpx;
+        margin-left: -62rpx;
+}
+.no-reply image {
+        width: 125rpx;
+        height: 80rpx;
+}
+.no-reply  text{
+        font-size: 28rpx;
+        color: #a9a9a9;
 }

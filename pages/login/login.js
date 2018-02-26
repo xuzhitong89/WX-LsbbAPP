@@ -186,10 +186,10 @@ Page({                                                  // page项
         code: code
       },
       success: function (res) {
-        console.log(res)
         if (res.data.status) {
           var userphone = res.data.data.phoneNumber;
-          _this.getPhoneLoginFn(userphone);   // 穿参请求登录接口
+          var openids = res.data.data.openid;
+          _this.getPhoneLoginFn(userphone, openids);   // 穿参请求登录接口
         } else {
           Utils.showModal(res.data.message);
         }
@@ -198,18 +198,17 @@ Page({                                                  // page项
         })
       }
     })
-
   },
-  getPhoneLoginFn: function (mun) {     // 获取登陆手机完成登陆
+  getPhoneLoginFn: function (mun, openid) {     // 获取登陆手机完成登陆
     var _this = this;
     Utils.requestFn({
       url: '/index.php/phonelogin?server=1',
       method: "POST",
       data: {
-        userphone: mun
+        userphone: mun,
+        openid: openid
       },
       success: function (res) {
-
         if (res.data.status) {
           _this.hrefFn();
           loginJson = {                // 存储登陆状态      

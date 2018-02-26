@@ -81,7 +81,16 @@
         display: block;
         line-height: 50rpx;
 }
-
+.logo-imgs {
+        font-size: 30rpx;
+        color: #333;
+        display: flex;
+        align-items: center;
+}
+.logo-imgs image {
+        height: 30rpx;
+        width: 30rpx;
+}
 .prompt text:first-child {
         color: #d92a2a;
 }
@@ -124,11 +133,6 @@
         align-items: center;
         justify-content: center;
 }
-
-.publish text:first-child {
-        border-right: 1px solid #d8d8d8;
-}
-
 .publish text.active {
         color: #577eff;
 }

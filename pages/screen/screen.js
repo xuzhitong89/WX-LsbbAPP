@@ -3,55 +3,57 @@
 var Utils = require("../../utils/util.js");
 
 let record = {    // 数据
-  Consultation: [],    // 整体的数据
-  subclass: [],        // 对应子类的数据
-  BroadValue: "0",     // 大类对应的索引
-  SmallID: "",         // 获取小类的id
-  SmallValue: "-1",    // 小类对应的索引
+        Consultation: [],    // 整体的数据
+        subclass: [],        // 对应子类的数据
+        BroadValue: "0",     // 大类对应的索引
+        SmallID: "",         // 获取小类的id
+        SmallValue: "-1",    // 小类对应的索引
 };
 let attr = [];
 
 Page({
-  data: record,
-  onLoad: function (options) {
-    this.CommonRequest();     // 默认请求的数据
-  },
-  CommonRequest() {    // 数据接口
+        data: record,
+        onLoad (options) {
+                this.CommonRequest();     // 默认请求的数据
+        },
+        CommonRequest() {    // 数据接口
 
-    let _this = this;
+                let _this = this;
 
-    Utils.requestFn({
-      url: "/index.php/faqmorecata?server=1",
-      success(res) {
-        var resData = res.data.data;
+                Utils.requestFn({
+                        url: "/index.php/faqmorecata?server=1",
+                        success(res) {
+                                var resData = res.data.data;
+                                console.log(resData)
+                                resData.forEach((obj) => { attr.push(obj.small) })
+                                _this.setData({ Consultation: resData, subclass: attr[0] })
 
-        resData.forEach((obj) => { attr.push(obj.small) })
-        _this.setData({ Consultation: resData, subclass: attr[0] })
+                        }
+                })
+        },
+        onPullDownRefresh() {          // 解决下拉不能缩放的BUG
+                wx.stopPullDownRefresh()
+        },
+        BroadFn(event) {    // 大类的点击事件
 
-      }
-    })
-  },
+                let Index = event.target.dataset.index;
 
-  BroadFn(event) {    // 大类的点击事件
+                this.setData({ subclass: attr[Index], BroadValue: Index, SmallValue: "-1" })
 
-    let Index = event.target.dataset.index;
+        },
+        SmallFn(event) {   // 小类的点击事件
 
-    this.setData({ subclass: attr[Index], BroadValue: Index, SmallValue: "-1" })
+                let ID = event.target.id;
+                let Index = event.target.dataset.index;
 
-  },
-  SmallFn(event) {   // 小类的点击事件
+                this.setData({ SmallID: ID, SmallValue: Index })
 
-    let ID = event.target.id;
-    let Index = event.target.dataset.index;
+                Utils.setStorage("screen", ID)
 
-    this.setData({ SmallID: ID, SmallValue: Index })
-
-    Utils.setStorage("screen", ID)
-
-    wx.navigateBack({
-      delta: 1
-    })
-    console.log(ID)
-  }
+                wx.navigateBack({
+                        delta: 1
+                })
+                console.log(ID)
+        }
 
 })

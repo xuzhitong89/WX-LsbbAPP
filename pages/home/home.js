@@ -33,8 +33,8 @@ var data = {
                 "136****3701购买了颜忠军律师的商品服务！",
                 "136****3701购买了颜忠军律师的商品服务！"
         ],
-        faqCount: { today: "9999", total: "9999" },   // 在线咨询数据
-        layer: { layer: "9999", phone: "9999" },   // 一键找律师
+        faqCount: { today: "1000", total: "50000" },   // 在线咨询数据
+        layer: { layer: "10000", phone: "500" },   // 一键找律师
         indicatorDots: false,    // swiper 是否显示面板指示点
         autoplay: true,         // swiper 是否自动播放
         interval: 2000,          // swiper 自动切换时间间隔
@@ -60,7 +60,7 @@ Page({
                                 this.Jump("/pages/Consultation/Consultation");
                                 break;
                         case "3":
-                                this.Jump("/pages/lookLvs/lookLvs");
+                                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
                                 break;
                         case "4":
                                 this.MyMessage();
@@ -69,7 +69,7 @@ Page({
         },
         MyMessage() {  // 判断有没有登陆的信息
                 let login = wx.getStorageSync('login');
-                if (!!login.openid) {
+                if (login.sdk && login.uid) {
                         this.Jump("/pages/myList/myList");
                 } else {
                         wx.navigateTo({url: '/pages/login/login'})
@@ -106,7 +106,8 @@ Page({
                 this.Jump("/pages/Consultation/Consultation");
         },
         skipFn2() {    // 跳转找律师
-                this.Jump("/pages/lookLvs/lookLvs");
+                // this.Jump("/pages/lookLvs/lookLvs");
+                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
         },
         onShareAppMessage(res) {    // 转发
                 return {

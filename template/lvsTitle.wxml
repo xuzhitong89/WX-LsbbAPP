@@ -11,10 +11,9 @@
                 <view class="lvs-stars">
                     <text wx:for="{{lvsData.stars}}" wx:key="{{index}}" id="{{index}}" class="iconfont icon-xingxing1 {{ lvsData.star >= (index+1)? 'active' : '' }}"></text>
               </view>
-                <!-- <text class="h3">{{lvsData.address}}</text> -->
             </view>
             <view class="lvs-blcok">
-                <text class="block">{{lvsData.blocks}}</text>
+                 <text class="block" wx:for="{{lvsData.blocks}}" wx:key="{{index}}" >{{item}}</text> 
             </view>
             <view class="address">{{lvsData.address}}</view>
         </view>

@@ -33,6 +33,7 @@
 .mouserve > .title{
   display: flex;
   padding-top: 20rpx;
+  align-items: center;
 }
 .mouserve > .title .logo{
   height: 90rpx;
@@ -81,12 +82,15 @@
   display: flex;
 }
 .names-bom text{
-  font-size: 20rpx;
+  font-size: 24rpx;
   color: #7d7d85;
   margin-right: 9rpx;
 }
 .fllow {
   width: 160rpx;
+  display: flex;
+  align-items: flex-start;
+  height: 118rpx;
 }
 .fllow text{
   margin-top: 10rpx;
@@ -312,7 +316,7 @@
   color: #7d7d85;
 }
 .firms {
-  padding: 30rpx 0;
+  padding-bottom: 30rpx;
   display: flex;
   flex-wrap: wrap;
 }

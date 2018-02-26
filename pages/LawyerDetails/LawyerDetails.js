@@ -16,7 +16,7 @@ let data = {
                         "",
                         ""
                 ],
-                blocks: "", // 标签
+                blocks: [], // 标签
                 disables: null,   // 是否关注
                 disablesTest: '关注',
                 address: "", // 地区
@@ -50,21 +50,49 @@ let data = {
         Firm1: "",    // 律所
         Firm2: "",    // 证号
         Firm3: "",   // 地址
+        phone:"",     // 手机号码
+        usertest:"电话咨询",        // 电话咨询
+        need:false,     // 判断是不是可以购买了律师的服务
 };
 
 let timer = null;
 
 Page({
         data: data,
-        onLoad: function (data) {
+        onLoad (data) {
                 let Ldetails = wx.getStorageSync("Ldetails");
                 if (!Ldetails) {
                         Utils.showModal("没有数据哎");
                 } else {
-                        this.setData({ attid: data.attid, Ldetails: Ldetails, loading: true })
+                        this.setData({ attid: Ldetails.uid, Ldetails: Ldetails, loading: true })
                         this.loadData();
                         this.setData({ loading: false })
                 }
+        },
+        onShow(){
+                let _this = this;
+                let details = wx.getStorageSync("login");
+                let Ldetails = wx.getStorageSync("Ldetails");
+                let attid = Ldetails.uid;
+                console.log(attid)
+                let josn = {
+                        attid: attid,
+                        uid: details.uid,
+                        sdk: details.sdk
+                };
+                Utils.requestFn({
+                        url: "/index.php/layerdetail?server=1",
+                        data: josn,
+                        success(res) {
+                                let rData = res.data;
+                                if (rData.status) {
+                                        _this.setData({ Ldetails: rData.data})
+                                        _this.loadData();
+                                } else {
+                                        Utils.showModal("再刷新一下啦，页面报错啦");
+                                }
+                        }
+                })
         },
         loadData() {   // 加载渲染数据
 
@@ -80,7 +108,7 @@ Page({
                                 ages: Ldetails.year,
                                 stars: ["", "", "", "", ""],
                                 ico: "/images/v.png",
-                                blocks: Ldetails.small_class,
+                                blocks: Ldetails.small_classs,
                                 disables: Ldetails.collect,
                                 disablesTest: collect ? '已关注' : "关注",
                                 address: Ldetails.address
@@ -88,12 +116,15 @@ Page({
                         address: Ldetails.address,
                         description: Ldetails.description,
                         count: Ldetails.count,
-                        appraise_allcount: Ldetails.appraise_allcount,
+                        appraise_allcount: Ldetails.appraise_count,
                         appraise: Ldetails.appraise,
                         appraiseList: Ldetails.appraiseList,
                         Firm1: Ldetails.practice_address,
                         Firm2: Ldetails.practice_number,
-                        Firm3: Ldetails.lvsuo
+                        Firm3: Ldetails.lvsuo,
+                        phone: Ldetails.phone,
+                        usertest: Ldetails.need ? '请拨打电话':"电话咨询",
+                        need: Ldetails.need 
                 })
                 this.commonData();
         },
@@ -147,7 +178,7 @@ Page({
                         wx.navigateTo({ url: '/pages/login/login' })
                 }
         },
-        onUnload: function () {  // 每次离开页面清空数据
+        onUnload () {  // 每次离开页面清空数据
                 Utils.setStorage("Ldetails", "");
         },
         setRequest() {    // 请求律师详情的接口刷新本地存储的数据
@@ -180,44 +211,46 @@ Page({
                 let res = wx.getStorageSync('login');
                 let telphone = e.currentTarget.dataset.telphone;
                 let attid = this.data.attid;
+
+                let need = this.data.need;
+
                 var josn = {
                         uid: res.uid,
                         sdk: res.sdk,
                         attid: attid,
                 };
-
-                if (!res.openid){
-                        wx.navigateTo({ url: '/pages/login/login' })
-                }else{
-                        Utils.requestFn({
-                                url: "/index.php/checkp?server=1",
-                                data: josn,
-                                success(res) {
-                                        var types = res.data.data;
-                                        if (res.data.status) {
-                                                if (types) {   // 需要购买
-                                                        wx.navigateTo({
-                                                                url: `/pages/Lawyerpayment/Lawyerpayment?data=${josn.attid}`
-                                                        })
-                                                } else {  // 不需要直接打电话
-                                                        wx.makePhoneCall({
-                                                                phoneNumber: telphone,
-                                                                success(res) {
-                                                                        Utils.showModal("欧耶，成功啦！")
-                                                                },
-                                                                fail(res) {
-                                                                        Utils.showModal("sorry,失败啦！")
-                                                                }
-                                                        })
-                                                }
-                                        } else {
-                                                Utils.reLaunch(res.data.message, "/pages/login/login")
-                                        }
-
-                                }
+                if (need) {     // 如果已经购买了 那么就不请求接口直接拨打电话
+                        wx.makePhoneCall({
+                                phoneNumber: telphone
                         })
+                        return false;
+                }else{
+                        if (!res.openid) {
+                                wx.navigateTo({ url: '/pages/login/login' })
+                        } else {
+                                Utils.requestFn({
+                                        url: "/index.php/checkp?server=1",
+                                        data: josn,
+                                        success(res) {
+                                                var types = res.data.data;
+                                                if (res.data.status) {
+                                                        if (types) {   // 需要购买
+                                                                wx.navigateTo({
+                                                                        url: `/pages/Lawyerpayment/Lawyerpayment?data=${josn.attid}&dis=${1}`
+                                                                })
+                                                        } else {  // 不需要直接打电话
+                                                                wx.makePhoneCall({
+                                                                        phoneNumber: telphone
+                                                                })
+                                                        }
+                                                } else {
+                                                        Utils.reLaunch(res.data.message, "/pages/login/login")
+                                                }
+
+                                        }
+                                })
+                        }
                 }
-               
         },
         MoreFn() {   // 点击更多评价
 
