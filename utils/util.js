@@ -27,11 +27,7 @@ var Verification = (function () {
 
 // 删除本地的Storage
 var removeStorage = function (key) {
-        wx.removeStorage({
-                key: key,
-                success: function (res) {
-                }
-        })
+        wx.removeStorageSync(key)
 };
 // 添加本地的Storage
 var setStorage = function (key, val) {
@@ -54,7 +50,7 @@ var showModal = function (title, text) {
         });
 }
 // 提示框 自定义函数
-var showModalFn = function ({ title = "提示",text},success=null ) {
+var showModalFn = function ({ title = "提示", text }, success = null) {
         wx.showModal({
                 title: title,
                 showCancel: false,
@@ -64,7 +60,8 @@ var showModalFn = function ({ title = "提示",text},success=null ) {
 }
 // 配置域名
 var url = (function () {
-       
+        //   return "https://yszls.12348.com.cn"
+        return "https://m.12348.com.cn"
 }());
 
 // 弹出层，关于全部的页面，跳转
@@ -90,7 +87,7 @@ var requestFn = function (josn) {
                 method: josn.method || 'GET',
                 header: {
                         'content-type': 'application/json',
-                        "from": "YSZLSFLZX"
+                        "from": "LSBBFLZX"
                 },
                 success: josn.success || null,
                 fail: josn.fail || function () {
@@ -100,13 +97,13 @@ var requestFn = function (josn) {
         })
 }
 module.exports = {
-        formatTime: formatTime,                   // 计算时间
-        Verification: Verification,                // 验证手机号码
-        removeStorage: removeStorage,             // 删除本地的Storage
-        setStorage: setStorage,                   // 添加本地的Storage
-        showModal: showModal,                     // 提示框
-        url: url,                                   // 配置url
-        reLaunch: reLaunch,                        // 弹层跳转
-        requestFn: requestFn,                        // 公共的接口
-        showModalFn: showModalFn                // 提示框自定义事件
+        formatTime: formatTime,// 计算时间
+        Verification: Verification, // 验证手机号码
+        removeStorage: removeStorage, // 删除本地的Storage
+        setStorage: setStorage,// 添加本地的Storage
+        showModal: showModal, // 提示框
+        url: url, // 配置url
+        reLaunch: reLaunch,  // 弹层跳转
+        requestFn: requestFn,// 公共的接口
+        showModalFn: showModalFn// 提示框自定义事件
 }

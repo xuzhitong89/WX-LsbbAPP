@@ -45,20 +45,20 @@ let defaultData = {
         newMoreData: "",   // 存放更多的案例的list数据的id
         isToggle: true,    // 下拉的时候隐藏快速提问的弹层
         loading: false,  // 加载中的状态
-        firstLoad:false,       // 初次加载 
+        firstLoad: false,       // 初次加载 
         MemberVip: null,    // 是否购买了VIP   
 }
 Page({
         data: defaultData,
-        onLoad (options) {
+        onLoad(options) {
                 // 加载的时候显示默认的图片
                 this.loadDatas();
         },
-        loadDatas(){       // 加载本地储存的数据
+        loadDatas() {       // 加载本地储存的数据
                 const positions = wx.getStorageSync("position-type").split("-")[2];
                 const defaultMores = wx.getStorageSync("defaultMore");
 
-                if (!positions || positions== null) {
+                if (!positions || positions == null) {
                         this.coordinate();      // 加载定位城市的位置
                 }
                 if (!defaultMores) {
@@ -68,7 +68,7 @@ Page({
                 }
                 this.oneReqLoads();  // 加载最新的数据接口
         },
-        onPullDownRefresh () {          // 解决下拉不能缩放的BUG
+        onPullDownRefresh() {          // 解决下拉不能缩放的BUG
                 wx.stopPullDownRefresh()
         },
         onShow() { // 页面跳转过来不刷新页面获取到更多的key的id
@@ -81,7 +81,7 @@ Page({
                                         _this.setData({ newMoreData: screen, doVal: false })
                                         _this.emptyData();
                                         _this.defaultRequestFn({ name: screen })
-                                } 
+                                }
                         }
                 })
         },
@@ -106,7 +106,7 @@ Page({
                         }
                 })
         },
-        onReachBottom () {   // 下拉加载触发
+        onReachBottom() {   // 下拉加载触发
 
                 let value = this.data.value;    // 获取到导航的每个id
                 let doID = this.data.newMoreData; // 获取到点击之后更多案例的list下每个id
@@ -125,13 +125,13 @@ Page({
                                 this.defaultRequestFn({ name: doID, id: 1, page: page });
                 }
         },
-        jumpFn (event) { // 点击进入详情
+        jumpFn(event) { // 点击进入详情
                 var DoId = event.currentTarget.id;          // 发送的对应详情的唯一ID值
                 var datas = "";
                 var loginDatas = wx.getStorageSync("login");    // 获取登陆信息
                 var loginJosn = {};
                 var bool = event.currentTarget.dataset.bool;
-                if (bool){
+                if (bool) {
                         Utils.showModal("50元以上的付费咨询仅发布人和律师可看");
                         return false;
                 }
@@ -193,7 +193,7 @@ Page({
                                 let objData = record.data;
                                 if (record.status) {
                                         Utils.setStorage("defaultMore", objData);
-                                        _this.setData({newNavArrays: objData })
+                                        _this.setData({ newNavArrays: objData })
                                 } else {
                                         Utils.showModal("再刷新一下啦，页面报错啦");
                                 }
@@ -233,13 +233,11 @@ Page({
         LayerFn(event) {    // 点击很多案例的数据选项
                 this.setData({ doVal: false })
                 let login = wx.getStorageSync('login');
-           
-                if (!!login.openid) {    // 判断是够登陆了
-                   
-                        let _this = this;
-                        let doID = event.target.id;
-                        let MemberVip = this.data.MemberVip;
+                let _this = this;
+                let doID = event.target.id;
+                let MemberVip = this.data.MemberVip;
 
+                if (!!login.openid) {    // 判断是够登陆了
                         // 判断是否购买了VIP
                         if (!MemberVip) {
                                 wx.navigateTo({ url: "/pages/Member/Member" })
@@ -249,9 +247,8 @@ Page({
                                 this.defaultRequestFn({ name: doID });
                         }
                 } else {
-                        console.log("失败" + login)
-                        console.log("失败" + login.openid)
-                        wx.navigateTo({url: "/pages/login/login" })
+                        Utils.setStorage("NotLogin", doID)
+                        wx.navigateTo({ url: "/pages/login/login" })
                 }
         },
         defaultRequestFn({ name = '', id = 1, page = 1 } = {}) {
@@ -280,7 +277,7 @@ Page({
                 })
         },
         quiz() {   // 跳转到快速提问
-                wx.navigateTo({url: "/pages/addimages/addimages" })
+                wx.navigateTo({ url: "/pages/addimages/addimages" })
         },
         screenFn() { // 点击更多跳转
                 this.setData({ doVal: false })
@@ -293,7 +290,7 @@ Page({
                         } else {
                                 wx.navigateTo({ url: "/pages/screen/screen" })
                         }
-                }else{
+                } else {
                         wx.navigateTo({ url: "/pages/login/login" })
                 }
         },
@@ -314,7 +311,7 @@ Page({
                         path: '/pages/Consultation/Consultation'
                 }
         },
-        oneReqLoads(){           // 初次加载默认的数据
+        oneReqLoads() {           // 初次加载默认的数据
                 let login = wx.getStorageSync('login');
                 var _this = this;
                 this.setData({ firstLoad: true })

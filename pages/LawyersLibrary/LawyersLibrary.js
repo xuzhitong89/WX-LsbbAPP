@@ -10,6 +10,7 @@ let data = {
         commons2: [],    // 加载数据存储业务类型,
         CityData: [],   // 城市的数据
         BusinessData: [],   // 业务类型的数据
+        navname: "",         // 二级切换的text
         TitleData: ['全国', '业务类型', '排序', '推荐'],   // 导航
         TitleSort: ['综合', '评价', '价格'],  // 排序
         isShow: false,     // 控制下拉的显示隐藏
@@ -57,10 +58,10 @@ let data = {
                         id: "4",
                 }
         ],
-        RecommendData:[         // 推荐律师的列表
+        RecommendData: [         // 推荐律师的列表
                 {
-                        text:"婚姻家庭",
-                        id:"hycc"
+                        text: "婚姻家庭",
+                        id: "hycc"
                 },
                 {
                         text: "劳动人事",
@@ -107,7 +108,7 @@ let data = {
                         id: "yljf"
                 }
         ],
-        rec:true               // 推荐律师的显示状态
+        rec: true               // 推荐律师的显示状态
 };
 Page({
         data: data,
@@ -167,20 +168,17 @@ Page({
         conmmonData(data) {    // 公共的处理函数
                 let isShow = this.data.isShow;
                 let _this = this;
-                this.setData({ isShow: !isShow, newCity: data[0].id, mask: false, CityData: data, rec:false })
+                this.setData({ isShow: !isShow, newCity: data[0].id, mask: false, CityData: data, rec: false })
                 this.defaultFn(0);
                 page = 1;
         },
         titleFn(event) {    // 切换导航的事件
-                var ID = event.currentTarget.id;
-           
+                let ID = event.currentTarget.id;
                 let mask = this.data.mask;
                 let rec = this.data.rec;
-
                 this.setData({ newNav: ID });
                 downPage = 1;   // 每次切换的时候恢复默认
                 if (ID == "") return false;
-
                 switch (ID) {
                         case "0":
                                 this.conmmonData(this.data.commons1);
@@ -188,25 +186,30 @@ Page({
                         case "1":
                                 this.conmmonData(this.data.commons2);
                                 break;
-                        case "2": 
-                                this.setData({ isShow: false, mask: !mask, rec:false });
+                        case "2":
+                                this.setData({ isShow: false, mask: !mask, rec: false });
                                 break;
                         default: {
-                                this.setData({ rec: !rec, isShow: false, mask:false});
+                                this.setData({ rec: !rec, isShow: false, mask: false });
                                 break;
                         }
                 }
         },
+        assignment(id, name) {   // 每次切换的导航赋值操作
+                let asname = name ? name : '北京';
+                let nav_index_data = this.data.TitleData[id] = asname;
+                let nav_data = this.data.TitleData;
+                this.setData({ TitleData: nav_data });
+        },
         CityFn(event) {   // 点击市获取对应的数据
-
                 let _this = this;
                 let ID = event.target.id;
                 let CityData = this.data.CityData;
-                this.setData({ newCity: ID })
+                this.setData({ newCity: ID });
                 CityData.forEach((item) => {
                         let newID = item.id;
                         if (newID == ID) {
-                                _this.setData({ BusinessData: item.small })
+                                _this.setData({ BusinessData: item.small, navname: item.name })
                         }
                 })
         },
@@ -215,15 +218,17 @@ Page({
                 this.setData({ BusinessData: CityData[index].small })
         },
         areaFn(event) {   // 点击区的事件处理
-
                 let ID = event.target.id;
                 let newNav = this.data.newNav;
                 this.setData({ newArea: ID, isShow: false, commonList: [] });
 
-                if (newNav != "1") {
+                let assname = this.data.navname;                // 获取到点击大类的name
+                this.assignment(newNav, assname);              // 赋值到当前的导航name
+
+                if (newNav != "1") {    // 地区
                         this.TransferFn({ city: ID })
                         this.setData({ city: ID, small: "" })
-                } else {
+                } else {    // 业务类型
                         this.TransferFn({ small: ID })
                         this.setData({ city: "", small: ID })
                 };
@@ -236,8 +241,9 @@ Page({
                 let city = this.data.city;
                 let small = this.data.small;
 
+                let names = this.data.TitleSort[ID];
                 downPage = 1;
-
+                this.assignment(newNav, names)
                 this.setData({ mask: false, order: ID, commonList: [] });
                 this.TransferFn({ small: small, city: city, page: downPage, order: ID });
 
@@ -317,7 +323,7 @@ Page({
                 };
 
                 let rec = this.data.rec;                // 判断是否推荐模块显示
-                if (rec) {return false;}
+                if (rec) { return false; }
 
                 Utils.requestFn({
                         url: "/index.php/layerdetail?server=1",
@@ -373,7 +379,7 @@ Page({
                         path: '/pages/LawyersLibrary/LawyersLibrary'
                 }
         },
-        recFn(e){              // 点击tab切换推荐的nav
+        recFn(e) {              // 点击tab切换推荐的nav
                 let value = wx.getStorageSync('details');
                 let eId = e.currentTarget.id;
                 let josn = {

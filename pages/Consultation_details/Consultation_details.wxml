@@ -39,7 +39,7 @@
                 <view class='list-details-title'>
                         <view class='details-cen'>
                                 <view class="details-1">
-                                        <image src="{{itemDetails.senduser.image}}" class='details-logo' ait='律师'></image>
+                                        <image src="{{itemDetails.senduser.image}}" class='details-logo' ait='律师' bindtap="consultFn" data-id="{{itemDetails.senduser.uid}}" ></image>
                                         <text class='details-name'>{{itemDetails.senduser.nickname}}</text>
                                 </view>
                                 <view class="details-2">
@@ -47,7 +47,7 @@
                                         <text wx:elif="{{itemDetails.senduser.is_adopt == '已采纳' }}" class='iconfont icon-yicaina'> </text>
                                         <text class="cn zxt" bindtap="consultFn" data-id="{{itemDetails.senduser.uid}}">咨询他</text>
                                         <view class="redbox" bindtap="redFn" data-img="{{itemDetails.senduser.image}}" data-name="{{itemDetails.senduser.nickname}}" data-id="{{itemDetails.senduser.uid}}" data-index="{{index}}">
-                                                <text class="iconfont icon-hongbao"></text>{{itemDetails.senduser.reward_count}}
+                                                <text class="iconfont icon-hongbao"></text>{{itemDetails.senduser.reward_count > 1 ? itemDetails.senduser.reward_count : ""}}
                                         </view>
                                 </view>
                         </view>

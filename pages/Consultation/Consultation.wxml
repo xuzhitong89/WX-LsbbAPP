@@ -15,7 +15,9 @@
         <view class="scroll-box">
                 <view class="scroll-box-pasd">
                         <!--第一次加载默认的图片  -->
-                        <view class='first-img' wx:if='{{firstLoad}}'><image src='/images/m2.jpg'></image></view>
+                        <view class='first-img' wx:if='{{firstLoad}}'>
+                                <image src='/images/m2.jpg'></image>
+                        </view>
                         <!--滚动加载的时候  -->
                         <view class="loading" wx:if="{{loading}}"></view>
                         <view class="view-box" wx:for="{{results}}" id="{{item.id}}" bindtap="jumpFn" wx:key="{{item.id}}" data-bool='{{item.money_num}}'>

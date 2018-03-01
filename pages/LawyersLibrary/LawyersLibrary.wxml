@@ -25,8 +25,10 @@
         </view>
         <!--内容的列表  -->
         <view class="lawyers-list">
-                  <!--第一次加载默认的图片  -->
-                        <view class='first-img' wx:if='{{firstLoad}}'><image src='/images/m1.jpg'></image></view>
+                <!--第一次加载默认的图片  -->
+                <view class='first-img' wx:if='{{firstLoad}}'>
+                        <image src='/images/m1.jpg'></image>
+                </view>
                 <!--加载中...  -->
                 <view class="loading" wx:if="{{loading}}"></view>
                 <view class="lawyers-block" wx:for="{{commonList}}" wx:key="{{index}}" data-uid="{{item.uid}}" bindtap="JumpDetails">

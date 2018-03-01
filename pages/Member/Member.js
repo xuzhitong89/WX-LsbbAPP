@@ -32,6 +32,8 @@ Page({
         },
         loadData() {   // 加载本地储存的login的数据
                 const userData = wx.getStorageSync("login");
+                // 删除更多案例记录指定的字段
+                wx.removeStorageSync("NotLogin")
                 this.setData({
                         user: {
                                 images: userData.image,
