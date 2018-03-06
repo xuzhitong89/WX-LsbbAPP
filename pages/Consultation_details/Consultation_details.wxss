@@ -1,6 +1,11 @@
+page {
+        display: flex;
+           flex-direction:column;
+}
 .details-title {
     padding: 30rpx 30rpx 0 30rpx;
     border-bottom: 15rpx solid #f0f1f3;
+
 }
 .title-user{
   display: flex;
@@ -80,12 +85,21 @@
 }
 .reply-list  {
       padding: 0 30rpx;
+      position: relative;
+      flex:1;
 }
 .reply-list .title{
     font-size: 40rpx;
     margin: 30rpx 0;
     color: #333;
     display: block;
+}
+.reply-list .tps-test {
+        padding-top: 30rpx;
+        font-size: 30rpx;
+        color: #f42341;
+        line-height: 45rpx;
+        display: block;
 }
 .list-details {
     padding-bottom: 100rpx;
@@ -285,10 +299,10 @@
 .no-reply {
         position: absolute;
         left: 50%;
-        top: 56%;
+        top: 50%;
         width: 125rpx;
         height: 80rpx;
-        margin-left: -62rpx;
+       transform: translate(-50%,-50%);
 }
 .no-reply image {
         width: 125rpx;

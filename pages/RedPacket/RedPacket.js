@@ -1,6 +1,5 @@
 //  引入函数库
 var Utils = require("../../utils/util.js");
-
 var payModel = {};
 // 定义数据
 var data = {
@@ -17,9 +16,11 @@ var data = {
 Page({
         data: data,
         onLoad: function (options) {
-                if (JSON.stringify(options) == "{}") return false;
+                // 清除红包路径
+                Utils.removeStorage("redPacket");
+                let redPacketData = wx.getStorageSync("redPacketData"); 
                 this.setData({
-                        dataJson: JSON.parse(options.data)
+                        dataJson: redPacketData
                 })
                 this.loadValue(this.data.dataJson); // 加载数据
         },
@@ -52,17 +53,19 @@ Page({
         },
         request(money) {    // 请求接口
                 var _this = this;
+                let login = wx.getStorageSync("login"); 
+                let redPacketData = wx.getStorageSync("redPacketData"); 
                 Utils.requestFn({ // 重新获取数据
                         url: '/index.php/redfaq?server=1',
                         method: "POST",
                         data: {
-                                sdk: _this.data.dataJson.sdk,
-                                uid: _this.data.dataJson.uid,
-                                faqid: _this.data.dataJson.faqid,
-                                ansid: _this.data.dataJson.ansid,
-                                attid: _this.data.dataJson.attid,
+                                sdk: login.sdk,
+                                uid: login.uid,
+                                faqid: redPacketData.faqid,
+                                ansid: redPacketData.ansid,
+                                attid: redPacketData.attid,
                                 money: money,
-                                openid: _this.data.dataJson.openid,
+                                openid: login.openid,
                         },
                         success: function (res) {
                                 if (res.data.status) {
@@ -110,10 +113,17 @@ Page({
                         'paySign': payModel.paySign,
                         "total_fee": "8",
                         'success': function (res) {   // 成功的状态
-                                Utils.reLaunch("支付成功", "/pages/Consultation_details/Consultation_details");
+                                wx.navigateBack({
+                                        delta: 2
+                                })
                         },
                         'fail': function (res) {      // 失败的状态
-                                Utils.reLaunch("支付失败", "/pages/Consultation_details/Consultation_details");
+                                // wx.reLaunch({      // 跳转别的页面，关闭当前页面
+                                //         url: "/pages/Consultation_details/Consultation_details"
+                                // })
+                                wx.navigateBack({
+                                        delta: 2
+                                })
                         }
                 })
         },

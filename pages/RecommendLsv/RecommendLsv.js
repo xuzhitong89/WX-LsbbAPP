@@ -12,6 +12,7 @@ var data = {
                 "",
                 ""
         ],
+        guideType:true,                // 指引的状态显示
         indexData: [   // 底部数据
                 {
                         text: "首页",
@@ -47,7 +48,6 @@ Page({
         data: data,
         onLoad(parameter) {
                 if (parameter.data == "") return false;
-
                 let value = wx.getStorageSync('lvs');
                 if (!value.length) {
                         this.setData({ Ndata: true })
@@ -58,6 +58,9 @@ Page({
                                 Ndata: false
                         })
                 }
+                // 根据是否有数据显示指引
+                let Ndata = this.data.Ndata;
+                this.setData({ guideType: !Ndata});
         },
         onShow() {
                 var value = wx.getStorageSync('lvs');
@@ -70,6 +73,9 @@ Page({
         },
         getData() {
                 return wx.getStorageSync('login');
+        },
+        onPullDownRefresh() {          // 解决下拉不能缩放的BUG
+                wx.stopPullDownRefresh()
         },
         request() {     // 请求接口进行刷新
                 let value = wx.getStorageSync('login');
@@ -125,26 +131,20 @@ Page({
                         sdk: res.sdk,
                         attid: e.currentTarget.id
                 };
-                if (!!value.openid){
+                if (!!value.openid) {
                         Utils.requestFn({
                                 url: "/index.php/checkp?server=1",
                                 data: josn,
                                 success(res) {
                                         var types = res.data.data;
                                         if (res.data.status) {
-                                                if (types) {   // 需要购买
+                                                if (!types) {   // 需要购买
                                                         wx.navigateTo({
                                                                 url: `/pages/Lawyerpayment/Lawyerpayment?data=${josn.attid}`
                                                         })
                                                 } else {  // 不需要直接打电话
                                                         wx.makePhoneCall({
-                                                                phoneNumber: telphone,
-                                                                success(res) {
-                                                                        Utils.showModal("欧耶，成功啦！")
-                                                                },
-                                                                fail(res) {
-                                                                        Utils.showModal("sorry,失败啦！")
-                                                                }
+                                                                phoneNumber: telphone
                                                         })
                                                 }
                                         } else {
@@ -152,69 +152,15 @@ Page({
                                         }
                                 }
                         })
-                }else{
+                } else {
                         wx.navigateTo({ url: '/pages/login/login' })
                 }
-               
-        },
-        start(e) {
-        },
-        move(e) {
-        },
-        end(e) {
-        },
-        tab(e) {  // 点击切换
-
-                this.setData({
-                        value: e.currentTarget.id
-                })
-                var animation = wx.createAnimation({
-                        duration: 300,
-                        timingFunction: "linear"
-                });
-
-                this.animation = animation;
-                this.animation.translateX(-500).scale(1, 1).step();
-
-                this.setData({
-                        animationData: this.animation.export()
-                });
-                mun++;
-                setTimeout(function () {
-                        var cardInfoList = this.data.data;
-                        this.animation.translateX(0).step();
-
-                        var slidethis = cardInfoList[mun % 3];
-                        cardInfoList.push(slidethis);
-                        this.setData({
-                                animationData: this.animation.export(),
-                                data: cardInfoList
-                        });
-
-                }.bind(this), 500)
 
         },
         Jump(url) { // 跳转的公共的方法
                 wx.redirectTo({
                         url: url
                 })
-        },
-        tabFn(e) {   // 切换链接
-                let id = e.currentTarget.id;
-                switch (id) {
-                        case "1":
-                                this.Jump("/pages/home/home");
-                                break;
-                        case "2":
-                                this.Jump("/pages/Consultation/Consultation");
-                                break;
-                        case "3":
-                                this.Jump("/pages/lookLvs/lookLvs");
-                                break;
-                        case "4":
-                                this.MyMessage();
-                                break;
-                }
         },
         MyMessage() {  // 判断有没有登陆的信息
                 let login = wx.getStorageSync('login');
@@ -227,4 +173,7 @@ Page({
         skipFn() {   // 点击我跳转律师库
                 this.Jump("/pages/LawyersLibrary/LawyersLibrary")
         },
+        guideClick(){
+                this.setData({ guideType:false});
+        }
 })

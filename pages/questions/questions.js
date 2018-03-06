@@ -5,7 +5,7 @@ var Utils = require("../../utils/util.js");
 var datalist = {
         doJson: {},            // 获取本地存储的login数据
         openid: "",             // 页面的oppenid
-        arr: [8, 18, 28, 38, 58, 88],
+        arr: [8, 18, 38, 58, 68, 88],
         citysData: "", // 请求的数据
         province: "",  // 数组省
         city: "", // 数组市

@@ -61,6 +61,7 @@ Page({
         data: data,
         onLoad (data) {
                 let Ldetails = wx.getStorageSync("Ldetails");
+               
                 if (!Ldetails) {
                         Utils.showModal("没有数据哎");
                 } else {
@@ -74,7 +75,6 @@ Page({
                 let details = wx.getStorageSync("login");
                 let Ldetails = wx.getStorageSync("Ldetails");
                 let attid = Ldetails.uid;
-                console.log(attid)
                 let josn = {
                         attid: attid,
                         uid: details.uid,
@@ -211,9 +211,7 @@ Page({
                 let res = wx.getStorageSync('login');
                 let telphone = e.currentTarget.dataset.telphone;
                 let attid = this.data.attid;
-
                 let need = this.data.need;
-
                 var josn = {
                         uid: res.uid,
                         sdk: res.sdk,
@@ -223,8 +221,8 @@ Page({
                         wx.makePhoneCall({
                                 phoneNumber: telphone
                         })
-                        return false;
                 }else{
+                   
                         if (!res.openid) {
                                 wx.navigateTo({ url: '/pages/login/login' })
                         } else {
@@ -234,7 +232,7 @@ Page({
                                         success(res) {
                                                 var types = res.data.data;
                                                 if (res.data.status) {
-                                                        if (types) {   // 需要购买
+                                                        if (!types) {   // 需要购买
                                                                 wx.navigateTo({
                                                                         url: `/pages/Lawyerpayment/Lawyerpayment?data=${josn.attid}&dis=${1}`
                                                                 })

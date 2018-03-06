@@ -23,6 +23,7 @@ var defaultData = {
         checkboxVal: "0",
         pasd: "",    // 密码
         phone: "", // 手机号码
+        consulsURl: "",         // 快速咨询跳转的url
         bool: true,
         ztBool: false,   // 点击一键微信登陆按钮的点击状态
         code: ""     // 获取login的code 
@@ -35,7 +36,9 @@ Page({                                                  // page项
                 this.mysubmit(formVal);
         },
         onLoad: function (options) {
-
+                if (options) {
+                        this.setData({ consulsURl: options })
+                }
                 //   页面加载的时候判断 记住手机号密码是否勾选
                 var doBool = this.data.bool;
                 var loginValue = wx.getStorageSync("success");
@@ -67,27 +70,33 @@ Page({                                                  // page项
         hrefFn: function () {  // 点击页面记录跳转
                 let Reset = wx.getStorageSync("Reset");
                 let getconsta = wx.getStorageSync("NotLogin"); // 获取咨询列表点击更多案例的记录
+                let consulsURl = this.data.consulsURl;  // 快速咨询的url
+                let redPacket = wx.getStorageSync("redPacket"); // 获取红包的跳转的路径
+              
                 if (Reset) {
                         wx.redirectTo({               // 跳转别的页面，关闭当前页面
                                 url: Reset
                         })
-                }else{
-                        wx.redirectTo({               // 跳转别的页面，关闭当前页面
-                                url: "/pages/Consultation/Consultation"
-                        })
-                }
-                if (getconsta) {
+                }else if (getconsta) {
                         // 有咨询列表更多案例的记录，直接跳转VIP的购买页面
-                        wx.redirectTo({        
+                        wx.redirectTo({
                                 url: "/pages/Member/Member"
                         })
+                }else  if (consulsURl) {
+                        // 如果是从快速咨询跳转过来，那么返回快速咨询页面
+                        wx.redirectTo({
+                                url: consulsURl.Reset
+                        })
+                }else  if (redPacket) {
+                        // 跳转到红包打赏页面
+                        wx.navigateTo({             
+                                url: "/pages/RedPacket/RedPacket?id=2"
+                        })
                 }else{
-                        wx.redirectTo({               // 跳转别的页面，关闭当前页面
+                        wx.redirectTo({      // 跳转别的页面，关闭当前页面
                                 url: "/pages/Consultation/Consultation"
                         })
                 }
-              
-                
         },
         mysubmit: function (param) {                   // 提交
                 var _this = this;
@@ -112,7 +121,7 @@ Page({                                                  // page项
                                         if (res.data.status) {             // 登陆成功
                                                 Utils.setStorage('success', loginArr);
                                                 _this.hrefFn();
-                                                loginJson = {                // 存储登陆状态      
+                                                loginJson = {     // 存储登陆状态      
                                                         image: res.data.data.image,
                                                         nickname: res.data.data.nickname,
                                                         sdk: res.data.data.sdk,

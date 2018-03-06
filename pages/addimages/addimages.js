@@ -61,9 +61,9 @@ Page({
 
                         var value = wx.getStorageSync('login');
                         if (value.sdk && value.uid) {
-                                wx.navigateTo({ url: '/pages/questions/questions'  })
+                                wx.navigateTo({ url: '/pages/questions/questions' })
                         } else {
-                                wx.redirectTo({url: `/pages/forgot_password/forgot_password?Reset=${Reset}` })
+                                wx.redirectTo({ url: `/pages/login/login?Reset=${Reset}` })
                         }
                 } else {
                         Utils.showModal("问题不能空");
@@ -184,7 +184,7 @@ Page({
                 });
                 var val = this.data.value;
                 if (val != "0") {
-                     
+
                         this.setData({
                                 doVoice: true,
                                 textareaFocus: false,
@@ -202,10 +202,10 @@ Page({
                 recorderManager.stop();
                 recorderManager.start({ format: "mp3" });
         },
-        stop(){     // 停止录音
+        stop() {     // 停止录音
                 let _this = this;
                 recorderManager.stop();
-                let  promises =  new Promise(function (resolve, reject){
+                let promises = new Promise(function (resolve, reject) {
                         recorderManager.onStop(function (res) {
                                 resolve(res.tempFilePath)
                         })
@@ -233,11 +233,11 @@ Page({
         },
         touchend() {  //  语音-松开 
                 let _this = this;
-                this.stop().then(function(data){
+                this.stop().then(function (data) {
                         _this.touchUploadFile(data)
                 })
                 this.setData({
-                        dataTouch: {texts: "按住说话",data: false}
+                        dataTouch: { texts: "按住说话", data: false }
                 })
         },
         touchUploadFile(data) {  // 语音识别

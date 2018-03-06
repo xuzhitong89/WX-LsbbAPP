@@ -61,7 +61,7 @@ Page({
                 var answerAuth = this.data.answerAuth;
 
                 if (!loginDatas) {   // 么有登陆信息的
-                  
+
                         Utils.showModal("游客不能回复，请先登陆");
                         return false
                 }
@@ -97,9 +97,14 @@ Page({
                 var loginDtat = wx.getStorageSync("login");
                 var uid = loginDtat.uid;    // 获取登陆对应的uid
                 var detailsData = [];   // 每次加载的时候清空一次
+                let Dmoney, reply = false;
 
-                var Dmoney = loginDtat.uid != dataJson.faq.uid ? "" : `￥${dataJson.faq.money}`; // 显示的金额
-                var reply = loginDtat.uid != dataJson.faq.uid ? false : true; // 回复显示的状态
+                if (loginDtat.uid == dataJson.faq.uid) {
+
+                        // 显示的金额 
+                        Dmoney = dataJson.faq.money == "0" ? '免费' : `￥${dataJson.faq.money}`;
+                        reply = true; // 回复显示的状态还有温馨提示的显示
+                }
                 for (var key in dataJson.answer) {
                         detailsData.push(dataJson.answer[key]);
                 };
@@ -119,7 +124,7 @@ Page({
                         Dmoney: Dmoney,  // 打赏的金额
                         images: dataJson.faq.images,     // 获取详情的images的list
                         answerAuth: dataJson.faq.answerAuth, // 判断是不是能回复
-                        isShow: reply,   // 回复显示的状态
+                        isShow: reply,   // 回复显示的状态 还有温馨提示的显示
                         is_adopt: dataJson.faq.is_adopt, // 是够采纳
                         lvsid: dataJson.faq.id,   // faq的id
                         faqexts: dataJson.faqexts
@@ -170,23 +175,28 @@ Page({
         redFn(event) {    //点击红包打赏
                 var index = event.currentTarget.dataset.index;
                 var ansid = this.CyclicData(index);
-                var josn = {};
                 var loginDtat = wx.getStorageSync("login");
+                var josn = {
+                        img: event.currentTarget.dataset.img,   // 律师头像
+                        name: event.currentTarget.dataset.name,  // 律师name
+                        sdk: loginDtat.sdk, // 登陆返回的 sdk
+                        uid: loginDtat.uid, // 登陆返回的uid
+                        faqid: this.data.faqid, // 咨询id
+                        ansid: ansid, // 打赏对应的回复id
+                        attid: event.currentTarget.dataset.id, // 打赏对应的律师id
+                        openid: loginDtat.openid,       // 登陆的openid
+                }
+                
                 if (!loginDtat.openid) {
-                        Utils.reLaunch("请先登陆", "/pages/login/login");
-                } else {
-                        josn = {
-                                img: event.currentTarget.dataset.img,   // 律师头像
-                                name: event.currentTarget.dataset.name,  // 律师name
-                                sdk: loginDtat.sdk, // 登陆返回的 sdk
-                                uid: loginDtat.uid, // 登陆返回的uid
-                                faqid: this.data.faqid, // 咨询id
-                                ansid: ansid, // 打赏对应的回复id
-                                attid: event.currentTarget.dataset.id, // 打赏对应的律师id
-                                openid: loginDtat.openid,       // 登陆的openid
-                        }
+                        Utils.setStorage("redPacketData",josn)
+                        Utils.setStorage("redPacket", "/pages/RedPacket/RedPacket")
+                        // Utils.reLaunch("请先登陆", "/pages/login/login");
                         wx.navigateTo({
-                                url: "/pages/RedPacket/RedPacket?data=" + JSON.stringify(josn)
+                                url: "/pages/login/login?id=1" 
+                        })
+                } else {
+                        wx.navigateTo({
+                                url: "/pages/RedPacket/RedPacket"
                         })
                 }
 
@@ -289,4 +299,17 @@ Page({
                         path: '/pages/Consultation_details/Consultation_details'
                 }
         },
+        imgClick(event) {           // 咨询详情点击图片放大
+                let dataUrl = event.currentTarget.dataset.url;
+                let dataList = this.data.images;
+                let dataArr = [];
+                for (let key in dataList) {
+                        dataArr.push(dataList[key].path)
+                }
+                // 使用图片预览API
+                wx.previewImage({
+                        current: dataUrl,
+                        urls: dataArr
+                })
+        }
 })

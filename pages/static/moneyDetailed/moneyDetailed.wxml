@@ -6,7 +6,7 @@
     </view>
     <view>
         <text class="title">24小时内未采纳，</text>
-        <text>平台将把费用转给首位提供咨询的律师，打赏费用不予退回；</text>
+        <text>平台将把费用转给互动回复最多的律师，打赏费用不予退回；</text>
     </view>
     <view>
          <text class="title">超过24小时律师未回复，</text>

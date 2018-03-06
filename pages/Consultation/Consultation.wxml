@@ -26,6 +26,8 @@
                                                 <image src="{{item.image}}" class="logo"></image>
                                                 <text class="text">{{item.nickname || "电话为空"}}</text>
                                                 <text class="icon-dashang iconfont" wx:if="{{item.money_status}}"></text>
+                                                  <text class="free" wx:if="{{item.money == '0'}}">免费</text>  
+                                                
                                                 <text class="icon-hongbao iconfont red-iconfont" wx:if="{{item.reward_count }}"></text>
 
                                         </view>

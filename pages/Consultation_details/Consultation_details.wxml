@@ -14,16 +14,16 @@
         <view class="supplement" wx:if="{{faqexts.length}}">补充问题</view>
         <view class="add-content" wx:for="{{faqexts}}" wx:key="{{index}}" id="{{item.id}}" data-faqid="{{item.faq_id}}">{{item.newstr}}</view>
         <view class="title-images" wx:if="{{images != null}}">
-                <image src="{{item.path}}" mode="aspectFit" wx:for="{{images}}" wx:key="{{index}}"></image>
+                <image src="{{item.path}}" data-url='{{item.path}}' mode="aspectFit" wx:for="{{images}}" bindtap='imgClick' wx:key="{{index}}"></image>
         </view>
         <view class='title-label'>
                 <view class="left-type">
                         <text>{{category1}}-</text>
                         <text>{{category2}}</text>
                 </view>
-                <view class="right-edit" wx:if="{{isEdit}}">
+                <!-- <view class="right-edit" wx:if="{{isEdit}}">
                         <text bindtap="editFn" id="{{lvsid}}">编辑咨询</text>
-                </view>
+                </view> -->
         </view>
         <view class='title-time'>
                 <text>{{time}}</text>
@@ -31,15 +31,17 @@
         </view>
 </view>
 <!--回复列表  -->
-<view class='reply-list' >
-        <text class='title'  wx:if="{{len!=0}}">回复（{{len}}）</text>
+<view class='reply-list'>
+        <!--温馨提示  -->
+        <text class='tps-test' wx:if='{{isShow}}'>温馨提示：请及时刷新页面查看律师最新回复，问题解决后采纳对您帮助最大的律师，否则将自动采纳。</text>
+        <text class='title' wx:if="{{len!=0}}">回复（{{len}}）</text>
         <!--列表循环  -->
         <view class='list-details' wx:for="{{detailsArr}}" wx:key="{{index}}" wx:for-item="itemDetails">
                 <!--列表的title  -->
                 <view class='list-details-title'>
                         <view class='details-cen'>
                                 <view class="details-1">
-                                        <image src="{{itemDetails.senduser.image}}" class='details-logo' ait='律师' bindtap="consultFn" data-id="{{itemDetails.senduser.uid}}" ></image>
+                                        <image src="{{itemDetails.senduser.image}}" class='details-logo' ait='律师' bindtap="consultFn" data-id="{{itemDetails.senduser.uid}}"></image>
                                         <text class='details-name'>{{itemDetails.senduser.nickname}}</text>
                                 </view>
                                 <view class="details-2">

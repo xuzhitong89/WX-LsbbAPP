@@ -6,8 +6,8 @@
         <view class="lawyers-title">
                 <view wx:for="{{TitleData}}" wx:key="{{index}}" id="{{index}}" bindtap="titleFn" class="{{index == newNav ? 'test active' : 'test'}}">{{item}}</view>
         </view>
-        <!--下拉框的数据  -->
-        <view class="down-data" wx:if="{{isShow}}">
+        <!--下拉框的数据-城市  -->
+        <view class="down-data" wx:if="{{is_ch}}">
                 <view class="L-data common-data">
                         <text wx:for="{{CityData}}" wx:key="{{index}}" id="{{item.id}}" bindtap="CityFn" class="{{item.id == newCity ? 'active' : '' }}">{{item.name}}</text>
                 </view>
@@ -15,13 +15,22 @@
                         <text wx:for="{{BusinessData}}" wx:key="{{index}}" id="{{item.id}}" bindtap="areaFn" class="{{item.id == newArea ? 'active' : '' }}">{{item.name}}</text>
                 </view>
         </view>
+        <!--下拉框的数据-业务类型  -->
+        <view class="down-data" wx:if="{{is_yw}}">
+                <view class="L-data common-data">
+                        <text wx:for="{{yw_Data}}" wx:key="{{index}}" id="{{item.id}}" bindtap="CityFn" class="{{item.id == yw_id ? 'active' : '' }}">{{item.name}}</text>
+                </view>
+                <view class="R-data common-data">
+                        <text wx:for="{{yw_child_data}}" wx:key="{{index}}" id="{{item.id}}" bindtap="areaFn" class="{{item.id == yw_child ? 'active' : '' }}">{{item.name}}</text>
+                </view>
+        </view>
         <!--排序 -->
         <view class="mask-sort" wx:if="{{mask}}">
-                <text wx:for="{{TitleSort}}" wx:key="{{index}}" id="{{index}}" bindtap="MaskTestFn">{{item}}</text>
+                <text wx:for="{{TitleSort}}" wx:key="{{index}}" id="{{index}}" class="{{index == sort_id ? 'active' : '' }}" bindtap="MaskTestFn">{{item}}</text>
         </view>
         <!--  一键推荐律师-->
         <view class='recommend-list' wx:if="{{rec}}">
-                <text wx:for="{{RecommendData}}" wx:key='{{index}}' id='{{item.id}}' bindtap='recFn'>{{item.text}}             </text>
+                <text wx:for="{{RecommendData}}" wx:key='{{index}}' id='{{item.id}}' bindtap='recFn'>{{item.text}} </text>
         </view>
         <!--内容的列表  -->
         <view class="lawyers-list">

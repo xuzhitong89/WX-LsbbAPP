@@ -1,3 +1,113 @@
-<button bindtap='start'>开始</button>
-<button bindtap='stop'>结束</button>
-<image src='/images/pp.png'></image>
+<!-- 引用模板  -->
+<import src="../../template/bottomNav.wxml" />
+<view class="recommend-center">
+        <!--第一个  -->
+        <view class="center center{{index}}" wx:for="{{data}}" wx:key="{{index}}" animation="{{index == value ? animationData : '' }}" id="{{index}}">
+                <view class="mouserve" id="{{index}}" bindtap="tab">
+                        <!--表头 -->
+                        <view class="title">
+                                <view class="logo">
+                                        <image src="{{item.user.image}}"></image>
+                                </view>
+                                <view class="title-name">
+                                        <view class="names-top">
+                                                <text class="h2">{{item.user.nickname}}</text>
+                                                <image src="/images/v.png"></image>
+                                                <text class="h3">3</text>
+                                                <view class="names-con">
+                                                        <text class="iconfont icon-xingxing1 {{item.user.star >= (index+1) ? 'icon-xingxing' :'' }}" wx:for="{{Stars}}" wx:key="{{index}}" id="{{index + 1 }}" wx:for-item="stars"></text>
+                                                </view>
+
+                                        </view>
+                                        <view class="names-bom">
+                                                <text wx:for="{{item.user.small_class}}" wx:key="{{index}}" wx:for-item="test">{{test}}</text>
+                                        </view>
+                                        <view class="address">{{item.user.address}}</view>
+                                </view>
+                                <view class="fllow">
+                                        <text>{{item.user.price}}</text>
+                                        <!-- <button>关注</button>  -->
+                                </view>
+                        </view>
+                        <!--服务人次  -->
+                        <view class="service">
+                                <view class="test">
+                                        <text class="h2">{{item.user.service_times}}</text>
+                                        <text class="h3">服务人次</text>
+                                </view>
+                                <view class="test">
+                                        <text class="h2">96%</text>
+                                        <text class="h3">好评率</text>
+                                </view>
+                                <view class="test">
+                                        <text class="h2">{{item.user.collect_count}}</text>
+                                        <text class="h3">关注量</text>
+                                </view>
+                        </view>
+                        <!--律所  -->
+                        <view class="firms">
+                                <text>律所：{{item.user.practice_address}}</text>
+                                <text>执业证号：{{item.user.practice_number}}</text>
+                                <text>地址：{{item.user.lvsuo}}</text>
+                        </view>
+                        <!--律师简介  -->
+                        <view class="lvsbrief">
+                                <view class="title">
+                                        <text class="h2">简介</text>
+                                </view>
+                                <view class="ceo-text">
+                                        {{item.user.description}}
+                                </view>
+                        </view>
+                </view>
+                <!--律师评价  -->
+                <view class="lvsevaluate">
+                        <view class="title">
+                                <view class="h2">
+                                        评价
+                                        <text>({{item.appraise_list.length}})</text>
+                                </view>
+                        </view>
+                        <view class="blocks-list">
+                                <text wx:key="{{index}}" wx:for="{{item.appraise_configs}}" wx:for-item="appraise">{{appraise.txt}}({{appraise.used_count}}) </text>
+                        </view>
+                        <view class="datas">
+                                <view class="data-list" wx:for="{{item.appraise_list}}" wx:key="{{index}}" wx:for-item="appraise">
+                                        <view class="title">
+                                                <view class="logo-text">
+                                                        <image src="/images/user.png"></image>
+                                                        <text>{{appraise.nickname}}</text>
+                                                </view>
+                                                <view class="time">{{appraise.date}}</view>
+                                        </view>
+                                        <view class="test-con">
+                                                {{appraise.content}}
+                                        </view>
+                                        <view class="staus">
+                                                <text class="iconfont icon-xingxing1"></text>
+                                                <text class="iconfont icon-xingxing1"></text>
+                                                <text class="iconfont icon-xingxing1"></text>
+                                                <text class="iconfont icon-xingxing1"></text>
+                                                <text class="iconfont icon-xingxing1"></text>
+                                        </view>
+                                </view>
+                        </view>
+                </view>
+                <!--电话咨询  -->
+                <view class="Tconsultation">
+                        <view class="con money">{{item.user.price}}</view>
+                        <view class="con" bindtap="TconsultationFn" id="{{item.user.uid}}" data-telphone="{{item.user.telphone}}">电话咨询</view>
+                </view>
+        </view>
+</view>
+<view class="con-bottom-nav">
+        <block wx:for="{{indexData}}" wx:key="{{index}}" wx:for-item="newsItem">
+                <template is="bomNav" data="{{...newsItem}}" />
+        </block>
+</view>
+<!--没有数据  -->
+<view class="noData lvs-noData" wx:if="{{Ndata}}">
+        <image src="/images/lvsorry.png"></image>
+        <text class="margin">对不起，没有找到匹配的律师</text>
+        <text bindtap="skipFn" class="test">进入律师库</text>
+</view>

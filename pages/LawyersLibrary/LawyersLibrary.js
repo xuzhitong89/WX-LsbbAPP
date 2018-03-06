@@ -9,14 +9,19 @@ let data = {
         commons1: [],    // 加载数据存储省市区,
         commons2: [],    // 加载数据存储业务类型,
         CityData: [],   // 城市的数据
-        BusinessData: [],   // 业务类型的数据
+        BusinessData: [],   // 城市的二级的数据
+        yw_child_data: [],     // 业务类型的二级数据
+        sort_id: "0",            // 排序选中的状态
         navname: "",         // 二级切换的text
-        TitleData: ['全国', '业务类型', '排序', '推荐'],   // 导航
+        TitleData: ['北京市', '业务类型', '排序', '推荐'],   // 导航
         TitleSort: ['综合', '评价', '价格'],  // 排序
-        isShow: false,     // 控制下拉的显示隐藏
-        newNav: "3",     // 导航默认的选中状态
-        newCity: "0",  // 下拉数据第一级数据
-        newArea: "-1",   // 下拉数据第二级数据
+        is_ch: false,     // 控制下拉城市的显示隐藏
+        is_yw: false,    //  控制业务类型的显示隐藏
+        yw_id: "30",          // 业务类型的选中状态
+        yw_child: "",         // 业务类型第二级数据选中状态   
+        newNav: "3",       // 导航默认的选中状态
+        newCity: "2",      // 城市第一级数据
+        newArea: "-1",   // 城市第二级数据选中状态   
         mask: false,   // 排序的弹层
         firstLoad: false,       // 初次加载 
         commonList: [],    // 列表的循环的数据
@@ -113,7 +118,6 @@ let data = {
 Page({
         data: data,
         onLoad(options) {
-                // this.loadDatas();
                 this.loadDatas();
         },
         loadDatas() {            // 默认加载本地储存的数据
@@ -165,11 +169,32 @@ Page({
                         }
                 })
         },
-        conmmonData(data) {    // 公共的处理函数
-                let isShow = this.data.isShow;
-                let _this = this;
-                this.setData({ isShow: !isShow, newCity: data[0].id, mask: false, CityData: data, rec: false })
-                this.defaultFn(0);
+        conmmonData(data, id) {    // 公共的处理函数
+                let is_ch = this.data.is_ch;           // 显示隐藏城市的下拉
+                let cityIndex = this.data.newCity;      // 城市列表的选中状态
+
+                let is_yw = this.data.is_yw;           // 显示隐藏业务类型的下拉
+                let yw_id = this.data.yw_id;
+
+                if (id != "1") {
+                        this.setData({
+                                is_ch: !is_ch,
+                                is_yw: false,
+                                mask: false,
+                                CityData: data,
+                                rec: false
+                        });
+                        this.defaultFn(cityIndex, id);
+                } else {
+                        this.setData({
+                                is_yw: !is_yw,
+                                is_ch: false,
+                                mask: false,
+                                yw_Data: data,
+                                rec: false
+                        });
+                        this.defaultFn(yw_id, id);
+                }
                 page = 1;
         },
         titleFn(event) {    // 切换导航的事件
@@ -181,58 +206,111 @@ Page({
                 if (ID == "") return false;
                 switch (ID) {
                         case "0":
-                                this.conmmonData(this.data.commons1);
+                                this.conmmonData(this.data.commons1, ID);
                                 break;
                         case "1":
-                                this.conmmonData(this.data.commons2);
+                                this.conmmonData(this.data.commons2, ID);
                                 break;
                         case "2":
-                                this.setData({ isShow: false, mask: !mask, rec: false });
+                                this.setData({ is_ch: false, is_yw:false,mask: !mask, rec: false });
                                 break;
                         default: {
-                                this.setData({ rec: !rec, isShow: false, mask: false });
+                                this.setData({ rec: !rec, is_ch: false, mask: false });
                                 break;
                         }
                 }
         },
-        assignment(id, name) {   // 每次切换的导航赋值操作
-                let asname = name ? name : '北京';
-                let nav_index_data = this.data.TitleData[id] = asname;
+        assignment(id, name, cityChild = '') {   // 每次切换的导航赋值操作
+                // 获取二级城市的数据
+                let BusinessData = this.data.BusinessData;
+                let nametext = id == '0' ? screensCity(cityChild) : name;
+                let nav_index_data = this.data.TitleData[id] = nametext;
+
                 let nav_data = this.data.TitleData;
                 this.setData({ TitleData: nav_data });
+
+                // 通过城市的二级ID 筛选出对应的内容
+                function screensCity(id) {
+                        let nameTxt;
+                        BusinessData.forEach((item) => {
+                                if (item.id == id) {
+                                        nameTxt = item.name;
+                                }
+                        })
+                        return nameTxt;
+                }
         },
         CityFn(event) {   // 点击市获取对应的数据
                 let _this = this;
                 let ID = event.target.id;
+                let _index = this.data.newNav;  // 获取当前nav的选中状态
                 let CityData = this.data.CityData;
-                this.setData({ newCity: ID });
-                CityData.forEach((item) => {
+                let yw_Data = this.data.yw_Data;
+
+                if (_index != '1') {
+                        let data = _this.HandleData(CityData, ID);
+                        _this.setData({
+                                BusinessData: data.small,
+                                navname: data.navname,
+                                newCity: ID
+                        })
+                } else {
+                        let data = _this.HandleData(yw_Data, ID);
+                        _this.setData({
+                                yw_child_data: data.small,
+                                navname: data.navname,
+                                yw_id: ID
+                        })
+                }
+        },
+        defaultFn(index, id) {     // 获取二级数据的默认显示
+                let _this = this;
+                let CityData = this.data.CityData;
+                let yw_Data = this.data.yw_Data;
+
+                if (id != '1') {
+                        let data = _this.HandleData(CityData, index);
+                        _this.setData({
+                                BusinessData: data.small,
+                                navname: data.navname
+                        })
+                } else {
+                        let data = _this.HandleData(yw_Data, index);
+                        _this.setData({
+                                yw_child_data: data.small,
+                                navname: data.navname
+                        })
+                }
+        },
+        HandleData(data, index) {    // 处理循环二级的数据
+                let json = {};
+                data.forEach((item) => {
                         let newID = item.id;
-                        if (newID == ID) {
-                                _this.setData({ BusinessData: item.small, navname: item.name })
+                        if (newID == index) {
+                                // 获取二级数据 获取到默认选中的大类
+                                json.small = item.small;
+                                json.navname = item.name;
                         }
                 })
-        },
-        defaultFn(index) {     // 获取二级数据的默认显示
-                let CityData = this.data.CityData;
-                this.setData({ BusinessData: CityData[index].small })
+                return json;
         },
         areaFn(event) {   // 点击区的事件处理
                 let ID = event.target.id;
                 let newNav = this.data.newNav;
-                this.setData({ newArea: ID, isShow: false, commonList: [] });
-
+                this.setData({ newArea: ID, is_ch: false, commonList: [] });
                 let assname = this.data.navname;                // 获取到点击大类的name
-                this.assignment(newNav, assname);              // 赋值到当前的导航name
+                this.assignment(newNav, assname, ID);              // 赋值到当前的导航name
+
+                let city_id = this.data.city; // 选择城市的ID
+                let small_id = this.data.small; // 选择类型的ID
 
                 if (newNav != "1") {    // 地区
-                        this.TransferFn({ city: ID })
-                        this.setData({ city: ID, small: "" })
+                        this.TransferFn({ city: ID, small:small_id });
+                        this.setData({ city: ID, is_yw: false });
                 } else {    // 业务类型
-                        this.TransferFn({ small: ID })
-                        this.setData({ city: "", small: ID })
+                        this.TransferFn({ small: ID, city: city_id});
+                        this.setData({ is_yw: false, small: ID})
                 };
-
         },
         MaskTestFn(event) {  // 排序弹层的点击
 
@@ -242,9 +320,10 @@ Page({
                 let small = this.data.small;
 
                 let names = this.data.TitleSort[ID];
+                this.assignment(newNav, names);
                 downPage = 1;
-                this.assignment(newNav, names)
-                this.setData({ mask: false, order: ID, commonList: [] });
+
+                this.setData({ mask: false, order: ID, commonList: [], sort_id: ID });
                 this.TransferFn({ small: small, city: city, page: downPage, order: ID });
 
         },
@@ -289,25 +368,24 @@ Page({
                 })
         },
         onReachBottom() {    // 上拉加载数据
-
+                console.log("1")
                 let newNav = this.data.newNav;
                 let city = this.data.city;
                 let small = this.data.small;
                 let order = this.data.order;
-
                 downPage++;
-
-                switch (newNav) {
-                        case "0":
-                                this.TransferFn({ city: city, page: downPage });
-                                break;
-                        case "1":
-                                this.TransferFn({ small: small, page: downPage });
-                                break;
-                        default: {
-                                this.TransferFn({ small: small, city: city, page: downPage, order: order });
-                        }
-                }
+                // switch (newNav) {
+                //         case "0":
+                //                 this.TransferFn({ city: city, page: downPage });
+                //                 break;
+                //         case "1":
+                //                 this.TransferFn({ small: small, page: downPage });
+                //                 break;
+                //         default: {
+                //                 this.TransferFn({ small: small, city: city, page: downPage, order: order });
+                //         }
+                // }
+                this.TransferFn({ small: small, city: city, page: downPage, order: order });
         },
         defaultData() {    // 默认的加载的数据
                 this.TransferFn();
@@ -380,14 +458,31 @@ Page({
                 }
         },
         recFn(e) {              // 点击tab切换推荐的nav
-                let value = wx.getStorageSync('details');
+                let value = wx.getStorageSync('login');
                 let eId = e.currentTarget.id;
+                let dataId = this.screenCity();
                 let josn = {
                         sdk: value.sdk,
                         uid: value.uid,
-                        small: eId
+                        small: eId,
+                        city: dataId
                 }
                 this.request(josn)
+        },
+        screenCity(){           // 筛选城市
+                // 截取获得第一个城市信息
+                let getpos = wx.getStorageSync('position-type').split('-')[0];
+                // 获取本地储存的城市列表
+                let regions = wx.getStorageSync('lvsRegion');
+                // 存储对应的ID
+                let dataId;
+                // 筛选
+                regions.forEach((item)=>{
+                        if (item.name.indexOf(getpos) != -1) {
+                                dataId = item.id
+                        }
+                })
+                return dataId;
         },
         request(josn) {         // 一键找推荐律师页面的请求数据
                 Utils.requestFn({
@@ -409,7 +504,31 @@ Page({
         },
         oneReqLoads() {          //   初次加载默认的数据
                 let _this = this;
-                this.setData({ firstLoad: true, Ndata: false })
+
+                let TitleData = this.data.TitleData;    // 获取导航的数据
+                let twoCitys = screening();
+                TitleData[0] = twoCitys.name;
+
+                this.setData({ firstLoad: true, Ndata: false, TitleData: TitleData})
+
+                // 筛选二级城市
+                function screening() {
+                        // 获取本地的位置
+                        let pos = wx.getStorageSync('position-type').split("-");
+                        let citys = _this.data.commons1;
+                        let cityID = {};
+                        cityID.name = pos[2];
+                        citys.forEach((item) => {
+                                if (item.name.indexOf(pos[1]) != "-1") {
+                                        item.small.forEach((item) => {
+                                                if (  item.name.indexOf(pos[2]) != "-1") {
+                                                        cityID.id = item.id;
+                                                }
+                                        })
+                                }
+                        })
+                        return cityID;
+                };
                 Utils.requestFn({ // 请求数据加载页面
                         url: "/index.php/layers?server=1",
                         data: {
@@ -418,7 +537,7 @@ Page({
                                 page: 1,
                                 lat: "",
                                 lng: "",
-                                city: "",
+                                city: twoCitys.id,
                         },
                         success(res) {
                                 _this.setData({ firstLoad: false })
