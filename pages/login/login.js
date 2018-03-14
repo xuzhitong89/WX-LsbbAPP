@@ -51,7 +51,6 @@ Page({                                                  // page项
         } else {
             Utils.removeStorage('success');
         }
-
     },
     loginFn: function () {     // 判断是否是登陆的状态
         var _this = this;
@@ -82,7 +81,7 @@ Page({                                                  // page项
             wx.redirectTo({
                 url: "/pages/Member/Member"
             })
-        } else if (consulsURl) {
+        } else if (consulsURl.Reset) {
             // 如果是从快速咨询跳转过来，那么返回快速咨询页面
             wx.redirectTo({
                 url: consulsURl.Reset

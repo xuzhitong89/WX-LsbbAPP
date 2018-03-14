@@ -58,7 +58,6 @@
                 </view>
                 <view class="label-list">
                     <text wx:for="{{item.small_class}}" wx:key="{{index}}" wx:for-item="blocks">{{blocks}}</text>
-
                 </view>
                 <view class="region">{{item.diqu}}</view>
             </view>

@@ -1,5 +1,9 @@
 //  引入函数库
 let Utils = require("../../utils/util.js");
+
+// 加载地图
+var map = require('../../map/mappos.js');
+
 let page = 1;   // 导航下拉滚动的默认值
 let downPage = 1; // 整体数据下拉的默认值
 let commonArr = []; // 每次加载的数据
@@ -118,51 +122,61 @@ let data = {
 Page({
     data: data,
     onLoad(options) {
-        this.loadDatas();
+        // 不管是加载还是显示都要清空购买律师的详细信息
+        Utils.removeStorage("Ldetails");
+        const _this = this;
+        const positions = wx.getStorageSync("position-type");
+        if (!positions || positions == null) {
+            this.coordinate().then((data) =>{
+                if(data) {
+                    _this.loadDatas();
+                   
+                }
+            });    
+        }else{
+            _this.loadDatas();
+        }
+    },
+    onShow(){
+        Utils.removeStorage("Ldetails");
     },
     loadDatas() {            // 默认加载本地储存的数据
-        const lvsBusiness = wx.getStorageSync("lvsBusiness");
-        const lvsRegion = wx.getStorageSync("lvsRegion");
-
-        if (!lvsBusiness) {
-            this.BusinessType();  // 加载业务类型的数据
-        } else {
-            this.BusinessType(); 
-            this.setData({ commons2: lvsBusiness })
-        }
-
-        if (!lvsRegion) {
-            this.Provincial();    // 加载省市区的接口数据
-        } else {
-            this.Provincial();
-            this.setData({ commons1: lvsRegion })
-        }
-        this.oneReqLoads();   // 默认加载的数据
+        this.BusinessType(); 
+        this.Provincial().then((data)=>{
+            this.oneReqLoads(data);   // 默认加载的数据
+            this.setData({ cityData: data});    // 异步获取城市的信息列表
+            this.screenCity();
+        });
+       
     },
-    onPullDownRefresh() {          // 解决下拉不能缩放的BUG
+    onPullDownRefresh() {     // 解决下拉不能缩放的BUG
         wx.stopPullDownRefresh()
     },
     Provincial() {     // 请求省市区接口数据
         let _this = this;
-        Utils.requestFn({
-            url: "/index.php/catCity?server=1",
-            success(res) {
-                if (res.data.status) {
-                    Utils.setStorage("lvsRegion", res.data.data);
-                    _this.setData({ commons1: res.data.data })
-                } else {
-                    Utils.showModal("请求数据错误");
+        let p = new Promise((suss) => {
+            Utils.requestFn({
+                url: "/index.php/catCity?server=1",
+                success(res) {
+                    if (res.data.status) {
+                        _this.setData({ commons1: res.data.data })
+                        suss(res.data.data);
+                    } else {
+                        Utils.showModal("请求数据错误");
+                    }
                 }
-            }
+            })
         })
+        return p;
+       
     },
     BusinessType() {   // 请求业务类型的数据接口
         let _this = this;
+      
         Utils.requestFn({
             url: "/index.php/getCategorys?server=1",
             success(res) {
                 if (res.data.status) {
-                    Utils.setStorage("lvsBusiness", res.data.data.categorys);
                     _this.setData({ commons2: res.data.data.categorys })
                 } else {
                     Utils.showModal("请求数据错误");
@@ -369,23 +383,11 @@ Page({
         })
     },
     onReachBottom() {    // 上拉加载数据
-        console.log("1")
         let newNav = this.data.newNav;
         let city = this.data.city;
         let small = this.data.small;
         let order = this.data.order;
         downPage++;
-        // switch (newNav) {
-        //         case "0":
-        //                 this.TransferFn({ city: city, page: downPage });
-        //                 break;
-        //         case "1":
-        //                 this.TransferFn({ small: small, page: downPage });
-        //                 break;
-        //         default: {
-        //                 this.TransferFn({ small: small, city: city, page: downPage, order: order });
-        //         }
-        // }
         this.TransferFn({ small: small, city: city, page: downPage, order: order });
     },
     defaultData() {    // 默认的加载的数据
@@ -468,13 +470,13 @@ Page({
             small: eId,
             city: dataId
         }
-        this.request(josn)
+        this.request(josn);
     },
     screenCity() {           // 筛选城市
         // 截取获得第一个城市信息
         let getpos = wx.getStorageSync('position-type').split('-')[0];
         // 获取本地储存的城市列表
-        let regions = wx.getStorageSync('lvsRegion');
+        let regions = this.data.cityData;
         // 存储对应的ID
         let dataId;
         // 筛选
@@ -503,20 +505,19 @@ Page({
             }
         })
     },
-    oneReqLoads() {          //   初次加载默认的数据
+    oneReqLoads(datas) {          //   初次加载默认的数据
         let _this = this;
-
         let TitleData = this.data.TitleData;    // 获取导航的数据
         let twoCitys = screening();
         TitleData[0] = twoCitys.name;
 
-        this.setData({ firstLoad: true, Ndata: false, TitleData: TitleData })
+        this.setData({ firstLoad: true, Ndata: false, TitleData: TitleData, city: twoCitys.id })
 
         // 筛选二级城市
         function screening() {
             // 获取本地的位置
             let pos = wx.getStorageSync('position-type').split("-");
-            let citys = _this.data.commons1;
+            let citys = datas;
             let cityID = {};
             cityID.name = pos[2];
             citys.forEach((item) => {
@@ -561,5 +562,30 @@ Page({
                 }
             }
         })
-    }
+    },
+    coordinate() {   // 页面初始的时候请求位置
+        let _this = this;
+        let p = new Promise((success)=>{
+            let qqmapsdk = map.map();
+            qqmapsdk.reverseGeocoder({
+                complete: function (res) { // 获取位置成功返回
+                    if (res.result) {
+                        var province = res.result.address_component.province;   // 省
+                        var city = res.result.address_component.city;   // 市
+                        var district = res.result.address_component.district;   // 区
+                        province = province.substring(0, province.length - 1);  // 去掉“省”的后缀
+                        city = city.substring(0, city.length - 1);       // 去掉“市”的后缀
+                        Utils.setStorage("position-type", `${province}-${city}-${district}`);
+                        success(true);
+                    }
+                },
+                fail: function (res) {  // 获取位置失败
+                    Utils.showModal("获取位置失败网络错误");
+                    Utils.setStorage("position-type", "")
+                    _this.coordinate();
+                }
+            })
+        })
+        return p;
+    },
 })

@@ -46,7 +46,8 @@ let defaultData = {
     isToggle: true,    // 下拉的时候隐藏快速提问的弹层
     loading: false,  // 加载中的状态
     firstLoad: false,       // 初次加载 
-    MemberVip: null,    // 是否购买了VIP   
+    MemberVip: null,    // 是否购买了VIP
+    _noDataType:false,      //上拉没有数据的状态   
 }
 Page({
     data: defaultData,
@@ -107,23 +108,26 @@ Page({
         })
     },
     onReachBottom() {   // 下拉加载触发
-
         let value = this.data.value;    // 获取到导航的每个id
         let doID = this.data.newMoreData; // 获取到点击之后更多案例的list下每个id
-
-        page++;   // 每次滚动的时候页数增加
-        this.setData({ isToggle: false })   // 滚动控制快速提问的弹层隐藏
-
-        switch (value) {
-            case "0":   // 最新的排序数据
-                this.defaultRequestFn({ page: page });
-                break;
-            case "1": // 最热的排序数据
-                this.defaultRequestFn({ id: 2, page: page });
-                break;
-            default:
-                this.defaultRequestFn({ name: doID, id: 1, page: page });
-        }
+        let _dataType = this.data._noDataType;      // 是否有数据的状态
+        if (_dataType) {
+            return false;
+        }else{
+            page++;   // 每次滚动的时候页数增加
+            this.setData({ isToggle: false })   // 滚动控制快速提问的弹层隐藏
+        
+            switch (value) {
+                case "0":   // 最新的排序数据
+                    this.defaultRequestFn({ page: page });
+                    break;
+                case "1": // 最热的排序数据
+                    this.defaultRequestFn({ id: 2, page: page });
+                    break;
+                default:
+                    this.defaultRequestFn({ name: doID, id: 1, page: page });
+            }
+         }
     },
     jumpFn(event) { // 点击进入详情
         var DoId = event.currentTarget.id;          // 发送的对应详情的唯一ID值
@@ -268,11 +272,16 @@ Page({
                 _this.setData({ loading: false })
                 let redata = res.data.data.list;
                 let revip = res.data.data.vip;
-
-                _this.setData({
-                    results: _this.data.results.concat(redata),
-                    MemberVip: revip
-                })
+                if (redata.length) {
+                    _this.setData({
+                        results: _this.data.results.concat(redata),
+                        MemberVip: revip,
+                        _noDataType:false
+                    })
+                }else{
+                    _this.setData({_noDataType:true});      // 记录一下没有数据的状态
+                    Utils.showModal("没有数据了，")
+                }
             }
         })
     },
