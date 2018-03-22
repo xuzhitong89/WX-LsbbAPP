@@ -12,7 +12,7 @@
     <text class="iconfont icon-dongtai"></text>
     <swiper autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}" class="swiper" vertical="{{vertical}}">
         <block wx:for='{{dataText}}' wx:key="{{index}}">
-            <swiper-item>
+            <swiper-item> 
                 <text>{{item}}</text>
             </swiper-item>
         </block>
@@ -67,7 +67,7 @@
                 </view>
             </view>
         </view>
-     </view>
+    </view>
 </view>
 <view class="con-bottom-nav">
     <block wx:for="{{indexData}}" wx:key="{{index}}" wx:for-item="newsItem">

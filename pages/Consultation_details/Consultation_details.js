@@ -191,7 +191,7 @@ Page({
         if (!loginDtat.openid) {
             Utils.setStorage("redPacket", "/pages/RedPacket/RedPacket")
             wx.navigateTo({
-                url: "/pages/login/login?id=1"
+                url: "/pages/land/land?id=1"
             })
         } else {
             wx.navigateTo({

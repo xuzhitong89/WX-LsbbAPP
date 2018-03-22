@@ -7,6 +7,8 @@ var map = require('../../map/mappos.js');
 let page = 1;   // 导航下拉滚动的默认值
 let downPage = 1; // 整体数据下拉的默认值
 let commonArr = []; // 每次加载的数据
+let app = getApp();
+let mun = app.globalData.loadOne;
 
 // 数据
 let data = {
@@ -122,6 +124,19 @@ let data = {
 Page({
     data: data,
     onLoad(options) {
+      
+        // 判断是否是底部菜单进入的页面
+        if (options.tab){
+            this.setData({ rec:false});
+        }else{
+            console.log(app.globalData.loadOne)
+            if (app.globalData.loadOne == 1) {
+                this.setData({ rec: true });
+                app.globalData.loadOne++;
+            } else {
+                this.setData({ rec: false })
+            }
+        }
         // 不管是加载还是显示都要清空购买律师的详细信息
         Utils.removeStorage("Ldetails");
         const _this = this;
@@ -130,7 +145,6 @@ Page({
             this.coordinate().then((data) =>{
                 if(data) {
                     _this.loadDatas();
-                   
                 }
             });    
         }else{
@@ -139,6 +153,11 @@ Page({
     },
     onShow(){
         Utils.removeStorage("Ldetails");
+        if (app.globalData.loadOne == 2) {
+            app.globalData.loadOne++;
+        }else{
+             this.setData({ rec: false })
+        }
     },
     loadDatas() {            // 默认加载本地储存的数据
         this.BusinessType(); 
@@ -439,7 +458,7 @@ Page({
                 this.Jump("/pages/Consultation/Consultation");
                 break;
             case "3":
-                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
+                this.Jump("/pages/LawyersLibrary/LawyersLibrary?tab=1");
                 break;
             case "4":
                 this.MyMessage();

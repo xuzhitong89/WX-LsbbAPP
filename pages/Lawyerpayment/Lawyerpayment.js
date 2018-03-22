@@ -40,6 +40,9 @@ Page({
         this.loadRequest();   // 默认加载接口
         this.loadCode();      // 加载登陆的接口
     },
+    onUnload(){
+        Utils.removeStorage("lvs-purchase");
+    },
     loadRequest() {    // 默认加载接口
 
         let _this = this;

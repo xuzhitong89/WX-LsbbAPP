@@ -60,7 +60,7 @@ Page({
                 this.Jump("/pages/Consultation/Consultation");
                 break;
             case "3":
-                this.Jump("/pages/LawyersLibrary/LawyersLibrary");
+                this.Jump("/pages/LawyersLibrary/LawyersLibrary?tab=1");
                 break;
             case "4":
                 this.MyMessage();

@@ -1,13 +1,13 @@
 {
     "pages": [
-        "pages/demo/demo",
         "pages/home/home",
-        "pages/LawyersLibrary/LawyersLibrary",
+        "pages/land/land",
+        "pages/demo/demo",
         "pages/login/login",
+        "pages/LawyersLibrary/LawyersLibrary",
         "pages/Consultation/Consultation",
         "pages/addimages/addimages",
         "pages/RecommendLsv/RecommendLsv",
-        
         "pages/static/moneyDetailed/moneyDetailed",
         "pages/forgot_password/forgot_password",
         "pages/lookLvs/lookLvs",

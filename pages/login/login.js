@@ -67,13 +67,15 @@ Page({                                                  // page项
         });
     },
     hrefFn: function () {  // 点击页面记录跳转
+
         let Reset = wx.getStorageSync("Reset");
         let getconsta = wx.getStorageSync("NotLogin"); // 获取咨询列表点击更多案例的记录
         let consulsURl = this.data.consulsURl;  // 快速咨询的url
         let redPacket = wx.getStorageSync("redPacket"); // 获取红包的跳转的路径
+        let lvsPurchase = wx.getStorageSync("lvs-purchase"); // 获取律师购买时候的记录
 
         if (Reset) {
-            wx.redirectTo({               // 跳转别的页面，关闭当前页面
+            wx.redirectTo({  // 跳转别的页面，关闭当前页面
                 url: Reset
             })
         } else if (getconsta) {
@@ -90,6 +92,11 @@ Page({                                                  // page项
             // 跳转到红包打赏页面
             wx.navigateTo({
                 url: "/pages/RedPacket/RedPacket?id=2"
+            })
+        } else if (lvsPurchase) {
+            //   购买律师服务
+            wx.navigateTo({
+                url: `/pages/Lawyerpayment/Lawyerpayment?data=${lvsPurchase.attid}&dis=${1}`
             })
         } else {
             wx.redirectTo({      // 跳转别的页面，关闭当前页面

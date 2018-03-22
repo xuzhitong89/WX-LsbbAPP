@@ -1,6 +1,5 @@
 
 let Utils = require("../../utils/util.js"); //  引入函数库
-
 let data = {
     lvsData: {   // 头部全部的数据
         img: "/images/user.png", // 头像
@@ -94,6 +93,9 @@ Page({
             }
         })
     },
+    onUnload(){
+        Utils.removeStorage("lvs-center");
+    },
     loadData() {   // 加载渲染数据
 
         let Ldetails = this.data.Ldetails;
@@ -170,12 +172,14 @@ Page({
                 },
                 success(res) {
                     if (!res.data.status) {
-                        Utils.reLaunch(res.data.message, "/pages/login/login");
+                        // Utils.setStorage("lvs-follow", true);
+                        Utils.reLaunch(res.data.message, "/pages/land/land");
                     }
                 }
             })
         } else {
-            wx.navigateTo({ url: '/pages/login/login' })
+            Utils.setStorage("lvs-center", true);
+            wx.navigateTo({ url: '/pages/land/land' })
         }
     },
     setRequest() {    // 请求律师详情的接口刷新本地存储的数据
@@ -221,7 +225,9 @@ Page({
         } else {
 
             if (!res.openid) {
-                wx.navigateTo({ url: '/pages/login/login' })
+                wx.navigateTo({ url: '/pages/land/land' });
+                // 没有登陆的话 记录登陆的状态 然后登陆回来直接调转
+                Utils.setStorage("lvs-center", true);
             } else {
                 Utils.requestFn({
                     url: "/index.php/checkp?server=1",
@@ -239,9 +245,9 @@ Page({
                                 })
                             }
                         } else {
-                            Utils.reLaunch(res.data.message, "/pages/login/login")
+                            Utils.setStorage("lvs-purchase", josn);
+                            Utils.reLaunch(res.data.message, "/pages/land/land")
                         }
-
                     }
                 })
             }

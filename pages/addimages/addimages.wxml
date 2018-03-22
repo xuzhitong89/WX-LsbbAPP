@@ -1,51 +1,51 @@
 <!--整体的边框  -->
 <view class="conter-bos">
-        <!--输入文本域  -->
-        <view class="text-box" style="height:{{heightmun}}">
-                <textarea placeholder="{{placeholder}}" placeholder-style="color:#666;font-size:30rpx; " value="{{textareaVal}}" bindinput="textareaFn" focus="{{textareaFocus}}" bindfocus="tFocus"></textarea>
+    <!--输入文本域  -->
+    <view class="text-box" style="height:{{heightmun}}">
+        <textarea placeholder="{{placeholder}}" placeholder-style="color:#666;font-size:30rpx; " value="{{textareaVal}}" bindinput="textareaFn" focus="{{textareaFocus}}" bindfocus="tFocus"></textarea>
+    </view>
+    <!--上传图片  -->
+    <view class="upload-img">
+        <view class="imgs-style" wx:for="{{arrimg}}" wx:key="{{arrimg}}">
+            <view class="close" bindtap="closeImgFn" id="{{index}}">
+                <image src="/images/close.png"></image>
+            </view>
+            <image src="{{item}}" data-id="{{index}}"></image>
         </view>
-        <!--上传图片  -->
-        <view class="upload-img">
-                <view class="imgs-style" wx:for="{{arrimg}}" wx:key="{{arrimg}}">
-                        <view class="close" bindtap="closeImgFn" id="{{index}}">
-                                <image src="/images/close.png"></image>
-                        </view>
-                        <image src="{{item}}" data-id="{{index}}"></image>
-                </view>
-                <image src="/images/upload.png" bindtap="chooseimage" bindtouchstart=""></image>
-                <text>{{index}}/{{len}}</text>
-        </view>
+        <image src="/images/upload.png" bindtap="chooseimage" bindtouchstart=""></image>
+        <text>{{index}}/{{len}}</text>
+    </view>
 </view>
 <!--温馨提示  -->
 <view class="prompt">
-        <text>温馨提示:</text>
-        <text>请详细描述事情经过和需要解决的问题，问题越详细，律师回复质量越高。</text>
-        <view class='logo-imgs'>如有证据请点击
-                <image src='/images/upload.png'></image>传图片。</view>
+    <text>温馨提示:</text>
+    <text>请详细描述事情经过和需要解决的问题，问题越详细，律师回复质量越高。</text>
+    <view class='logo-imgs'>如有证据请点击
+        <image src='/images/upload.png'></image>传图片。</view>
 </view>
 <!-- 下一步-->
 <view class="next-step" bindtap="submitFn">
-        <text>下一步</text>
+    <text>下一步</text>
 </view>
 <view class="footer-cen">
-        <!-- 键盘 or 语音 -->
-        <view class="publish">
-                <text wx:for="{{icos}}" class="iconfont {{item.class}} {{index == value ?'active':''}}" id="{{item.id}}" bindtap="icosFn" wx:key="{{item.id}}"></text>
+    <!-- 键盘 or 语音 -->
+    <view class="publish">
+        <text wx:for="{{icos}}" class="iconfont {{item.class}} {{index == value ?'active':''}}" id="{{item.id}}" bindtap="icosFn" wx:key="{{item.id}}"></text>
+    </view>
+    <view class="eject" wx:if="{{doVoice}}">
+        <view class="content">
+            <view class="click-view {{dataTouch.data ? 'act-view anim-view': '' }}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
+                <text class="iconfont icon-yuyin"></text>
+            </view>
+            <view class="test">{{dataTouch.texts}}</view>
         </view>
-        <view class="eject" wx:if="{{doVoice}}">
-                <view class="content">
-                        <view class="click-view {{dataTouch.data ? 'act-view anim-view': '' }}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
-                                <text class="iconfont icon-yuyin"></text>
-                        </view>
-                        <view class="test">{{dataTouch.texts}}</view>
-                </view>
-        </view>
+    </view>
 </view>
 <!--转换的等待时间遮罩  -->
 <view class="switch" wx:if="{{switchs}}">
-        <view class='backs'></view>
-        <view class='test'>
-                <text class='iconfont icon-zhuanhuan'></text>
-                <text class='txt'>{{LoadData}} </text>
-        </view>
+    <view class='backs'></view>
+    <view class='test'>
+        <text class='iconfont icon-zhuanhuan'></text>
+        <text class='txt'>{{LoadData}} </text>
+    </view>
 </view>
